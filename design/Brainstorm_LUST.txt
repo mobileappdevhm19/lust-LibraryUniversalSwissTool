@@ -1,0 +1,16 @@
+library filling status
+statistics how much time is spent in the library
+book search
+tutor finder amongst people that are currently in the library
+map of the library (topics, books)
+spot registration (qr code, number to registrate)
+check in, check out, auto check out (gps verification for check in)
+pomodoro-timer
+break timer
+locker number rememberer
+localization
+studying efficenzy rating function
+
+
+firebase
+nine api - lecture time, roomfilling, stuff (implementation of the service)
