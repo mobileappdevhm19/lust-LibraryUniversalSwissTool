@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mobileappdevhm19/lust-LibraryUniversalSwissTool.svg?branch=develop)](https://travis-ci.org/mobileappdevhm19/lust-LibraryUniversalSwissTool)
+[![Coverage Status](https://coveralls.io/repos/github/mobileappdevhm19/lust-LibraryUniversalSwissTool/badge.svg?branch=develop)](https://coveralls.io/github/mobileappdevhm19/lust-LibraryUniversalSwissTool?branch=develop)
 # lust
 
 Library Universal Swiss Tool
