@@ -20,8 +20,10 @@ class _CapacityWidgetState extends State<CapacityWidget> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-               CapacityGraph.withSampleData(),
-//                CapacityInfo(),
+                Expanded(
+                  child: CapacityGraph.withSampleData(),
+                ),
+                CapacityInfo(),
               ]),
         ));
   } // build
