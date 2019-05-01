@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lust/widgets/capacityGraph.dart';
 import 'package:lust/widgets/capacityInfo.dart';
 
 class CapacityWidget extends StatefulWidget {
