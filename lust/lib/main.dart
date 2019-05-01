@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/capacity.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Lust());
 
-class MyApp extends StatelessWidget {
+class Lust extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
