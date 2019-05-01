@@ -10,15 +10,30 @@ class _CapacityInfoState extends State<CapacityInfo> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Container(
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           new Text(
-              "Test1",
+              "Occupancy current/total: 65/123",
             style: new TextStyle(
-                fontSize: 30.0, color: Colors.red, letterSpacing: 2.0
+                fontSize: 20.0, letterSpacing: 2.0
             ),
           ),
+          new Divider(height: 30.0, indent: 0.0, color: Colors.black,),
+          new Text(
+            "Estimated trend: ",
+            style: new TextStyle(
+                fontSize: 20.0, letterSpacing: 2.0
+            ),
+          ),
+          new Divider(height: 30.0, indent: 0.0, color: Colors.black,),
+          new Text(
+            "Opening hours today: 8:00 - 23:00",
+            style: new TextStyle(
+                fontSize: 20.0, letterSpacing: 2.0
+            ),
+          ),
+          //new Divider(height: 40.0, indent: 0.0,)
         ],
       ),
     );
