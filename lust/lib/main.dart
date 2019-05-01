@@ -1,6 +1,7 @@
 // This sample shows adding an action to an [AppBar] that opens a shopping cart.
 
 import 'package:flutter/material.dart';
+import 'package:lust/widgets/capacity.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,29 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyStatelessWidget(),
+      home: CapacityWidget(),
     );
   }
 }
 
-class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hello World'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            tooltip: 'Open shopping cart',
-            onPressed: () {
-              // ...
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
