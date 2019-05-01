@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lust/widgets/capacityGraph.dart';
 import 'package:lust/widgets/capacityInfo.dart';
 
 class CapacityWidget extends StatefulWidget {
@@ -18,7 +17,7 @@ class _CapacityWidgetState extends State<CapacityWidget> {
         ),
         body: Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
                   child: CapacityGraph.withSampleData(),

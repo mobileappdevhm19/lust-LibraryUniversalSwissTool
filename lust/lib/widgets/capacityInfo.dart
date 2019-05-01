@@ -38,5 +38,4 @@ class _CapacityInfoState extends State<CapacityInfo> {
       ),
     );
   }
-
 }
