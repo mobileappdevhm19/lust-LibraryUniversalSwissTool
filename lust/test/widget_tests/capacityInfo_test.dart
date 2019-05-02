@@ -9,6 +9,7 @@ void main() {
   // with Widgets in the test environment.
   testWidgets('CapacityInfo has three lines of info and two dividers', (WidgetTester tester) async {
     // Create the Widget tell the tester to build it
+    // Using the main Widget to get all the needed info for subwidgets
     await tester.pumpWidget(Lust());
 
     // Create our Finders

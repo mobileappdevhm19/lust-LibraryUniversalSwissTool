@@ -25,6 +25,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
               new Text(
                 "Occupancy current/total:",
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textScaleFactor: 1.2, // --> test on different screen sizes
               ),
               new Text(
                 getFillingAbsolute().toString() + "/" + getMaxCapacity().toString(),
@@ -64,7 +65,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
               ),
               new Text(
                 getOpeningHoursFormatted(),
-                style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0,),
               ),
             ],
           ),
@@ -81,7 +82,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
   }
 
   Trend getEstimatedTrend() {
-    Trend trend = Trend.falling;
+    Trend trend = Trend.leveling;
     return trend;
   }
 
