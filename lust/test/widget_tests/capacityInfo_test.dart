@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
-import 'package:lust/widgets/capacityInfo.dart';
 import 'package:flutter/material.dart';
 
 
