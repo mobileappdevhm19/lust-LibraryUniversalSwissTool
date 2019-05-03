@@ -28,10 +28,12 @@ class _CapacityInfoState extends State<CapacityInfo> {
               new Text(
                 "Occupancy current/total:",
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textScaleFactor: 0.8,
               ),
               new Text(
                 dummyData.toString() + "/133",
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textScaleFactor: 0.8,
               ),
             ],
           ),
@@ -46,6 +48,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
               new Text(
                 "Estimated trend:",
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textScaleFactor: 0.8,
               ),
               new Icon(
                 _icons[trend.index],
@@ -64,10 +67,12 @@ class _CapacityInfoState extends State<CapacityInfo> {
               new Text(
                 "Opening hours today:",
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textScaleFactor: 0.8,
               ),
               new Text(
                 dummyTime,
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textScaleFactor: 0.8,
               ),
             ],
           ),

@@ -21,6 +21,7 @@ class CapacityGraph extends StatelessWidget {
   Widget build(BuildContext context) {
     return new charts.BarChart(
       seriesList,
+
       animate: animate,
     );
   }
@@ -28,22 +29,14 @@ class CapacityGraph extends StatelessWidget {
   static List<charts.Series<PercentPerHour, String>> _createChartData() {
     final data = [
       new PercentPerHour(10, "8"),
-      new PercentPerHour(20, "9"),
       new PercentPerHour(30, "10"),
-      new PercentPerHour(40, "11"),
       new PercentPerHour(50, "12"),
-      new PercentPerHour(60, "13"),
       new PercentPerHour(70, "14"),
-      new PercentPerHour(80, "15"),
       new PercentPerHour(90, "16"),
-      new PercentPerHour(100, "17"),
       new PercentPerHour(90, "18"),
-      new PercentPerHour(80, "19"),
       new PercentPerHour(70, "20"),
-      new PercentPerHour(60, "21"),
       new PercentPerHour(50, "22"),
-      new PercentPerHour(40, "23"),
-    ];
+      ];
 
     return [
       new charts.Series<PercentPerHour, String>(
