@@ -6,9 +6,6 @@ class CapacityInfo extends StatefulWidget {
 }
 
 class _CapacityInfoState extends State<CapacityInfo> {
-  int dummyData = 65;
-  String dummyTime = "8:00 - 23:00";
-  Trend trend = Trend.rising;
   var _icons = const [
     Icons.arrow_upward,
     Icons.arrow_forward,
@@ -31,7 +28,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
                 textScaleFactor: 0.8,
               ),
               new Text(
-                dummyData.toString() + "/133",
+                getFillingAbsolute().toString() + "/" + getMaxCapacity().toString(),
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                 textScaleFactor: 0.8,
               ),
@@ -51,8 +48,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
                 textScaleFactor: 0.8,
               ),
               new Icon(
-                _icons[trend.index],
-                color: _colors[trend.index],
+                _icons[getEstimatedTrend().index],
+                color: _colors[getEstimatedTrend().index],
               ),
             ],
           ),
@@ -70,8 +67,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
                 textScaleFactor: 0.8,
               ),
               new Text(
-                dummyTime,
-                style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                getOpeningHoursFormatted(),
+                style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0,),
                 textScaleFactor: 0.8,
               ),
             ],
@@ -80,5 +77,26 @@ class _CapacityInfoState extends State<CapacityInfo> {
         ],
       ),
     );
+  }
+
+  String getOpeningHoursFormatted(){
+    int open = 8;
+    int close = 23;
+    return "$open:00 - $close:00";
+  }
+
+  Trend getEstimatedTrend() {
+    Trend trend = Trend.leveling;
+    return trend;
+  }
+
+  int getFillingAbsolute() {
+    int fillingAbsolute = 60;
+    return fillingAbsolute;
+  }
+
+  int getMaxCapacity() {
+    int maxCap = 120;
+    return maxCap;
   }
 }
