@@ -35,7 +35,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
             ],
           ),
           new Divider(
-            height: 30.0,
+            height: 28.0,
             indent: 0.0,
             color: Colors.black,
           ),
@@ -54,7 +54,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
             ],
           ),
           new Divider(
-            height: 30.0,
+            height: 28.0,
             indent: 0.0,
             color: Colors.black,
           ),
@@ -86,7 +86,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
   }
 
   Trend getEstimatedTrend() {
-    Trend trend = Trend.leveling;
+    Trend trend = Trend.rising;
     return trend;
   }
 
