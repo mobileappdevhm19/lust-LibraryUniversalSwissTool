@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lust/views/capacityPage.dart';
+import 'package:lust/views/Pomodoro.dart';
 
 class WidgetCreator {
   // create a menu drawer
@@ -20,6 +21,11 @@ class WidgetCreator {
             onTap: () => _switchPage(context, CapacityPage()),
             leading: Icon(Icons.equalizer),
             title: Text("Capacity"),
+          ),
+          ListTile( // menu item CapacityPage
+            onTap: () => _switchPage(context, Pomodoro()),
+            leading: Icon(Icons.timer),
+            title: Text("Pomodoro"),
           ),
           ListTile( // menu item Secondpage
             //onTap: () => _switchPage(context, CONSTRUCTEROFSECONDPAGE),
