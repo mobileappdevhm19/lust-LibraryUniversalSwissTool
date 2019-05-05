@@ -10,6 +10,7 @@ class CheckInOut extends StatefulWidget {
 
 class _CheckInOutState extends State<CheckInOut> {
   final String _title = "Check In/Out";
+  String _example; //PROVISIONAL
 
   String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
@@ -25,20 +26,24 @@ class _CheckInOutState extends State<CheckInOut> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            //TextBox.getTextBox(context, "Subject", "Good luck with that!"),
-            //TextBox.getTextBox(context, "Time goal", "Be realistic!"),
-            //TextBox.getTextBox(context, "Locker number",
-            //   "I know that is difficult to remember"),
-          InkWell(
-            onTap: onButtonPressed,
+            TextBox.getTextBox(context, "Subject", "Good luck with that!"),
+            TextBox.getTextBox(context, "Time goal", "Be realistic!"),
+            TextBox.getTextBox(context, "Locker number",
+               "I know that is difficult to remember"),
+            InkWell(
+                onTap: onButtonPressed,
                 child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(150),
-                  color: _colorButton),
-                  child: Center(child: Text(_textButton, style: TextStyle(fontSize: 28),))
-            )
-          )],
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(150),
+                        color: _colorButton),
+                    child: Center(
+                        child: Text(
+                      _textButton,
+                      style: TextStyle(fontSize: 28),
+                    ))))
+          ],
         )));
   }
 
