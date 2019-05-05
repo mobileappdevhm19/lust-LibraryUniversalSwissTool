@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TextBox {
-
   //TextBox(this._text);
   //final String _text;
   //String inputUser;
@@ -10,7 +9,8 @@ class TextBox {
   static Widget getTextBox(BuildContext context, String _text) {
     String inputUser;
 
-    return new Row(
+    return new Container(
+        child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
@@ -31,6 +31,6 @@ class TextBox {
           onChanged: (input) => inputUser = input,
         ),
       ],
-    );
+    ));
   }
 }

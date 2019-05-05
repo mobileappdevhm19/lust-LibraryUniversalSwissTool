@@ -15,14 +15,30 @@ class _CheckInOutState extends State<CheckInOut> {
     return Scaffold(
         appBar: AppBar(title: Text(_title)),
         drawer: WidgetCreator.getDrawer(context),
-        body: Column(
+        body: Container(
+          padding: EdgeInsets.all(10),
+            child: Column(
           children: <Widget>[
             Text("manuel"),
-            TextBox.getTextBox(context, "Subject"),
-            TextBox.getTextBox(context, "Time goal"),
-            TextBox.getTextBox(context, "Locker number"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Subject",
+                  style: TextStyle(),
+                ),
+                TextField(
+                  onChanged:(value){},
+                  style: TextStyle(color: Colors.red),
+                  decoration: InputDecoration(),
+
+                )
+              ],
+            )
+            //TextBox.getTextBox(context, "Subject"),
+            //TextBox.getTextBox(context, "Time goal"),
+            //TextBox.getTextBox(context, "Locker number"),
           ],
-        ));
+        )));
   }
 }
-
