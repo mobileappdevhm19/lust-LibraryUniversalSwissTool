@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lust/views/capacityPage.dart';
+import 'package:lust/widgets/checkInOut.dart';
 
 class WidgetCreator {
   // create a menu drawer
@@ -20,6 +21,11 @@ class WidgetCreator {
             onTap: () => _switchPage(context, CapacityPage()),
             leading: Icon(Icons.equalizer),
             title: Text("Capacity"),
+          ),
+          ListTile( // menu item Check In/Out
+            onTap: () => _switchPage(context, CheckInOut()),
+            leading: Icon(Icons.check_circle_outline),
+            title: Text("Check In/out"),
           ),
           ListTile( // menu item Secondpage
             //onTap: () => _switchPage(context, CONSTRUCTEROFSECONDPAGE),
