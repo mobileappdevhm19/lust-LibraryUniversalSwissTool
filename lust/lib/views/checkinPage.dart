@@ -11,46 +11,50 @@ class CheckInOut extends StatefulWidget {
 class _CheckInOutState extends State<CheckInOut> {
   final String _title = "Check In/Out";
 
-  String _textButton;
+  String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
   bool _buttonState = false;
 
   @override
   Widget build(BuildContext context) {
+    print("INICIO + $_textButton");
     return Scaffold(
         appBar: AppBar(title: Text(_title)),
         drawer: WidgetCreator.getDrawer(context),
-        body: Container(
-            padding: EdgeInsets.all(10),
+        body: Center(
             child: Column(
-              children: <Widget>[
-                TextBox.getTextBox(context, "Subject", "Good luck with that!"),
-                TextBox.getTextBox(context, "Time goal", "Be realistic!"),
-                TextBox.getTextBox(context, "Locker number",
-                    "I know that is difficult to remember"),
-                Container(
-                  width: 200,
-                  height: 200,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle, color: _colorButton),
-                  child: InkWell(
-                    onTap: onButtonPressed,      //changes color and text!
-                  ),
-                )
-              ],
-            )));
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            //TextBox.getTextBox(context, "Subject", "Good luck with that!"),
+            //TextBox.getTextBox(context, "Time goal", "Be realistic!"),
+            //TextBox.getTextBox(context, "Locker number",
+            //   "I know that is difficult to remember"),
+          InkWell(
+            onTap: onButtonPressed,
+                child: Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(150),
+                  color: _colorButton),
+                  child: Center(child: Text(_textButton, style: TextStyle(fontSize: 28),))
+            )
+          )],
+        )));
   }
 
-  void onButtonPressed(){
-    if (_buttonState){
-      _buttonState=false;
-      _colorButton = Colors.green;
-      _textButton = "Check In!";
-    }
-    else{
-      _buttonState=true;
-      _colorButton = Colors.red;
-      _textButton="Check out :(";
-    }
+  void onButtonPressed() {
+    setState(() {
+      print("HOP");
+
+      if (_buttonState == true) {
+        _buttonState = false;
+        _colorButton = Colors.green;
+        _textButton = "Check In!";
+      } else {
+        _buttonState = true;
+        _colorButton = Colors.red;
+        _textButton = "Check out";
+      }
+    });
   }
 }
