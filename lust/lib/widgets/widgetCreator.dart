@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lust/views/capacityPage.dart';
-import 'package:lust/widgets/checkInOut.dart';
 
-class WidgetCreator {
+import 'package:lust/views/checkinPage.dart';class WidgetCreator {
   // create a menu drawer
   static Widget getDrawer(BuildContext context) {
     return Drawer(
