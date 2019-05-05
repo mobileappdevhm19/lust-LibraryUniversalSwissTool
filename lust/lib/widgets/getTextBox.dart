@@ -6,31 +6,30 @@ class TextBox {
   //final String _text;
   //String inputUser;
 
-  static Widget getTextBox(BuildContext context, String _text) {
+  static Widget getTextBox(BuildContext context, String _title, String _hint) {
     String inputUser;
 
-    return new Container(
-        child: Row(
+    return new Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Text(
-          _text,
+          _title,
           style: TextStyle(),
         ),
         TextField(
           decoration: InputDecoration(
-            //labelText: "Date?",
+            //labelText: "whatever",
             labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-            //hintText: "DD/MM/YYYY",
+            hintText: _hint,
             hintStyle: TextStyle(fontSize: 14, color: Colors.black12),
           ),
 //                        validator: (input) => input.length < 0
 //                            ? "You have to write something!"
 //                            : null,
-          keyboardType: TextInputType.datetime,
+          keyboardType: TextInputType.text,
           onChanged: (input) => inputUser = input,
         ),
       ],
-    ));
+    );
   }
 }
