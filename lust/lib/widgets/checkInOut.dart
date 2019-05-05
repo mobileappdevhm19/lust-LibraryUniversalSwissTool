@@ -19,25 +19,9 @@ class _CheckInOutState extends State<CheckInOut> {
           padding: EdgeInsets.all(10),
             child: Column(
           children: <Widget>[
-            Text("manuel"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "Subject",
-                  style: TextStyle(),
-                ),
-                TextField(
-                  onChanged:(value){},
-                  style: TextStyle(color: Colors.red),
-                  decoration: InputDecoration(),
-
-                )
-              ],
-            )
-            //TextBox.getTextBox(context, "Subject"),
-            //TextBox.getTextBox(context, "Time goal"),
-            //TextBox.getTextBox(context, "Locker number"),
+            TextBox.getTextBox(context, "Subject", "Good luck with that!"),
+            TextBox.getTextBox(context, "Time goal", "Be realistic!"),
+            TextBox.getTextBox(context, "Locker number","I know that is difficult to remember"),
           ],
         )));
   }
