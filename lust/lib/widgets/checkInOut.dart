@@ -8,7 +8,11 @@ class CheckInOut extends StatefulWidget {
 }
 
 class _CheckInOutState extends State<CheckInOut> {
-  final _title = "Check In/Out";
+  final String _title = "Check In/Out";
+
+  String _textButton;
+  MaterialColor _colorButton = Colors.green; //change once pressed the button
+  bool _buttonState = false;
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +20,36 @@ class _CheckInOutState extends State<CheckInOut> {
         appBar: AppBar(title: Text(_title)),
         drawer: WidgetCreator.getDrawer(context),
         body: Container(
-          padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             child: Column(
-          children: <Widget>[
-            TextBox.getTextBox(context, "Subject", "Good luck with that!"),
-            TextBox.getTextBox(context, "Time goal", "Be realistic!"),
-            TextBox.getTextBox(context, "Locker number","I know that is difficult to remember"),
-          ],
-        )));
+              children: <Widget>[
+                TextBox.getTextBox(context, "Subject", "Good luck with that!"),
+                TextBox.getTextBox(context, "Time goal", "Be realistic!"),
+                TextBox.getTextBox(context, "Locker number",
+                    "I know that is difficult to remember"),
+                Container(
+                    width: 200,
+                    height: 200,
+                    decoration: new BoxDecoration(
+                        shape: BoxShape.circle, color: _colorButton),
+                    child: InkWell(
+                      onTap: onButtonPressed,      //changes color and text!
+                    ),
+                )
+              ],
+            )));
+  }
+
+  void onButtonPressed(){
+    if (_buttonState){
+      _buttonState=false;
+      _colorButton = Colors.green;
+      _textButton = "Check In!";
+    }
+    else{
+      _buttonState=true;
+      _colorButton = Colors.red;
+      _textButton="Check out :(";
+    }
   }
 }
