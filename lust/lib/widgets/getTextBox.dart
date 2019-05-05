@@ -14,7 +14,7 @@ class TextBox {
       children: <Widget>[
         Text(
           _title,
-          style: TextStyle(),
+          style: TextStyle(fontSize: 20),
         ),
         TextField(
           decoration: InputDecoration(
