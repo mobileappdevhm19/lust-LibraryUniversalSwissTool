@@ -9,18 +9,22 @@ class TextBox {
   static Widget getTextBox(BuildContext context, String _title, String _hint) {
     String inputUser;
 
-    return new Row(
+    return new Padding(
+        padding: EdgeInsets.only(top: 20),
+        child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(
-          _title,
-          style: TextStyle(fontSize: 15),
-        ),
+
+       // Text(
+       //   _title,
+       //   style: TextStyle(fontSize: 15),
+       // ),
+
         Expanded(
           child: TextField(
           decoration: InputDecoration(
-            //labelText: "whatever",
-            //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+            labelText: _title,
+            labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
             hintText: _hint,
             hintStyle: TextStyle(fontSize: 10, color: Colors.black12),
           ),
@@ -31,6 +35,6 @@ class TextBox {
           onChanged: (input) => inputUser = input,
         ),)
       ],
-    );
+    ));
   }
 }

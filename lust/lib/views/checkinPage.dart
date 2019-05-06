@@ -25,7 +25,7 @@ class _CheckInOutState extends State<CheckInOut> {
         //drawer: WidgetCreator.getDrawer(context), // commented out because of revert PR #71
         body: Center(
             child: Padding(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.only(right: 20, left: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
