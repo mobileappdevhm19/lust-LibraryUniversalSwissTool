@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lust/widgets/widgetCreator.dart';
+// import 'package:lust/widgets/widgetCreator.dart'; // commented out because of revert #71
 import 'package:lust/widgets/getTextBox.dart';
 
 class CheckInOut extends StatefulWidget {
@@ -21,7 +21,7 @@ class _CheckInOutState extends State<CheckInOut> {
     print("INICIO + $_textButton");
     return Scaffold(
         appBar: AppBar(title: Text(_title)),
-        drawer: WidgetCreator.getDrawer(context),
+        //drawer: WidgetCreator.getDrawer(context), // commented out because of revert PR #71
         body: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
