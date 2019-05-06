@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/capacityGraph.dart';
 import 'package:lust/widgets/capacityInfo.dart';
+import 'package:lust/widgets/widgetCreator.dart';
 
 class CapacityWidget extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _CapacityWidgetState extends State<CapacityWidget> {
         appBar: AppBar(
           title: Text(_title),
         ),
+        drawer: WidgetCreator.getDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lust/views/capacityPage.dart';
+import 'package:lust/views/capacity.dart';
 
 import 'package:lust/views/checkinPage.dart';class WidgetCreator {
   // create a menu drawer
@@ -17,7 +17,7 @@ import 'package:lust/views/checkinPage.dart';class WidgetCreator {
             ),
           ),
           ListTile( // menu item CapacityPage
-            onTap: () => _switchPage(context, CapacityPage()),
+            onTap: () => _switchPage(context, CapacityWidget()),
             leading: Icon(Icons.equalizer),
             title: Text("Capacity"),
           ),
