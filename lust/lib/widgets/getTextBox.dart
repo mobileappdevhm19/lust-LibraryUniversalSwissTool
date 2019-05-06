@@ -14,21 +14,22 @@ class TextBox {
       children: <Widget>[
         Text(
           _title,
-          style: TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 15),
         ),
-        TextField(
+        Expanded(
+          child: TextField(
           decoration: InputDecoration(
             //labelText: "whatever",
-            labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+            //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
             hintText: _hint,
-            hintStyle: TextStyle(fontSize: 14, color: Colors.black12),
+            hintStyle: TextStyle(fontSize: 10, color: Colors.black12),
           ),
 //                        validator: (input) => input.length < 0
 //                            ? "You have to write something!"
 //                            : null,
           keyboardType: TextInputType.text,
           onChanged: (input) => inputUser = input,
-        ),
+        ),)
       ],
     );
   }
