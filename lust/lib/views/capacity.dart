@@ -20,7 +20,6 @@ class _CapacityWidgetState extends State<CapacityWidget> {
         appBar: AppBar(
           title: Text(_title),
         ),
-        drawer: WidgetCreator.getDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

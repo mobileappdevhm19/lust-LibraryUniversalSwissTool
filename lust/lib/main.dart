@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lust/views/capacity.dart';
+import 'package:lust/views/checkinPage.dart';
 
 void main() => runApp(Lust());
 
@@ -10,11 +11,12 @@ class Lust extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //debugShowCheckedModeBanner: false,
       title: 'Flutter Code Sample for material.AppBar.actions',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CapacityWidget(),
+      home: CheckInOut(),
     );
   }
 }
