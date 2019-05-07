@@ -14,6 +14,7 @@ class _CheckInOutState extends State<CheckInOut> {
 
   String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
+  MaterialColor _splashButton = Colors.red;
   bool _buttonState = false;
 
   @override
@@ -21,34 +22,53 @@ class _CheckInOutState extends State<CheckInOut> {
     print("INICIO + $_textButton");
     return Scaffold(
         appBar: AppBar(title: Text(_title)),
-        drawer: WidgetCreator.getDrawer(context),
-        //drawer: WidgetCreator.getDrawer(context), // commented out because of revert PR #71
         body: Center(
             child: Padding(
-                padding: EdgeInsets.only(right: 20, left: 20),
+                padding: EdgeInsets.only(right: 10, left: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    TextBox.getTextBox(context, "Subject",
+                        "Good luck with that!", Icons.local_library),
                     TextBox.getTextBox(
-                        context, "Subject", "Good luck with that!"),
-                    TextBox.getTextBox(context, "Time goal", "Be realistic!"),
+                        context, "Time goal", "Be realistic!", Icons.timer),
                     TextBox.getTextBox(context, "Locker number",
-                        "I know that is difficult to remember"),
+                        "I know that is difficult to remember", Icons.lock),
                     Padding(
-                      padding: EdgeInsets.only(top: 60),
-                        child: InkWell(
-                            onTap: onButtonPressed,
-                            child: Container(
-                                height: 150,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(150),
-                                    color: _colorButton),
-                                child: Center(
-                                    child: Text(
-                                  _textButton,
-                                  style: TextStyle(fontSize: 28),
-                                )))))
+                        padding: EdgeInsets.only(top: 60),
+                        child:
+                            /*MaterialButton(
+                          height: 50,
+                          onPressed: onButtonPressed,
+                          child: Text(
+                            _textButton,
+                            //style: TextStyle(fontSize: 28),
+                          ),
+                          padding: EdgeInsets.all(20),
+                          color: _colorButton,
+                          splashColor: _splashButton,
+                          elevation: 5,
+                          shape: CircleBorder(
+                              side: BorderSide(
+                                  style: BorderStyle.solid,
+                                  color: Colors.black26,
+                                  width: 10)),
+                        )*/
+
+                            InkWell(
+                                onTap: onButtonPressed,
+                                child: Container(
+                                    height: 150,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(150),
+                                        color: _colorButton),
+                                    child: Center(
+                                        child: Text(
+                                      _textButton,
+                                      style: TextStyle(fontSize: 28),
+                                    )))))
                   ],
                 ))));
   }
@@ -60,10 +80,12 @@ class _CheckInOutState extends State<CheckInOut> {
       if (_buttonState == true) {
         _buttonState = false;
         _colorButton = Colors.green;
+        _splashButton = Colors.red;
         _textButton = "Check In!";
       } else {
         _buttonState = true;
         _colorButton = Colors.red;
+        _splashButton = Colors.green;
         _textButton = "Check out";
       }
     });
