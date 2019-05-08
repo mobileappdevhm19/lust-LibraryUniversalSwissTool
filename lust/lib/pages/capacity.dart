@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lust/widgets/capacityGraph.dart';
-import 'package:lust/widgets/capacityInfo.dart';
+import 'package:lust/widgets/capacityPage/capacityGraph.dart';
+import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 
 class CapacityWidget extends StatefulWidget {
   @override
