@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lust/widgets/checkinPage/buttonCheck.dart';
+import 'package:lust/widgets/utils/getTextBox.dart';
 
 class CheckInOut extends StatefulWidget {
   @override
