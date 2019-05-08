@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lust/widgets/capacityGraph.dart';
-import 'package:lust/widgets/capacityInfo.dart';
+import 'package:lust/widgets/capacityPage/capacityGraph.dart';
+import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 
-class CapacityWidget extends StatefulWidget {
+class CapacityPage extends StatefulWidget {
   @override
-  _CapacityWidgetState createState() => new _CapacityWidgetState();
+  _CapacityPageState createState() => new _CapacityPageState();
 }
 
-class _CapacityWidgetState extends State<CapacityWidget> {
+class _CapacityPageState extends State<CapacityPage> {
   final _title = "Capacity";
 
   @override

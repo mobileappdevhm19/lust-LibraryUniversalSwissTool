@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lust/models/capacity/trend.dart';
+import 'package:lust/models/trend.dart';
 
 class CapacityInfo extends StatefulWidget {
   _CapacityInfoState createState() => _CapacityInfoState();

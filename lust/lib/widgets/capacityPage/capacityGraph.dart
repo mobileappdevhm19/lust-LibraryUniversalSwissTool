@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:lust/models/capacity/percentPerHour.dart';
+import 'package:lust/models/percentPerHour.dart';
 
 
 class CapacityGraph extends StatelessWidget {
