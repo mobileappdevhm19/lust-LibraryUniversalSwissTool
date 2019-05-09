@@ -1,18 +1,6 @@
 import 'package:flutter/material.dart';
 
 class pomodoroDescription extends StatelessWidget {
-  int periodTime;
-  int shortBreakTime;
-  int longBreakTime;
-  int countPeriods;
-
-  pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
-    this.periodTime=periodTime;
-    this.shortBreakTime=shortBreakTime;
-    this.longBreakTime=longBreakTime;
-    this.countPeriods=countPeriods;
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +16,8 @@ class pomodoroDescription extends StatelessWidget {
                   style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                   textAlign: TextAlign.center,
                 )),
-                Expanded(child: Text(
-                  "$periodTime min",
+                const Expanded(child: Text(
+                  "25.5 min",
                   textScaleFactor: 0.8,
                   style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                   textAlign: TextAlign.center,
@@ -49,8 +37,8 @@ class pomodoroDescription extends StatelessWidget {
                   style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                   textAlign: TextAlign.center,
                 )),
-                Expanded(child: Text(
-                  "$shortBreakTime min"+" / "+"$longBreakTime min",
+                const Expanded(child: Text(
+                  "5 / 15 min",
                   textScaleFactor: 0.8,
                   style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                   textAlign: TextAlign.center,
@@ -70,24 +58,14 @@ class pomodoroDescription extends StatelessWidget {
                   style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                   textAlign: TextAlign.center,
                 )),
-                Expanded(child: Text(
-                  '$countPeriods',
+                const Expanded(child: Text(
+                  "4",
                   textScaleFactor: 0.8,
                   style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                   textAlign: TextAlign.center,
                 )),
               ],
             ),
-            new SizedBox(
-              height: 10.0,
-              child: new Center(
-                child: new Container(
-                  margin: new EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
-                  height: 5.0,
-                  color: Colors.red,
-                ),
-              ),
-            )
           ]),
     );
 
