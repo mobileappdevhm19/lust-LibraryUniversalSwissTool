@@ -40,9 +40,12 @@ class _PomodoroState extends State<Pomodoro> {
 }
 
 
+<<<<<<< HEAD
 /**
  * this function returns the container with the description of the parameters
  **/
+=======
+>>>>>>> 5504ddd... included table for description of the parameter
 Widget promDesc(){
   return new Container(
     child: Column(
