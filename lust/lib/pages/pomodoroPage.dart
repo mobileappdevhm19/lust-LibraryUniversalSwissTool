@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lust/widgets/widgetCreator.dart';
 
 
 
-class PomodoroPage extends StatefulWidget {
+class Pomodoro extends StatefulWidget {
   @override
   _PomodoroState createState() => new _PomodoroState();
 }
 
-class _PomodoroState extends State<PomodoroPage> {
+class _PomodoroState extends State<Pomodoro> {
   final _title = "Pomodoro";
 
   @override
@@ -19,6 +20,7 @@ class _PomodoroState extends State<PomodoroPage> {
         appBar: AppBar(
           title: Text(_title),
         ),
+        drawer: WidgetCreator.getDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,9 +40,12 @@ class _PomodoroState extends State<PomodoroPage> {
 }
 
 
+<<<<<<< HEAD
 /**
  * this function returns the container with the description of the parameters
  **/
+=======
+>>>>>>> 5504ddd... included table for description of the parameter
 Widget promDesc(){
   return new Container(
     child: Column(
