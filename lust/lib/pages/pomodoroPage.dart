@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 
 
 
@@ -25,7 +26,7 @@ class _PomodoroState extends State<PomodoroPage> {
               children: [
                 Container(
                   height: _height*0.40,
-                  child: promDesc(),
+                  child: new pomodoroDescription(),
                 ),
                 Container(
                   alignment: Alignment.center,
@@ -37,6 +38,8 @@ class _PomodoroState extends State<PomodoroPage> {
 
 }
 
+
+/*
 
 /**
  * this function returns the container with the description of the parameters
@@ -107,4 +110,4 @@ Widget promDesc(){
     ]),
   );
 
-}
+}*/
