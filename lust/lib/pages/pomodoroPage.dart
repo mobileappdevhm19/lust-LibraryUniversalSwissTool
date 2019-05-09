@@ -1,29 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
-import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
+import 'package:lust/widgets/widgetCreator.dart';
 
 
 
-class PomodoroPage extends StatefulWidget {
+class Pomodoro extends StatefulWidget {
   @override
   _PomodoroState createState() => new _PomodoroState();
 }
 
-class _PomodoroState extends State<PomodoroPage> {
+class _PomodoroState extends State<Pomodoro> {
   final _title = "Pomodoro";
-
-  //all in minutes
-  int periodTime;
-  int shortBreakTime;
-  int longBreakTime;
-  int countPeriods;
-
-  _PomodoroState(){
-    this.periodTime=25;
-    this.shortBreakTime=9;
-    this.longBreakTime=15;
-    this.countPeriods=4;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +20,96 @@ class _PomodoroState extends State<PomodoroPage> {
         appBar: AppBar(
           title: Text(_title),
         ),
+        drawer: WidgetCreator.getDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  //height: _height*0.40,
-                  child: new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                  height: _height*0.40,
+                  child: promDesc(),
                 ),
-                Expanded(
-                  child: new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.all(10.0),
                 )
-           ]),
+              ]),
         ));
   } // build
+
 }
 
+
+<<<<<<< HEAD
+/**
+ * this function returns the container with the description of the parameters
+ **/
+=======
+>>>>>>> 5504ddd... included table for description of the parameter
+Widget promDesc(){
+  return new Container(
+    child: Column(
+      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        new Row(
+          children: <Widget>[
+            const Expanded(child: Text(
+              "period:",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+            const Expanded(child: Text(
+              "25 min",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+          ],
+        ),
+        new Divider(
+          height: 50.0,
+          indent: 0.0,
+          color: Colors.black,
+        ),
+        new Row(
+          children: <Widget>[
+            const Expanded(child: Text(
+              "break:",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+            const Expanded(child: Text(
+              "5 / 15 min",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+          ],
+        ),
+        new Divider(
+          height: 50.0,
+          indent: 0.0,
+          color: Colors.black,
+        ),
+        new Row(
+          children: <Widget>[
+            const Expanded(child: Text(
+              "periods:",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+            const Expanded(child: Text(
+              "4",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+          ],
+        ),
+    ]),
+  );
+
+}
