@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:lust/pages/capacityPage.dart';
 import 'package:lust/pages/checkinPage.dart';
+import 'package:lust/pages/pomodoroPage.dart';
 
 void main() async=> runApp(Lust());
 
