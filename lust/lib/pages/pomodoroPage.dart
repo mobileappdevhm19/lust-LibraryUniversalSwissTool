@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
+import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 
 
 
@@ -41,6 +42,9 @@ class _PomodoroState extends State<PomodoroPage> {
                   height: _height*0.40,
                   child: new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods),
                 ),
+                Expanded(
+                  child: new pomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                )
            ]),
         ));
   } // build
