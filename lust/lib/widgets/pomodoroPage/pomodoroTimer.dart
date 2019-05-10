@@ -35,6 +35,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
   Timer _timer;
 
+  String startStopBtnText="Start";
+
 
   _PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     statuslist.add(statusClass(-1, ""));
@@ -55,8 +57,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
             children: <Widget>[
               RaisedButton(
                 onPressed: () {buttonClicked();},
-                child: const Text(
-                    'Button',
+                child: Text(
+                    '$startStopBtnText',
                     style: TextStyle(fontSize: 20)
                 ),
               ),
@@ -70,7 +72,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                     child: Text(
                       "$actTimeMinutesSeconds",
                       textScaleFactor: 0.8,
-                      style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                      style: TextStyle(fontSize: 20.0, letterSpacing: 2.0, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     )
                 ),
@@ -88,6 +90,19 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   void buttonClicked(){
+    this.setState((){
+      if(startStopBtnText=="Start"){
+        startStopBtnText="Stop";
+        startTimer();
+        return; //jut to leave this function
+      }
+      else{
+        startStopBtnText="Start";
+        _timer.cancel();
+      }
+    });
+
+
     if(actStatus== Status.nothing){
       changeStatus();
     }
