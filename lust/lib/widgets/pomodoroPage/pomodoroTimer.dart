@@ -109,12 +109,12 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     }
     switch(actStatus){
       case Status.learning: {
-        if(actPeriod<=countPeriods){
-          actStatus=Status.shortBreak;
-        }
-        else{
+        if(actPeriod>=countPeriods){
           actStatus=Status.longBreak;
           actPeriod=0; //start counting periods new
+        }
+        else{
+          actStatus=Status.shortBreak;
         }
         break;
       }
@@ -127,7 +127,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
     actTimerSeconds=statuslist[actStatus.index].time;
 
-    actStatusText=statuslist[actStatus.index].text;
+    actStatusText=descriptionText();
 
     startTimer();
   }
@@ -161,5 +161,12 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     else{
       return number.toString();
     }
+  }
+
+  String descriptionText(){
+    String ret=statuslist[actStatus.index].text;
+    ret +="\n";
+    ret +=(countPeriods-actPeriod).toString() +"periods till next long break";
+    return ret;
   }
 }
