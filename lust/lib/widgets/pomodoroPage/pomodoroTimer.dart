@@ -31,7 +31,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   int actTimerSeconds=0;
   String actTimeMinutesSeconds="";
   Status actStatus=Status.nothing; //initial
-  String actStatusText="";
+  String initialStatusText="Click on Start to start the pomodoro timer";
+  String actStatusText;
 
   Timer _timer;
 
@@ -46,6 +47,9 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     statuslist.add(statusClass(longBreakTime, "make a long break"));
 
     this.countPeriods = countPeriods;
+
+    actStatusText=initialStatusText;
+    setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
   }
 
 
@@ -62,12 +66,20 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                 child:
                   RaisedButton(
                     color: startStopBtnColor,
-                    onPressed: () {buttonClicked();},
+                    onPressed: () {startStopButtonClicked();},
                     child: Text(
                         '$startStopBtnText',
-                        style: TextStyle(fontSize: 20)
+                        style: TextStyle(fontSize: 40)
                     ),
                   )
+              ),
+
+              RaisedButton(
+                onPressed: () {resetButtonClicked();},
+                child: Text(
+                    'reset',
+                    style: TextStyle(fontSize: 20)
+                ),
               ),
 
                Container(
@@ -96,39 +108,78 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  void buttonClicked(){
+  void startStopButtonClicked(){
     this.setState((){
       if(startStopBtnText=="Start"){
-        startStopBtnText="Stop";
-        startStopBtnColor=Colors.red;
-        startTimer();
+        start();
         return; //jut to leave this function
       }
       else{
-        startStopBtnText="Start";
-        startStopBtnColor=Colors.green;
-        if(_timer !=null){
-          _timer.cancel();
-        }
+        stop();
       }
     });
-
-
-    if(actStatus== Status.nothing){
-      changeStatus();
-    }
-    else{
-
+  }
+  void stop(){
+    startStopBtnText="Start";
+    startStopBtnColor=Colors.green;
+    if(_timer !=null){
+      _timer.cancel();
     }
   }
+  void start(){
+    startStopBtnText="Stop";
+    startStopBtnColor=Colors.red;
+    startTimer();
+  }
+
+
+  void resetButtonClicked(){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Reset Pomodoro"),
+          content: new Text("Do you really want to reset the pomodoro timer?\n"
+              "Are you sure that you can learn good without this feature of lust?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop(); //just close dialogwindow
+              },
+            ),
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("reset"),
+              onPressed: () {
+                actStatus=Status.nothing;
+                actTimerSeconds=0;
+                actPeriod=0;
+                setState(() {
+                  setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
+                  actStatusText=initialStatusText;
+                });
+                stop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   ///
   /// starts timer
   /// set description Status text
 
   void changeStatus(){
-
     //necessary, otherwise multiple timer instances interfere each other
+
+
     actTimerSeconds=0;
     if(_timer !=null){
       _timer.cancel();
@@ -170,7 +221,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
             actTimerSeconds --;
             setActTimeMinutesSeconds();
           }
-        }));
+        }),
+    );
   }
 
   void setActTimeMinutesSeconds(){
