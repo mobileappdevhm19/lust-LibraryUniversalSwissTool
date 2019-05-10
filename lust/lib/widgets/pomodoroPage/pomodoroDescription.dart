@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class pomodoroDescription extends StatelessWidget {
-  double periodTime;
-  double shortBreakTime;
-  double longBreakTime;
+  int periodTime;
+  int shortBreakTime;
+  int longBreakTime;
   int countPeriods;
 
-  pomodoroDescription(double periodTime, double shortBreakTime, double longBreakTime, int countPeriods){
+  pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     this.periodTime=periodTime;
     this.shortBreakTime=shortBreakTime;
     this.longBreakTime=longBreakTime;
