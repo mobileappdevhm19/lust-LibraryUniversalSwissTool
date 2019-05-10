@@ -6,6 +6,13 @@ enum Status{
   nothing, learning, shortBreak, longBreak
 }
 
+//like struct in c++
+class statusClass {
+  final int time;
+  final String text;
+  const statusClass(this.time, this.text);
+}
+
 class PomodoroTimer extends StatefulWidget {
   _PomodoroTimerState ptS;
   PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
@@ -17,21 +24,23 @@ class PomodoroTimer extends StatefulWidget {
 }
 
 class _PomodoroTimerState extends State<PomodoroTimer> {
-  List<int> statuslist=new List();
+  List<statusClass> statuslist=new List();
   int countPeriods;
 
   int actPeriod=0;
   int actTimerSeconds=0;
+  String actTimeMinutesSeconds="";
   Status actStatus=Status.nothing; //initial
+  String actStatusText="";
 
   Timer _timer;
 
 
   _PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
-    statuslist.add(-1);
-    statuslist.add(periodTime);
-    statuslist.add(shortBreakTime);
-    statuslist.add(longBreakTime);
+    statuslist.add(statusClass(-1, ""));
+    statuslist.add(statusClass(periodTime, "actual you have to learn!"));
+    statuslist.add(statusClass(shortBreakTime, "make a short break"));
+    statuslist.add(statusClass(longBreakTime, "make a long break"));
 
     this.countPeriods = countPeriods;
   }
@@ -52,8 +61,22 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                 ),
               ),
 
+               Container(
+               // color: Colors.blue,
+                width: MediaQuery.of(context).size.width, //screen width
+                height: 200.0,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                    child: Text(
+                      "$actTimeMinutesSeconds",
+                      textScaleFactor: 0.8,
+                      style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                      textAlign: TextAlign.center,
+                    )
+                ),
+              ),
               Expanded(child: Text(
-                "$actTimerSeconds sec",
+                "$actStatusText",
                 textScaleFactor: 0.8,
                 style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
                 textAlign: TextAlign.center,
@@ -74,7 +97,10 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   void changeStatusStartTimer(){
-
+    actTimerSeconds=0;
+    if(_timer !=null){
+      _timer.cancel();
+    }
     switch(actStatus){
       case Status.learning: {
         if(actPeriod<=countPeriods){
@@ -93,7 +119,10 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     }
 
 
-    actTimerSeconds=statuslist[actStatus.index];
+    actTimerSeconds=statuslist[actStatus.index].time;
+
+    actStatusText=statuslist[actStatus.index].text;
+
     startTimer();
   }
 
@@ -107,7 +136,24 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
             changeStatusStartTimer();
           } else {
             actTimerSeconds --;
+            setActTimeMinutesSeconds();
           }
         }));
+  }
+
+  void setActTimeMinutesSeconds(){
+    int minutes=(actTimerSeconds/60).toInt();
+    String minutesStirng=setFirst0(minutes);
+    String secondsString=setFirst0(actTimerSeconds-(minutes*60));
+
+    actTimeMinutesSeconds="$minutesStirng : $secondsString";
+  }
+  String setFirst0(int number){
+    if(number<10){
+      return "0$number";
+    }
+    else{
+      return number.toString();
+    }
   }
 }
