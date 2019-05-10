@@ -13,14 +13,14 @@ class _PomodoroState extends State<PomodoroPage> {
   final _title = "Pomodoro";
 
   //all in minutes
-  double periodTime;
-  double shortBreakTime;
-  double longBreakTime;
+  int periodTime;
+  int shortBreakTime;
+  int longBreakTime;
   int countPeriods;
 
   _PomodoroState(){
     this.periodTime=25;
-    this.shortBreakTime=9.7;
+    this.shortBreakTime=9;
     this.longBreakTime=15;
     this.countPeriods=4;
   }
