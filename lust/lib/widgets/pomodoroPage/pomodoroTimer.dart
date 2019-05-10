@@ -36,6 +36,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   Timer _timer;
 
   String startStopBtnText="Start";
+  ColorSwatch startStopBtnColor=Colors.green;
 
 
   _PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
@@ -55,12 +56,18 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
         child: Container(
           child: Column(
             children: <Widget>[
-              RaisedButton(
-                onPressed: () {buttonClicked();},
-                child: Text(
-                    '$startStopBtnText',
-                    style: TextStyle(fontSize: 20)
-                ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width, //screen width
+                height: 100.0,
+                child:
+                  RaisedButton(
+                    color: startStopBtnColor,
+                    onPressed: () {buttonClicked();},
+                    child: Text(
+                        '$startStopBtnText',
+                        style: TextStyle(fontSize: 20)
+                    ),
+                  )
               ),
 
                Container(
@@ -93,12 +100,16 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     this.setState((){
       if(startStopBtnText=="Start"){
         startStopBtnText="Stop";
+        startStopBtnColor=Colors.red;
         startTimer();
         return; //jut to leave this function
       }
       else{
         startStopBtnText="Start";
-        _timer.cancel();
+        startStopBtnColor=Colors.green;
+        if(_timer !=null){
+          _timer.cancel();
+        }
       }
     });
 
