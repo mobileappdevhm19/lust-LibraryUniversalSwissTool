@@ -89,14 +89,20 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
   void buttonClicked(){
     if(actStatus== Status.nothing){
-      changeStatusStartTimer();
+      changeStatus();
     }
     else{
 
     }
   }
 
-  void changeStatusStartTimer(){
+  ///
+  /// starts timer
+  /// set description Status text
+
+  void changeStatus(){
+
+    //necessary, otherwise multiple timer instances interfere each other
     actTimerSeconds=0;
     if(_timer !=null){
       _timer.cancel();
@@ -133,7 +139,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
             (Timer timer) => setState(() {
           if (actTimerSeconds < 1) {
             //timer.cancel();
-            changeStatusStartTimer();
+            changeStatus();
           } else {
             actTimerSeconds --;
             setActTimeMinutesSeconds();
