@@ -43,7 +43,7 @@ class _PomodoroState extends State<PomodoroPage> {
                   child: new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods),
                 ),
                 Expanded(
-                  child: new pomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                  child: new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods),
                 )
            ]),
         ));
