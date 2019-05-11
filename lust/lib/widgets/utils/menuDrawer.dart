@@ -54,8 +54,9 @@ class MenuDrawer {
 
 // For mocking user info
 class MockUserInfo {
-  const MockUserInfo({this.name, this.email});
 
   final String name;
   final String email;
+
+  const MockUserInfo({this.name, this.email});
 }
