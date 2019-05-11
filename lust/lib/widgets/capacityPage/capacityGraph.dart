@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:lust/models/percentPerHour.dart';
-
+import 'package:lust/widgets/utils/timeHandler.dart';
+import 'package:lust/models/library.dart';
 
 class CapacityGraph extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
+  final Library library;
 
-  CapacityGraph(this.seriesList, {this.animate});
+  CapacityGraph(this.seriesList, this.library, {this.animate});
 
   factory CapacityGraph.withSampleData() {
+    var lib = Library.withSampleData();
     return new CapacityGraph(
-      _createChartData(),
+      // DateTime.now() only to fulfill the requirements
+      _createChartData(lib.getOccupancyPercentPerHour(DateTime.now())),
+      Library.withSampleData(),
       // Disable animations for image tests.
       animate: true,
     );
@@ -19,7 +24,7 @@ class CapacityGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new charts.OrdinalComboChart(seriesList,
+    return new charts.BarChart(seriesList,
         animate: animate,
         // Configure the default renderer as a bar renderer.
         defaultRenderer: new charts.BarRendererConfig(
@@ -33,19 +38,14 @@ class CapacityGraph extends StatelessWidget {
         ]);
   }
 
-  static List<charts.Series<PercentPerHour, String>> _createChartData() {
-    final dataA = [
-      new PercentPerHour(17, "8"),
-      new PercentPerHour(35, "10"),
-      new PercentPerHour(13, "12"),
-      new PercentPerHour(7, "14"),
-      new PercentPerHour(22, "16"),
-      new PercentPerHour(42, "18"),
-      new PercentPerHour(87, "20"),
-      new PercentPerHour(69, "22"),
-      ];
+  /// Helper class to create the list of chart.Series out of an array of percentPerHour
+  static List<charts.Series<PercentPerHour, String>> _createChartData(
+      occupancyPercentPerHour) {
+    final data = occupancyPercentPerHour;
 
-    var hour = CapacityTime.getTimeForCapacityGraph();
+    var hour = TimeHandler.makeHourEven(DateTime
+        .now()
+        .hour);
     print('hour in capacity ' + hour.toString());
     return [
       new charts.Series<PercentPerHour, String>(
@@ -55,16 +55,8 @@ class CapacityGraph extends StatelessWidget {
             : charts.MaterialPalette.blue.shadeDefault,
         domainFn: (PercentPerHour percent, _) => percent.hour,
         measureFn: (PercentPerHour percent, _) => percent.percent,
-        data: dataA,
+        data: data,
       ),
-//      new charts.Series<PercentPerHour, String>(
-//        id: 'Current',
-//        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-//        domainFn: (PercentPerHour percent, _) => percent.hour,
-//        measureFn: (PercentPerHour percent, _) => percent.percent,
-//        data: dataB,
-//      )..setAttribute(charts.rendererIdKey, 'customLine'),
-
     ];
   }
 }
