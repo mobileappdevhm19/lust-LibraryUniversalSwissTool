@@ -9,10 +9,7 @@ import 'package:lust/widgets/utils/menuDrawer.dart';
 
 class CapacityPage extends StatefulPage {
 
-  CapacityPage({this.title = "Capacity", this.icon = Icons.equalizer});
-
-  final String title;
-  final icon;
+  CapacityPage({String title = "Capacity", icon = Icons.equalizer}) : super(title, icon);
 
   @override
   _CapacityPageState createState() => new _CapacityPageState(title, icon);
@@ -20,10 +17,10 @@ class CapacityPage extends StatefulPage {
 
 class _CapacityPageState extends State<CapacityPage> {
 
-  _CapacityPageState(this.title, this.icon);
-
   final String title;
   final icon;
+
+  _CapacityPageState(this.title, this.icon);
 
   @override
   Widget build(BuildContext context) {
