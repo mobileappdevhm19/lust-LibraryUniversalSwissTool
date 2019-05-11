@@ -55,6 +55,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_sound:
+    dependency: "direct main"
+    description:
+      name: flutter_sound
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -171,7 +178,7 @@ packages:
     source: hosted
     version: "2.0.8"
   vibration:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: vibration
       url: "https://pub.dartlang.org"
