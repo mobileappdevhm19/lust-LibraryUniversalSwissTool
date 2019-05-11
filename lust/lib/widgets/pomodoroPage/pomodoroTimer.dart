@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:async';
-import 'package:vibration/vibration.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:lust/widgets/utils/notifications.dart';
+
 
 enum Status{
   nothing, learning, shortBreak, longBreak
@@ -40,7 +41,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
   String startStopBtnText="Start";
   ColorSwatch startStopBtnColor=Colors.green;
-
+  notifications notification;
 
   _PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     statuslist.add(statusClass(-1, ""));
@@ -52,6 +53,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=initialStatusText;
     setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
+    notification=notifications();
   }
 
 
@@ -178,7 +180,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   /// starts timer
   /// set description Status text
 
-  void changeStatus(){
+  void changeStatus() async{
     //necessary, otherwise multiple timer instances interfere each other
 
 
@@ -211,17 +213,14 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     startTimer();
   }
 
-  void startTimer() {
+  void startTimer() async{
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
             (Timer timer) => setState(() {
           if (actTimerSeconds < 1) {
             //timer.cancel();
-              Vibration.vibrate(pattern: [500, 1000, 500]);
-              Vibration.cancel();
-              SystemSound.play(SystemSoundType.click);
-
+            makeNoti();
             changeStatus();
           } else {
             actTimerSeconds --;
@@ -230,7 +229,9 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
         }),
     );
   }
-
+  Future<void> makeNoti() async{
+    await notification.makeNoti();
+  }
   void setActTimeMinutesSeconds(){
     int minutes=(actTimerSeconds/60).toInt();
     String minutesStirng=setFirst0(minutes);
