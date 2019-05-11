@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:async';
+import 'package:vibration/vibration.dart';
+import 'package:flutter/services.dart';
 
 enum Status{
   nothing, learning, shortBreak, longBreak
@@ -31,7 +33,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   int actTimerSeconds=0;
   String actTimeMinutesSeconds="";
   Status actStatus=Status.nothing; //initial
-  String initialStatusText="Click on Start to start the pomodoro timer";
+  String initialStatusText="Click on 'Start' to start the pomodoro timer";
   String actStatusText;
 
   Timer _timer;
@@ -216,6 +218,10 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
             (Timer timer) => setState(() {
           if (actTimerSeconds < 1) {
             //timer.cancel();
+              Vibration.vibrate(pattern: [500, 1000, 500]);
+              Vibration.cancel();
+              SystemSound.play(SystemSoundType.click);
+
             changeStatus();
           } else {
             actTimerSeconds --;
