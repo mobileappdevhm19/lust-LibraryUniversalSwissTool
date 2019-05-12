@@ -23,8 +23,8 @@ class notifications {
         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     var initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
-    /*flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification); */
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
   }
 
  /* @override
@@ -62,9 +62,9 @@ class notifications {
   }
   */
 
-  Future<void> makeNoti() async{
+  /*void makeNoti() async{
     await scheduleNotification();
-  }
+  }*/
 
   /// Schedules a notification that specifies a different icon, sound and vibration pattern
   Future<void> scheduleNotification() async {
@@ -77,6 +77,7 @@ class notifications {
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
     vibrationPattern[3] = 2000;
+    print("nach vibration pattrn");
 
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your other channel id',
@@ -92,10 +93,17 @@ class notifications {
         ledColor: const Color.fromARGB(255, 255, 0, 0),
         ledOnMs: 1000,
         ledOffMs: 500);
+        print("nach android");
+
+
     var iOSPlatformChannelSpecifics =
     IOSNotificationDetails(sound: "slow_spring_board.aiff");
+    print("nach scheeiße");
+
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    print("nach platfo spfificz");
+
     await flutterLocalNotificationsPlugin.schedule(
         0,
         'scheduled title',
@@ -103,7 +111,7 @@ class notifications {
         scheduledNotificationDateTime,
         platformChannelSpecifics);
 
-    print("ENDE   notifications scheduleNotification");
+        print("ENDE   notifications scheduleNotification");
 
   }
 
