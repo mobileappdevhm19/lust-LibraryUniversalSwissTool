@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import 'package:lust/widgets/utils/notifications.dart';
+//import 'package:lust/widgets/utils/notifications.dart';
 
 
 enum Status{
@@ -41,7 +41,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
   String startStopBtnText="Start";
   ColorSwatch startStopBtnColor=Colors.green;
-  notifications notification;
+  //notifications notification;
 
   _PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     statuslist.add(statusClass(-1, ""));
@@ -53,7 +53,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=initialStatusText;
     setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
-    notification=notifications();
+    //notification=notifications();
   }
 
 
@@ -230,7 +230,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
   Future<void> makeNoti() async{
-    await notification.makeNoti();
+    //await notification.scheduleNotification();
   }
   void setActTimeMinutesSeconds(){
     int minutes=(actTimerSeconds/60).toInt();
