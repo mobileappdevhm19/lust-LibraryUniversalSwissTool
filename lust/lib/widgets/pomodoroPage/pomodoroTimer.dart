@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 //import 'package:lust/widgets/utils/notifications.dart';
 
 
@@ -27,6 +28,8 @@ class PomodoroTimer extends StatefulWidget {
 }
 
 class _PomodoroTimerState extends State<PomodoroTimer> {
+
+  static const MethodChannel _channel = MethodChannel('pomodoro');
   List<statusClass> statuslist=new List();
   int countPeriods;
 
@@ -56,6 +59,18 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     //notification=notifications();
   }
 
+  Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
+    switch (methodCall.method) {
+      case 'startTimer':
+        startTimer();
+        break;
+      case 'changeStatus':
+        changeStatus();
+        break;
+      default:
+      // todo - throw not implemented
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +148,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   void start(){
     startStopBtnText="Stop";
     startStopBtnColor=Colors.red;
-    startTimer();
+    _channel.invokeMethod<void>('changeStatus');
   }
 
 
@@ -210,7 +225,9 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-    startTimer();
+    _channel.invokeMethod<void>('changeStatus');
+
+    //startTimer();
   }
 
   void startTimer() async{
@@ -221,7 +238,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
           if (actTimerSeconds < 1) {
             //timer.cancel();
             makeNoti();
-            changeStatus();
+            _channel.invokeMethod<void>('changeStatus');
           } else {
             actTimerSeconds --;
             setActTimeMinutesSeconds();
