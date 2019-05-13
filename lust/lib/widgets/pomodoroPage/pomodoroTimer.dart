@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_library_universal_swiss_tool_plugin/flutter_library_universal_swiss_tool_plugin.dart';
 //import 'package:lust/widgets/utils/notifications.dart';
 
 
@@ -17,19 +18,20 @@ class statusClass {
   const statusClass(this.time, this.text);
 }
 
+FlutterLibraryUniversalSwissToolPlugin libraryUniversalSwissToolPlugin;
 class PomodoroTimer extends StatefulWidget {
-  _PomodoroTimerState ptS;
+  PomodoroTimerState ptS;
   PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
-      ptS=new _PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
+      ptS=new PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
 
   @override
-  _PomodoroTimerState createState() => ptS;
+  PomodoroTimerState createState() => ptS;
 }
 
-class _PomodoroTimerState extends State<PomodoroTimer> {
+class PomodoroTimerState extends State<PomodoroTimer> {
 
-  static const MethodChannel _channel = MethodChannel('pomodoro');
+  static const MethodChannel _channel = MethodChannel('FlutterLibraryUniversalSwissToolPlugin');
   List<statusClass> statuslist=new List();
   int countPeriods;
 
@@ -46,7 +48,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   ColorSwatch startStopBtnColor=Colors.green;
   //notifications notification;
 
-  _PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+  PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     statuslist.add(statusClass(-1, ""));
     statuslist.add(statusClass(periodTime, "actual you have to learn!"));
     statuslist.add(statusClass(shortBreakTime, "make a short break"));
@@ -57,19 +59,6 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
     actStatusText=initialStatusText;
     setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
     //notification=notifications();
-  }
-
-  Future<dynamic> myUtilsHandler(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case 'startTimer':
-        startTimer();
-        break;
-      case 'changeStatus':
-        changeStatus();
-        break;
-      default:
-      // todo - throw not implemented
-    }
   }
 
   @override
@@ -225,27 +214,52 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-    _channel.invokeMethod<void>('changeStatus');
+    _channel.invokeMethod<void>('startTimer');
 
     //startTimer();
   }
 
-  void startTimer() async{
+  void updateParameters() async{
+    Future<int> i=_channel.invokeMethod('getActTimerSeconds');
+    actTimerSeconds=await getActTimerSecondsFromChannel();
+    if (actTimerSeconds < 1) {
+      //timer.cancel();
+      //makeNoti();
+      actStatusText=descriptionText();
+    } else {
+      //actTimerSeconds=await getActTimerSecondsFromChannel();
+      setActTimeMinutesSeconds();
+    }
+    setState(() {
+      actTimeMinutesSeconds;
+    });
+    updateParameters();
+  }
+
+
+  /*void startTimer() async{
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
             (Timer timer) => setState(() {
           if (actTimerSeconds < 1) {
             //timer.cancel();
-            makeNoti();
+            //makeNoti();
             _channel.invokeMethod<void>('changeStatus');
           } else {
-            actTimerSeconds --;
+            //actTimerSeconds=await getActTimerSecondsFromChannel();
             setActTimeMinutesSeconds();
           }
         }),
     );
+  }*/
+
+  Future<int> getActTimerSecondsFromChannel(){
+    Future<int> i=_channel.invokeMethod('getActTimerSeconds');
+    return i;
   }
+
+
   Future<void> makeNoti() async{
     //await notification.scheduleNotification();
   }
