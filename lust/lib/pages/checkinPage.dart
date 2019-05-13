@@ -3,12 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:lust/widgets/checkinPage/buttonCheck.dart';
 import 'package:lust/widgets/utils/getTextBox.dart';
 
-class CheckInOut extends StatefulWidget {
+class CheckinPage extends StatefulWidget {
   @override
-  _CheckInOutState createState() => _CheckInOutState();
+  _CheckinPageState createState() => _CheckinPageState();
 }
 
-class _CheckInOutState extends State<CheckInOut> {
+class _CheckinPageState extends State<CheckinPage> {
   final String _title = "Check In/Out";
 
   @override
