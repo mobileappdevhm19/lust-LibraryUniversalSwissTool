@@ -7,7 +7,6 @@ class ButtonCheck extends StatefulWidget {
 }
 
 class _ButtonCheckState extends State<ButtonCheck> {
-
   String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
   MaterialColor _splashButton = Colors.red;
@@ -18,7 +17,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
     return Padding(
         padding: EdgeInsets.only(top: 60),
         child:
-        /*MaterialButton(
+            /*MaterialButton(
                           height: 50,
                           onPressed: onButtonPressed,
                           child: Text(
@@ -36,17 +35,16 @@ class _ButtonCheckState extends State<ButtonCheck> {
                                   width: 10)),
                         )*/
 
-        InkWell(
-            onTap: onButtonPressed,
-            child: Container(
-                height: 150,
-                width: 150,
-                decoration: BoxDecoration(
-                    borderRadius:
-                    BorderRadius.circular(150),
-                    color: _colorButton),
-                child: Center(
-                    child: Text(
+            InkWell(
+                onTap: onButtonPressed,
+                child: Container(
+                    height: 150,
+                    width: 150,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(150),
+                        color: _colorButton),
+                    child: Center(
+                        child: Text(
                       _textButton,
                       style: TextStyle(fontSize: 28),
                     )))));
@@ -54,7 +52,6 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
   void onButtonPressed() {
     setState(() {
-
       if (_buttonState == true) {
         _buttonState = false;
         _colorButton = Colors.green;
