@@ -55,13 +55,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_library_universal_swiss_tool_plugin:
-    dependency: "direct main"
-    description:
-      name: flutter_library_universal_swiss_tool_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   flutter_local_notifications:
     dependency: "direct main"
     description:
