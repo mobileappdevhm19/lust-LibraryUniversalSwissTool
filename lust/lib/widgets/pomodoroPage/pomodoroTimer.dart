@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_library_universal_swiss_tool_plugin/flutter_library_universal_swiss_tool_plugin.dart';
-//import 'package:lust/widgets/utils/notifications.dart';
+
 
 
 enum Status{
@@ -18,7 +16,6 @@ class statusClass {
   const statusClass(this.time, this.text);
 }
 
-FlutterLibraryUniversalSwissToolPlugin libraryUniversalSwissToolPlugin;
 class PomodoroTimer extends StatefulWidget {
   PomodoroTimerState ptS;
   PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
@@ -30,8 +27,6 @@ class PomodoroTimer extends StatefulWidget {
 }
 
 class PomodoroTimerState extends State<PomodoroTimer> {
-
-  static const MethodChannel _channel = MethodChannel('FlutterLibraryUniversalSwissToolPlugin');
   List<statusClass> statuslist=new List();
   int countPeriods;
 
@@ -137,7 +132,13 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void start(){
     startStopBtnText="Stop";
     startStopBtnColor=Colors.red;
-    _channel.invokeMethod<void>('changeStatus');
+    if(actTimerSeconds==0){ //to initialize the status and time
+      changeStatus();
+    }
+    else{
+      startTimer();
+    }
+
   }
 
 
@@ -214,55 +215,29 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-    _channel.invokeMethod<void>('startTimer');
+   startTimer();
 
-    //startTimer();
-  }
-
-  void updateParameters() async{
-    Future<int> i=_channel.invokeMethod('getActTimerSeconds');
-    actTimerSeconds=await getActTimerSecondsFromChannel();
-    if (actTimerSeconds < 1) {
-      //timer.cancel();
-      //makeNoti();
-      actStatusText=descriptionText();
-    } else {
-      //actTimerSeconds=await getActTimerSecondsFromChannel();
-      setActTimeMinutesSeconds();
-    }
-    setState(() {
-      actTimeMinutesSeconds;
-    });
-    updateParameters();
   }
 
 
-  /*void startTimer() async{
+  void startTimer() async{
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
             (Timer timer) => setState(() {
+              actTimerSeconds--;
           if (actTimerSeconds < 1) {
-            //timer.cancel();
+            timer.cancel();
             //makeNoti();
-            _channel.invokeMethod<void>('changeStatus');
+            changeStatus();
           } else {
-            //actTimerSeconds=await getActTimerSecondsFromChannel();
             setActTimeMinutesSeconds();
           }
         }),
     );
-  }*/
-
-  Future<int> getActTimerSecondsFromChannel(){
-    Future<int> i=_channel.invokeMethod('getActTimerSeconds');
-    return i;
   }
 
 
-  Future<void> makeNoti() async{
-    //await notification.scheduleNotification();
-  }
   void setActTimeMinutesSeconds(){
     int minutes=(actTimerSeconds/60).toInt();
     String minutesStirng=setFirst0(minutes);
