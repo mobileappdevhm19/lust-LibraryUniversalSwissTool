@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:lust/pages/statefulPage.dart';
-
 import 'package:lust/widgets/capacityPage/capacityGraph.dart';
 import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
-class CapacityPage extends StatefulPage {
+class CapacityPage extends StatefulWidget {
 
-  CapacityPage({String title = "Capacity", icon = Icons.equalizer}) : super(title, icon);
+  static String title = "Capacity";
+  static IconData icon = Icons.equalizer;
 
   @override
   _CapacityPageState createState() => new _CapacityPageState(title, icon);
