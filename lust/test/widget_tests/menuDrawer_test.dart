@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../testHelper.dart';
 
-import 'package:lust/pages/statefulPage.dart';
 import 'package:lust/pages/capacityPage.dart';
 
 void main() {
@@ -14,7 +13,7 @@ void main() {
     // Create the Widget, tell the tester to build it
     await tester.pumpWidget(TestHelper.buildWidget(CapacityPage()));
 
-    openPageByType(tester, CapacityPage());
+    //openPageByType(tester, CapacityPage());
   });
 
   /*
@@ -42,7 +41,7 @@ void main() {
         find.descendant(of: find.byType(ListView), matching: find.byType(ListTile)), findsNWidgets(numberOfExpectedTiles));
   });
 }
-
+/*
 void openPageByType(tester, StatefulPage page) async {
   // Find menu button and open menu
   await tester.tap(find.byIcon(Icons.menu));
@@ -56,3 +55,4 @@ void openPageByType(tester, StatefulPage page) async {
   // Verify the page was opened
   expect(find.byType(page.runtimeType), findsOneWidget);
 }
+*/
