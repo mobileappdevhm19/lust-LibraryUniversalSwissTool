@@ -38,7 +38,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
             children: <Widget>[
               OneLineText(text: "Occupancy current/total:"),
               OneLineText(
-                  text: stateLibrary.getCurrentNumberStudentsIn().toString() +
+                  text: stateLibrary.getCurrentFilling().toString() +
                       "/" +
                       stateLibrary.getMaxCapacity().toString()),
             ],

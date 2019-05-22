@@ -6,7 +6,7 @@ class Library {
   DateTime _openingTimeToday;
   DateTime _closingTimeToday;
 
-  int _fillingAbsolute;
+  int _currentFilling;
   int _maxCapacity;
 
   List<PercentPerHour> _occupancyPerHour;
@@ -16,16 +16,18 @@ class Library {
   /// creates a library with sample data
   Library.withSampleData() {
     // Set the Opening hour to today 8:00 and closing to 24
-    _closingTimeToday = DateTime(DateTime
-        .now()
-        .year, DateTime
+    _closingTimeToday = DateTime(
+        DateTime
+            .now()
+            .year, DateTime
         .now()
         .month, DateTime
         .now()
         .day, 24);
-    _openingTimeToday = DateTime(DateTime
-        .now()
-        .year, DateTime
+    _openingTimeToday = DateTime(
+        DateTime
+            .now()
+            .year, DateTime
         .now()
         .month, DateTime
         .now()
@@ -35,17 +37,14 @@ class Library {
       PercentPerHour(17, "8"),
       PercentPerHour(35, "10"),
       PercentPerHour(13, "12"),
-
       PercentPerHour(7, "14"),
       PercentPerHour(22, "16"),
       PercentPerHour(50, "18"),
-
       PercentPerHour(87, "20"),
       PercentPerHour(69, "22"),
     ];
 
-
-    _fillingAbsolute = 60;
+    _currentFilling = 60;
     _maxCapacity = 120;
   }
 
@@ -69,10 +68,11 @@ class Library {
   /// gives out an array of opening ours between
   /// the opening our and the closing hour.
   getOccupancyPercentPerHour() {
-    int durationHours = DateTime
-        .now()
-        .difference(getOpeningTimeToday())
-        .inHours;
+    int durationHours =
+        DateTime
+            .now()
+            .difference(getOpeningTimeToday())
+            .inHours;
 
     for (int index = 0; index < _occupancyPerHour.length; index++) {
       if (index > durationHours ~/ 2)
@@ -83,38 +83,42 @@ class Library {
     return _occupancyPerHour;
   }
 
-
   // Calculate the trend by comparing the current occupancy percent with the last
   Trend getEstimatedTrend() {
     int threshold = 3;
 
     Trend trend;
-    int durationHours = DateTime
-        .now()
-        .difference(getOpeningTimeToday())
-        .inHours;
+    int durationHours =
+        DateTime
+            .now()
+            .difference(getOpeningTimeToday())
+            .inHours;
 
     if (durationHours ~/ 2 <= 0)
       trend = Trend.rising;
     else {
-      int previousPercent = _occupancyPerHour
-          .elementAt(durationHours ~/ 2 - 1)
-          .percent;
-      int currentPercent = _occupancyPerHour
-          .elementAt(durationHours ~/ 2)
-          .percent;
+      int previousPercent =
+          _occupancyPerHour
+              .elementAt(durationHours ~/ 2 - 1)
+              .percent;
+      int currentPercent =
+          _occupancyPerHour
+              .elementAt(durationHours ~/ 2)
+              .percent;
 
       int trendIndex = currentPercent - previousPercent;
 
-      trendIndex < -threshold ? trend = Trend.falling :
-      trendIndex > threshold ? trend = Trend.rising :
-      trend = Trend.leveling;
+      trendIndex < -threshold
+          ? trend = Trend.falling
+          : trendIndex > threshold
+          ? trend = Trend.rising
+          : trend = Trend.leveling;
     }
     return trend;
   }
 
-  int getCurrentNumberStudentsIn() {
-    return _fillingAbsolute;
+  int getCurrentFilling() {
+    return _currentFilling;
   }
 
   int getMaxCapacity() {
