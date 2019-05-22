@@ -3,17 +3,25 @@ import 'package:flutter_test/flutter_test.dart';
 import '../testHelper.dart';
 
 import 'package:lust/pages/capacityPage.dart';
+import 'package:lust/pages/checkinPage.dart';
 
 void main() {
 
   // Change this number according to the number of pages available in the menu
-  int numberOfExpectedTiles = 1;
+  int numberOfExpectedTiles = 2;
 
   testWidgets('Open menu and go to capacitypage.', (WidgetTester tester) async {
     // Create the Widget, tell the tester to build it
     await tester.pumpWidget(TestHelper.buildWidget(CapacityPage()));
 
     //openPageByType(tester, CapacityPage());
+  });
+
+  testWidgets('Open menu and go to checkinpage', (WidgetTester tester) async {
+    // Create the Widget, tell the tester to build it
+    await tester.pumpWidget(TestHelper.buildWidget(CheckinPage()));
+
+    //openPageByType(tester, YOURPAGECONSTRUCTOR);
   });
 
   /*
