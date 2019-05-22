@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:lust/widgets/capacityPage/capacityGraph.dart';
 import 'package:lust/widgets/capacityPage/capacityInfo.dart';
+import 'package:lust/models/library.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
@@ -20,6 +21,8 @@ class _CapacityPageState extends State<CapacityPage> {
   final icon;
 
   _CapacityPageState(this.title, this.icon);
+  final _title = "Capacity";
+  final Library library = new Library.withSampleData();
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +40,12 @@ class _CapacityPageState extends State<CapacityPage> {
               children: [
                 Container(
                   height: _height*0.60,
-                  child: CapacityGraph.withSampleData(),
+                  child: CapacityGraph.fromLibrary(library),
                 ),
                 Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.all(10.0),
-                  child: CapacityInfo(),
+                  child: CapacityInfo(library),
                 )
               ]),
         ));
