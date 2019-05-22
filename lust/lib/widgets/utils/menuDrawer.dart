@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lust/pages/pageContainer.dart';
 
 import 'package:lust/pages/capacityPage.dart';
+import 'package:lust/pages/checkinPage.dart';
 
 class MenuDrawer {
   static const MockUserInfo userInfo = const MockUserInfo(name: "Herbert", email: "123@abc.com");
@@ -11,6 +12,7 @@ class MenuDrawer {
     List<PageContainer> pages = new List<PageContainer>();
 
     pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
+    pages.add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
     // TODO: add your new page here.
     // your page must have a "static String title" and a "static IconData icon"
     // use  the following template
