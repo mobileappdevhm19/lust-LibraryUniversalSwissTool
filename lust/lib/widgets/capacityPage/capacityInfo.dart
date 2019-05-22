@@ -65,6 +65,9 @@ class _CapacityInfoState extends State<CapacityInfo> {
 
   @override
   Widget build(BuildContext context) {
+    double dividerHeight = 1.0;
+    double dividerIndent = 0.0;
+    Color dividerColor = Colors.black;
 
     return new Container(
       child: Column(
@@ -81,9 +84,9 @@ class _CapacityInfoState extends State<CapacityInfo> {
             ],
           ),
           new Divider(
-            height: 28.0,
-            indent: 0.0,
-            color: Colors.black,
+            height: dividerHeight,
+            indent: dividerIndent,
+            color: dividerColor,
           ),
           new Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,20 +103,19 @@ class _CapacityInfoState extends State<CapacityInfo> {
             ],
           ),
           new Divider(
-            height: 28.0,
-            indent: 0.0,
-            color: Colors.black,
+            height: dividerHeight,
+            indent: dividerIndent,
+            color: dividerColor,
           ),
           new Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              OneLineText(text: "Opening hours today:"),
+              OneLineText(text: "Opening hours:"),
               OneLineText(
                 text: _buildOpeningClosingHour(stateLibrary),
               ),
             ],
           ),
-          //new Divider(height: 40.0, indent: 0.0,)
         ],
       ),
     );
