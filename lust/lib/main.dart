@@ -15,7 +15,7 @@ class Lust extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CheckinPage(),
+      home: CapacityPage(),
     );
   }
 }
