@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lust/models/trend.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CapacityInfo extends StatefulWidget {
   _CapacityInfoState createState() => _CapacityInfoState();
@@ -13,8 +14,16 @@ class _CapacityInfoState extends State<CapacityInfo> {
   ];
   var _colors = const [Colors.red, Colors.orange, Colors.green];
 
+  //final DB = Firestore.instance;
+/*
+  Future testfunc() async {
+    print("testfunction");
+    await DB.collection('user').add({'name': 'sukarno'});
+  }
+*/
   @override
   Widget build(BuildContext context) {
+    //testfunc();
     return new Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,6 +79,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
                 getOpeningHoursFormatted(),
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0,),
                 textScaleFactor: 0.8,
+
               ),
             ],
           ),
@@ -79,9 +89,10 @@ class _CapacityInfoState extends State<CapacityInfo> {
     );
   }
 
-  String getOpeningHoursFormatted(){
+  String getOpeningHoursFormatted() {
     int open = 8;
     int close = 23;
+
     return "$open:00 - $close:00";
   }
 
