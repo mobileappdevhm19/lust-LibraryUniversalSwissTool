@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-//import 'package:lust/widgets/utils/notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lust/pages/pomodoroPage.dart';
 
 
 
@@ -307,14 +307,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   Future<void> onSelectNotification(String payload) async {
-    if (payload != null) {
+    /*if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
 
     await Navigator.push<void>(
       context,
-      MaterialPageRoute(builder: (context) => SecondScreen(payload)),
-    );
+      MaterialPageRoute(builder: (context) => PomodoroPage()),
+    );*/
   }
 
   Future<void> onDidReceiveLocalNotification(
@@ -334,7 +334,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
               await Navigator.push<void>(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SecondScreen(payload),
+                //  builder: (context) => PomodoroPage(),
                 ),
               );
             },
