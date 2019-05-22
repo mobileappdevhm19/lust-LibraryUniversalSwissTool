@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lust/pages/capacityPage.dart';
 import 'package:lust/pages/checkinPage.dart';
 
-void main() => runApp(Lust());
+void main() async=> runApp(Lust());
 
 class Lust extends StatelessWidget {
   // This widget is the root of your application.
