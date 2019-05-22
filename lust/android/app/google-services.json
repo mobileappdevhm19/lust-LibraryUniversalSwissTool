@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "274292820375",
+    "firebase_url": "https://lust-project.firebaseio.com",
+    "project_id": "lust-project",
+    "storage_bucket": "lust-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274292820375:android:3e8c63d422a5a965",
+        "android_client_info": {
+          "package_name": "com.libuniswisstool.lust"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274292820375-u95kinj4gl6acgbu8bcbtma0a1l5lq2m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.libuniswisstool.lust",
+            "certificate_hash": "9a0f05c6b5f91ef5099d227cb45d1d282a966ce4"
+          }
+        },
+        {
+          "client_id": "274292820375-0j398fkmadnfasl77vqo0qap61oo9cvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2oDcH1UcYGc2lxI5dgycQAgJBP8kJ8B4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274292820375-0j398fkmadnfasl77vqo0qap61oo9cvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
