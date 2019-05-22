@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lust/main.dart';
+import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 import 'package:flutter/material.dart';
+import '../../testHelper.dart';
 
 
 void main() {
@@ -10,7 +11,8 @@ void main() {
   testWidgets('CapacityInfo has three lines of info and two dividers', (WidgetTester tester) async {
     // Create the Widget tell the tester to build it
     // Using the main Widget to get all the needed info for subwidgets
-    await tester.pumpWidget(Lust());
+    await tester.pumpWidget(
+        TestHelper.buildWidget(CapacityInfo.withSampleData()));
 
     // Create our Finders
     final occupancyFinder = find.text("Occupancy current/total:");
