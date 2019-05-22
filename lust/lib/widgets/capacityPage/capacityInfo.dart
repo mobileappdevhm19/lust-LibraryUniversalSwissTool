@@ -27,8 +27,45 @@ class _CapacityInfoState extends State<CapacityInfo> {
   ];
   var _colors = const [Colors.red, Colors.orange, Colors.green];
 
+  String _buildOpeningClosingHour(Library lib) {
+    String openingTime = "";
+    int openingHour = lib
+        .getOpeningTimeToday()
+        .hour;
+    int openingMin = lib
+        .getOpeningTimeToday()
+        .minute;
+
+    openingHour < 10
+        ? openingTime = openingTime + "0" + openingHour.toString()
+        : openingTime = openingTime + openingHour.toString();
+    openingTime = openingTime + ":";
+    openingMin < 10
+        ? openingTime = openingTime + "0" + openingMin.toString()
+        : openingTime = openingTime + openingMin.toString();
+
+    String closingTime = "";
+    int closingHour = lib
+        .getClosingTimeToday()
+        .hour;
+    int closingMin = lib
+        .getClosingTimeToday()
+        .minute;
+
+    closingHour < 10
+        ? closingTime = closingTime + "0" + closingHour.toString()
+        : closingTime = closingTime + closingHour.toString();
+    closingTime = closingTime + ":";
+    closingMin < 10
+        ? closingTime = closingTime + "0" + closingMin.toString()
+        : closingTime = closingTime + closingMin.toString();
+
+    return openingTime + " - " + closingTime;
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return new Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -72,25 +109,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
             children: <Widget>[
               OneLineText(text: "Opening hours today:"),
               OneLineText(
-                  text: stateLibrary
-                      .getOpeningTimeToday()
-                      .hour
-                      .toString() +
-                      ":" +
-                      stateLibrary
-                          .getOpeningTimeToday()
-                          .minute
-                          .toString() +
-                      " - " +
-                      stateLibrary
-                          .getClosingTimeToday()
-                          .hour
-                          .toString() +
-                      ":" +
-                      stateLibrary
-                          .getClosingTimeToday()
-                          .hour
-                          .toString()),
+                text: _buildOpeningClosingHour(stateLibrary),
+              ),
             ],
           ),
           //new Divider(height: 40.0, indent: 0.0,)
