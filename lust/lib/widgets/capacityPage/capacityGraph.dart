@@ -7,16 +7,25 @@ import 'package:lust/models/library.dart';
 class CapacityGraph extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
-  final Library library;
+  final Library widgetLibrary;
 
-  CapacityGraph(this.seriesList, this.library, {this.animate});
+  CapacityGraph(this.seriesList, this.widgetLibrary, {this.animate});
+
+  factory CapacityGraph.fromLibrary(lib) {
+    return new CapacityGraph(
+      _createChartData(lib.getOccupancyPercentPerHour()),
+      lib,
+      // Disable animations for image tests.
+      animate: true,
+    );
+  }
+
 
   factory CapacityGraph.withSampleData() {
     var lib = Library.withSampleData();
     return new CapacityGraph(
-      // DateTime.now() only to fulfill the requirements
-      _createChartData(lib.getOccupancyPercentPerHour(DateTime.now())),
-      Library.withSampleData(),
+      _createChartData(lib.getOccupancyPercentPerHour()),
+      lib,
       // Disable animations for image tests.
       animate: true,
     );

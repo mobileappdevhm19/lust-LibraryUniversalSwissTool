@@ -65,9 +65,21 @@ class Library {
     return _closingTimeToday;
   }
 
-  /// Compares the given DateTime and gives out an array of opening ours between
-  /// the opening our and the closing our.
-  getOccupancyPercentPerHour(DateTime date) {
+  /// Uses DateTime.now() to calculate the opening and closing hours and
+  /// gives out an array of opening ours between
+  /// the opening our and the closing hour.
+  getOccupancyPercentPerHour() {
+    int durationHours = DateTime
+        .now()
+        .difference(getOpeningTimeToday())
+        .inHours;
+
+    for (int index = 0; index < _occupancyPerHour.length; index++) {
+      if (index > durationHours ~/ 2)
+        _occupancyPerHour
+            .elementAt(index)
+            .percent = 0;
+    }
     return _occupancyPerHour;
   }
 
