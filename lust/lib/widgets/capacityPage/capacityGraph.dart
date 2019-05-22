@@ -16,10 +16,9 @@ class CapacityGraph extends StatelessWidget {
       _createChartData(lib.getOccupancyPercentPerHour()),
       lib,
       // Disable animations for image tests.
-      animate: true,
+      animate: false,
     );
   }
-
 
   factory CapacityGraph.withSampleData() {
     var lib = Library.withSampleData();
@@ -55,12 +54,11 @@ class CapacityGraph extends StatelessWidget {
     var hour = TimeHandler.makeHourEven(DateTime
         .now()
         .hour);
-    print('hour in capacity ' + hour.toString());
     return [
       new charts.Series<PercentPerHour, String>(
         id: 'Other',
         colorFn: (PercentPerHour percent, __) => percent.hour == hour.toString()
-              ? charts.MaterialPalette.red.shadeDefault
+            ? charts.MaterialPalette.red.shadeDefault
             : charts.MaterialPalette.blue.shadeDefault,
         domainFn: (PercentPerHour percent, _) => percent.hour,
         measureFn: (PercentPerHour percent, _) => percent.percent,
