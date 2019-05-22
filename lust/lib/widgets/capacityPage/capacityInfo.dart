@@ -70,6 +70,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
                 getOpeningHoursFormatted(),
                 style: new TextStyle(fontSize: 20.0, letterSpacing: 2.0,),
                 textScaleFactor: 0.8,
+
               ),
             ],
           ),
@@ -79,9 +80,10 @@ class _CapacityInfoState extends State<CapacityInfo> {
     );
   }
 
-  String getOpeningHoursFormatted(){
+  String getOpeningHoursFormatted() {
     int open = 8;
     int close = 23;
+
     return "$open:00 - $close:00";
   }
 
