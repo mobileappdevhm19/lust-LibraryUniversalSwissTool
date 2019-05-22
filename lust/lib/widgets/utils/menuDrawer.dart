@@ -9,6 +9,7 @@ class MenuDrawer {
   // Create a menu drawer
   static Widget getDrawer(BuildContext context) {
     List<PageContainer> pages = new List<PageContainer>();
+
     pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
     // TODO: add your new page here.
     // your page must have a "static String title" and a "static IconData icon"
