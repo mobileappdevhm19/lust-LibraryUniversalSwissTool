@@ -92,9 +92,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
                 child:
                   RaisedButton(
                     color: startStopBtnColor,
-                    onPressed: () async {
-                      await _showNotification();
-                    },
+                    onPressed: () {startStopButtonClicked();},
                     child: Text(
                         '$startStopBtnText',
                         style: TextStyle(fontSize: 40)
@@ -240,7 +238,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-   startTimer();
+    showNormalNoti();
+    startTimer();
 
   }
 
@@ -253,11 +252,10 @@ class PomodoroTimerState extends State<PomodoroTimer> {
               actTimerSeconds--;
           if (actTimerSeconds < 1) {
             timer.cancel();
-            //makeNoti();
+
             changeStatus();
           } else {
             setActTimeMinutesSeconds();
-            showNormalNoti();
           }
         }),
     );
@@ -291,14 +289,20 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   Future<void> _showNotification() async {
+    var vibrationPatternlist = Int64List(4);
+    vibrationPatternlist[0] = 0;
+    vibrationPatternlist[1] = 1000;
+    vibrationPatternlist[2] = 5000;
+    vibrationPatternlist[3] = 2000;
+
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
+        importance: Importance.Max, priority: Priority.High, ticker: 'ticker', vibrationPattern: vibrationPatternlist, enableVibration:  true);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
+        0, 'LUST', '$actStatusText', platformChannelSpecifics,
         payload: 'item x');
   }
 
