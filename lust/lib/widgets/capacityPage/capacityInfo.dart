@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lust/models/trend.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CapacityInfo extends StatefulWidget {
   _CapacityInfoState createState() => _CapacityInfoState();
@@ -14,16 +13,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
   ];
   var _colors = const [Colors.red, Colors.orange, Colors.green];
 
-  //final DB = Firestore.instance;
-/*
-  Future testfunc() async {
-    print("testfunction");
-    await DB.collection('user').add({'name': 'sukarno'});
-  }
-*/
   @override
   Widget build(BuildContext context) {
-    //testfunc();
     return new Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
