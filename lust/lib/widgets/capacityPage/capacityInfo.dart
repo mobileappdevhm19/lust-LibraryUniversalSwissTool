@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lust/widgets/utils/oneLineText.dart';
 import 'package:lust/models/library.dart';
 
+import 'package:after_layout/after_layout.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CapacityInfo extends StatefulWidget {
   final Library widgetLibrary;
 
@@ -15,26 +18,28 @@ class CapacityInfo extends StatefulWidget {
   _CapacityInfoState createState() => _CapacityInfoState(widgetLibrary);
 }
 
-class _CapacityInfoState extends State<CapacityInfo> {
+class _CapacityInfoState extends State<CapacityInfo>
+    with AfterLayoutMixin<CapacityInfo> {
   Library stateLibrary;
 
-  _CapacityInfoState(this.stateLibrary);
+  var centralRef;
 
-  var _icons = const [
-    Icons.arrow_upward,
-    Icons.arrow_forward,
-    Icons.arrow_downward
-  ];
+  String occupancyLib;
+  String totalSeatsLib;
+
+  _CapacityInfoState(this.stateLibrary) {
+    centralRef = Firestore.instance.collection('lib_test');
+    occupancyLib = "...";
+    totalSeatsLib = "...";
+  }
+
+  var _icons = const [Icons.arrow_upward, Icons.arrow_forward, Icons.arrow_downward];
   var _colors = const [Colors.red, Colors.orange, Colors.green];
 
   String _buildOpeningClosingHour(Library lib) {
     String openingTime = "";
-    int openingHour = lib
-        .getOpeningTimeToday()
-        .hour;
-    int openingMin = lib
-        .getOpeningTimeToday()
-        .minute;
+    int openingHour = lib.getOpeningTimeToday().hour;
+    int openingMin = lib.getOpeningTimeToday().minute;
 
     openingHour < 10
         ? openingTime = openingTime + "0" + openingHour.toString()
@@ -45,12 +50,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
         : openingTime = openingTime + openingMin.toString();
 
     String closingTime = "";
-    int closingHour = lib
-        .getClosingTimeToday()
-        .hour;
-    int closingMin = lib
-        .getClosingTimeToday()
-        .minute;
+    int closingHour = lib.getClosingTimeToday().hour;
+    int closingMin = lib.getClosingTimeToday().minute;
 
     closingHour < 10
         ? closingTime = closingTime + "0" + closingHour.toString()
@@ -77,10 +78,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               OneLineText(text: "Occupancy current/total:"),
-              OneLineText(
-                  text: stateLibrary.getCurrentFilling().toString() +
-                      "/" +
-                      stateLibrary.getMaxCapacity().toString()),
+              OneLineText(text: occupancyLib + "/" + totalSeatsLib),
             ],
           ),
           new Divider(
@@ -93,12 +91,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
             children: <Widget>[
               OneLineText(text: "Estimated trend:"),
               new Icon(
-                _icons[stateLibrary
-                    .getEstimatedTrend()
-                    .index], // TODO is that good?
-                color: _colors[stateLibrary
-                    .getEstimatedTrend()
-                    .index],
+                _icons[stateLibrary.getEstimatedTrend().index], // TODO is that good?
+                color: _colors[stateLibrary.getEstimatedTrend().index],
               ),
             ],
           ),
@@ -119,5 +113,32 @@ class _CapacityInfoState extends State<CapacityInfo> {
         ],
       ),
     );
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    getLibData();
+  }
+
+  Future<void> getLibData() async {
+    //Widget widget;
+    String occupancy;
+    String totalSeats;
+    await centralRef.document('centralHM').get().then((DocumentSnapshot ds) {
+      // use ds as a snapshot
+      if (ds.data.isEmpty) {
+        occupancy = "...";
+        totalSeats = "...";
+      }
+      //widget = Text(ds.data['occupancy'].toString(),);
+      occupancy = ds.data['occupancy'].toString();
+      totalSeats = ds.data['totalseats'].toString();
+
+    });
+    setState(() {
+      //occupancyLib = widget;
+      occupancyLib = occupancy;
+      totalSeatsLib = totalSeats;
+    });
   }
 }
