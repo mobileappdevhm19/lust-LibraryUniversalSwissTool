@@ -14,7 +14,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
   MaterialColor _splashButton = Colors.red;
   bool _buttonState = false;
 
-  final DocumentReference postRef = Firestore.instance.collection('lib_test').document('centralHM');
+  final DocumentReference postRefOccupancy = Firestore.instance.collection('lib_test').document('centralHM');
+  final CollectionReference colRefLogin= Firestore.instance.collection('events');
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +62,13 @@ class _ButtonCheckState extends State<ButtonCheck> {
         _colorButton = Colors.green;
         _splashButton = Colors.red;
         _textButton = "Check In!";
+        sendEventToDB('logout');
       } else {
         _buttonState = true;
         _colorButton = Colors.red;
         _splashButton = Colors.green;
         _textButton = "Check out";
+        sendEventToDB('login');
       }
     });
     await sendValueToDB(_buttonState);
@@ -75,10 +78,17 @@ class _ButtonCheckState extends State<ButtonCheck> {
     int val = increment ? 1 : -1;
     // send new value to database
     return Firestore.instance.runTransaction((Transaction tx) async {
-      DocumentSnapshot postSnapshot = await tx.get(postRef);
+      DocumentSnapshot postSnapshot = await tx.get(postRefOccupancy);
       if (postSnapshot.exists) {
-        await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
+        await tx.update(postRefOccupancy, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
       }
     });
+  }
+
+  Future sendEventToDB(String eventType) {
+    Map<String,dynamic> data = { 'eventType':eventType, 'time': DateTime.now()};
+    return colRefLogin.document().setData(data);
+      //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
+
   }
 }
