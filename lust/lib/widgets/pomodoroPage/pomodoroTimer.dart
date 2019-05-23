@@ -132,7 +132,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  void startStopButtonClicked() {
+  void startStopButtonClicked() async{
      this.setState((){
       if(startStopBtnText=="Start"){
         start();
@@ -159,7 +159,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     else{
       startTimer();
     }
-
   }
 
 
