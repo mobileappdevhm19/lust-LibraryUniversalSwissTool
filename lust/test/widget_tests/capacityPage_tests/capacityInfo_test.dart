@@ -17,7 +17,7 @@ void main() {
     // Create our Finders
     final occupancyFinder = find.text("Occupancy current/total:");
     final trendFinder = find.text("Estimated trend:");
-    final openingFinder = find.text("Opening hours today:");
+    final openingFinder = find.text("Opening hours:");
 
     final dividerFinder = find.byType(Divider);
 
