@@ -54,27 +54,27 @@ class _ButtonCheckState extends State<ButtonCheck> {
                     )))));
   }
 
-  void onButtonPressed() {
+  void onButtonPressed() async {
     setState(() {
       if (_buttonState == true) {
         _buttonState = false;
         _colorButton = Colors.green;
         _splashButton = Colors.red;
         _textButton = "Check In!";
-        sendValueToDB(-1);
       } else {
         _buttonState = true;
         _colorButton = Colors.red;
         _splashButton = Colors.green;
         _textButton = "Check out";
-        sendValueToDB(1);
       }
     });
+    await sendValueToDB(_buttonState);
   }
 
-  void sendValueToDB(int val) {
+  Future sendValueToDB(bool increment) {
+    int val = increment ? 1 : -1;
     // send new value to database
-    Firestore.instance.runTransaction((Transaction tx) async {
+    return Firestore.instance.runTransaction((Transaction tx) async {
       DocumentSnapshot postSnapshot = await tx.get(postRef);
       if (postSnapshot.exists) {
         await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
