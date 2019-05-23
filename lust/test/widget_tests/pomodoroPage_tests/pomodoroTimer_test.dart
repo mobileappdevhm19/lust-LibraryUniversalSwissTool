@@ -8,7 +8,6 @@ import 'package:lust/pages/pomodoroPage.dart';
 import '../../testHelper.dart';
 
 
-
 //set member variables
 int periodTime=25;
 int shortBreakTime=9;
