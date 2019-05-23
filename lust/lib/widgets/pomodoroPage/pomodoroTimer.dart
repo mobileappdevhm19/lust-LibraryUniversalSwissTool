@@ -7,8 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lust/pages/pomodoroPage.dart';
 
-
-
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 
@@ -134,8 +132,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  void startStopButtonClicked(){
-    this.setState((){
+  void startStopButtonClicked() {
+     this.setState((){
       if(startStopBtnText=="Start"){
         start();
         return; //jut to leave this function
