@@ -28,7 +28,7 @@ void main() {
     // Create the Widget tell the tester to build it
     // Using the main Widget to get all the needed info for subwidgets
     await tester.pumpWidget(Lust());
-
+//    await tester.tap(find.text('Start'));
     checkInitialValues();
     checkInitalTimerStart();
   });
@@ -48,14 +48,13 @@ void checkInitalTimerStart(){
 
   print('timerStartTime: $timerStartTime');
 
-  pomTimer.startStopButtonClicked();
+  pomTimer.startStopButtonClicked(); //start/ stop the timer();
   sleep(const Duration(seconds:5));
   print('nach sleep');
 
   //findTextInButton("Stop");
-  pomTimer.
+  pomTimer.startStopButtonClicked(); //start/ stop the timer();
 
-  pomTimer.startStopButtonClicked(); //stop the timer
 
   actTimeInSeconds = new DateTime.now().millisecondsSinceEpoch;
   actTimeInSeconds = (actTimeInSeconds / 1000).toInt();
@@ -77,7 +76,9 @@ void checkInitalTimerStart(){
 
 }
 
-
+void startStopTimer() async {
+  await pomTimer.startStopButtonClicked(); //start/ stop the timer();
+}
 
 
 void findTextInButton(String btnText){
