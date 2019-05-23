@@ -24,12 +24,14 @@ void main() {
   // Define a test. The TestWidgets function will also provide a WidgetTester
   // for us to work with. The WidgetTester will allow us to build and interact
   // with Widgets in the test environment.
-  testWidgets('pomodoroTimer', (WidgetTester tester) async {
-    // Create the Widget tell the tester to build it
-    // Using the main Widget to get all the needed info for subwidgets
+  testWidgets('pomodoroTimer Initial Values', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    checkInitialValues();
+  });
+  testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
+
     await tester.pumpWidget(Lust());
 //    await tester.tap(find.text('Start'));
-    checkInitialValues();
     checkInitalTimerStart();
   });
 }
