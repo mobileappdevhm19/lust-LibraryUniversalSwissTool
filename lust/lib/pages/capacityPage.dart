@@ -31,18 +31,20 @@ class _CapacityPageState extends State<CapacityPage> {
           title: Text(title),
         ),
         drawer: MenuDrawer.getDrawer(context),
-        body: ListView(children: [
+        body: ListView(
+            reverse: false,
+            children: [
           Container(
             margin: const EdgeInsets.only(left: 10),
-            height: _height * 0.66,
+            height: _height * 0.60,
             child: CapacityGraph.fromLibrary(library),
           ),
           Container(
             alignment: Alignment.center,
-            height: _height * 0.33,
+            height: _height * 0.4,
             margin: const EdgeInsets.only(left: 10, right: 10),
             child: CapacityInfo(library),
-          )
+          ),
         ]));
   } // build
 }
