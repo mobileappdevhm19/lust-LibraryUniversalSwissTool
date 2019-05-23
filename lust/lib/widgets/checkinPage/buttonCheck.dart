@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ButtonCheck extends StatefulWidget {
   @override
   _ButtonCheckState createState() => _ButtonCheckState();
@@ -11,6 +13,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
   MaterialColor _colorButton = Colors.green; //change once pressed the button
   MaterialColor _splashButton = Colors.red;
   bool _buttonState = false;
+
+  final DocumentReference postRef = Firestore.instance.collection('lib_test').document('centralHM');
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +61,23 @@ class _ButtonCheckState extends State<ButtonCheck> {
         _colorButton = Colors.green;
         _splashButton = Colors.red;
         _textButton = "Check In!";
+        sendValueToDB(-1);
       } else {
         _buttonState = true;
         _colorButton = Colors.red;
         _splashButton = Colors.green;
         _textButton = "Check out";
+        sendValueToDB(1);
+      }
+    });
+  }
+
+  void sendValueToDB(int val) {
+    // send new value to database
+    Firestore.instance.runTransaction((Transaction tx) async {
+      DocumentSnapshot postSnapshot = await tx.get(postRef);
+      if (postSnapshot.exists) {
+        await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
       }
     });
   }
