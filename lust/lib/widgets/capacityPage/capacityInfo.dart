@@ -23,7 +23,7 @@ class CapacityInfo extends StatefulWidget {
 class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<CapacityInfo> {
   Library stateLibrary;
 
-  var centralRef;
+  var dbLibraryCollectionReference;
 
   StreamSubscription<DocumentSnapshot> streamSub;
 
@@ -31,11 +31,11 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
   String totalSeatsLib;
 
   _CapacityInfoState(this.stateLibrary) {
-    centralRef = Firestore.instance.collection('lib_test');
+    dbLibraryCollectionReference = Firestore.instance.collection('lib_test');
     occupancyLib = "...";
     totalSeatsLib = "...";
 
-    streamSub = centralRef.document('centralHM').snapshots().listen((DocumentSnapshot ds) {
+    streamSub = dbLibraryCollectionReference.document('centralHM').snapshots().listen((DocumentSnapshot ds) {
       print("setdata called");
       // use ds as a snapshot
       if (ds.data.isEmpty) {
@@ -43,9 +43,8 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
         totalSeatsLib = "....";
       }
       setState(() {
-        //occupancyLib = widget;
-        occupancyLib = occupancyLib = ds.data['occupancy'].toString();
-        totalSeatsLib = totalSeatsLib = ds.data['totalseats'].toString();
+        occupancyLib = ds.data['occupancy'].toString();
+        totalSeatsLib = ds.data['totalseats'].toString();
       });
     });
   }
