@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 import 'dart:io';
 import 'dart:async';
+import 'package:lust/pages/pomodoroPage.dart';
+
 
 
 //set member variables
@@ -27,10 +29,8 @@ void main() {
     // Using the main Widget to get all the needed info for subwidgets
     await tester.pumpWidget(Lust());
 
-
-
     checkInitialValues();
-    //checkInitalTimerStart();
+    checkInitalTimerStart();
   });
 }
 
@@ -49,10 +49,13 @@ void checkInitalTimerStart(){
   print('timerStartTime: $timerStartTime');
 
   pomTimer.startStopButtonClicked();
-  findTextInButton("Stop");
   sleep(const Duration(seconds:5));
+  print('nach sleep');
+
+  //findTextInButton("Stop");
+  pomTimer.
+
   pomTimer.startStopButtonClicked(); //stop the timer
-  findTextInButton("Start");
 
   actTimeInSeconds = new DateTime.now().millisecondsSinceEpoch;
   actTimeInSeconds = (actTimeInSeconds / 1000).toInt();
@@ -80,9 +83,7 @@ void checkInitalTimerStart(){
 void findTextInButton(String btnText){
 
   print("in findTextInButton");
-  // Create our Finders
-  final startTextFinder = find.text(btnText);
-  expect(startTextFinder, findsOneWidget);
+  expect(pomTimer.startStopBtnText, btnText);
 
 }
 
