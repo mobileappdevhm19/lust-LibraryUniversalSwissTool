@@ -13,7 +13,7 @@ int periodTime=25;
 int shortBreakTime=9;
 int longBreakTime=15;
 int countPeriods=4;
-final pomTimer= PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
+PomodoroTimerState pomTimer= new PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
 
 int secondRange=1; //range of 1 seconds between timer of class and time at this test class
 int actTimeInSeconds=0;
@@ -30,7 +30,6 @@ void main() {
   });
   testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
 
-    await tester.pumpWidget(Lust());
 //    await tester.tap(find.text('Start'));
     checkInitalTimerStart();
   });
@@ -44,19 +43,18 @@ void checkInitialValues(){
   expect(pomTimer.actTimerSeconds, 0);
 }
 
-void checkInitalTimerStart(){
+void checkInitalTimerStart() {
   timerStartTime = new DateTime.now().millisecondsSinceEpoch;
   timerStartTime = (timerStartTime / 1000).toInt();
 
   print('timerStartTime: $timerStartTime');
 
-  pomTimer.startStopButtonClicked(); //start/ stop the timer();
+  startStopTimer(); //start/ stop the timer();
   sleep(const Duration(seconds:5));
   print('nach sleep');
 
   //findTextInButton("Stop");
-  pomTimer.startStopButtonClicked(); //start/ stop the timer();
-
+  startStopTimer(); //start/ stop the timer();
 
   actTimeInSeconds = new DateTime.now().millisecondsSinceEpoch;
   actTimeInSeconds = (actTimeInSeconds / 1000).toInt();
@@ -65,21 +63,25 @@ void checkInitalTimerStart(){
   int timeDif=actTimeInSeconds-timerStartTime;
   print('time Dif: $timeDif');
 
-  int timerSec = pomTimer.actTimerSeconds;
+  int timerSec = getTimerActTimerSeconds();
   if((timeDif-1) < timerSec &&  timerSec> (timeDif+1)){
-    timeDif=pomTimer.actTimerSeconds;
+    timeDif=timerSec;
   }
 
-  int a=pomTimer.actTimerSeconds;
-  print('timer: $a');
 
-  expect(pomTimer.actTimerSeconds, timeDif);
+  print('timer: $timerSec');
 
-
+  expect(timerSec, timeDif);
 }
 
 void startStopTimer() async {
-  await pomTimer.startStopButtonClicked(); //start/ stop the timer();
+  //await pomTimer.startStopButtonClicked(); //start/ stop the timer();
+}
+
+
+
+int getTimerActTimerSeconds(){
+   return pomTimer.getActTimerSeconds();
 }
 
 
