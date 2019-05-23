@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/utils/oneLineText.dart';
 import 'package:lust/models/library.dart';
@@ -18,11 +20,12 @@ class CapacityInfo extends StatefulWidget {
   _CapacityInfoState createState() => _CapacityInfoState(widgetLibrary);
 }
 
-class _CapacityInfoState extends State<CapacityInfo>
-    with AfterLayoutMixin<CapacityInfo> {
+class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<CapacityInfo> {
   Library stateLibrary;
 
   var centralRef;
+
+  StreamSubscription<DocumentSnapshot> streamSub;
 
   String occupancyLib;
   String totalSeatsLib;
@@ -31,6 +34,20 @@ class _CapacityInfoState extends State<CapacityInfo>
     centralRef = Firestore.instance.collection('lib_test');
     occupancyLib = "...";
     totalSeatsLib = "...";
+
+    streamSub = centralRef.document('centralHM').snapshots().listen((DocumentSnapshot ds) {
+      print("setdata called");
+      // use ds as a snapshot
+      if (ds.data.isEmpty) {
+        occupancyLib = "....";
+        totalSeatsLib = "....";
+      }
+      setState(() {
+        //occupancyLib = widget;
+        occupancyLib = occupancyLib = ds.data['occupancy'].toString();
+        totalSeatsLib = totalSeatsLib = ds.data['totalseats'].toString();
+      });
+    });
   }
 
   var _icons = const [Icons.arrow_upward, Icons.arrow_forward, Icons.arrow_downward];
@@ -115,30 +132,33 @@ class _CapacityInfoState extends State<CapacityInfo>
     );
   }
 
+  // needs to be overritten to get AfterLayoutMixin<CapacityInfo> functionality
+  // -> set state new after drawing
   @override
   void afterFirstLayout(BuildContext context) {
-    getLibData();
   }
 
-  Future<void> getLibData() async {
-    //Widget widget;
+  /*
+  // PLEASE DONT DELETE -> COULD BE USED IN THE FUTURE AS IT IS
+  // --> FOR QUESTIONS ASK ANDRE
+  void setData(DocumentSnapshot ds) {
+    print("setdata called");
+
     String occupancy;
     String totalSeats;
-    await centralRef.document('centralHM').get().then((DocumentSnapshot ds) {
-      // use ds as a snapshot
-      if (ds.data.isEmpty) {
-        occupancy = "...";
-        totalSeats = "...";
-      }
-      //widget = Text(ds.data['occupancy'].toString(),);
-      occupancy = ds.data['occupancy'].toString();
-      totalSeats = ds.data['totalseats'].toString();
-
-    });
+    // use ds as a snapshot
+    if (ds.data.isEmpty) {
+      occupancyLib = "...";
+      totalSeatsLib = "...";
+    }
+    occupancy = occupancyLib = ds.data['occupancy'].toString();
+    totalSeats = totalSeatsLib = ds.data['totalseats'].toString();
     setState(() {
       //occupancyLib = widget;
       occupancyLib = occupancy;
       totalSeatsLib = totalSeats;
     });
   }
+
+  */
 }
