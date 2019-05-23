@@ -132,8 +132,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  void startStopButtonClicked() async{
-     this.setState((){
+  void startStopButtonClicked(){
+      this.setState((){
       if(startStopBtnText=="Start"){
         start();
         return; //jut to leave this function
@@ -201,13 +201,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
 
-  ///
   /// starts timer
   /// set description Status text
 
-  void changeStatus() async{
+  void changeStatus(){
     //necessary, otherwise multiple timer instances interfere each other
-
 
     actTimerSeconds=0;
     if(_timer !=null){
@@ -230,18 +228,16 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
     }
 
-
     actTimerSeconds=statuslist[actStatus.index].time;
 
     actStatusText=descriptionText();
 
     showNormalNoti();
     startTimer();
-
   }
 
 
-  void startTimer() async{
+  void startTimer(){
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
@@ -339,6 +335,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         ],
       ),
     );
+  }
+
+
+  int getActTimerSeconds(){
+    return actTimerSeconds;
   }
 }
 
