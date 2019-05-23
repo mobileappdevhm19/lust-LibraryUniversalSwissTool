@@ -75,7 +75,7 @@ class Library {
             .inHours;
 
     for (int index = 0; index < _occupancyPerHour.length; index++) {
-      if (index > durationHours ~/ 2)
+      if (index >= durationHours ~/ 2)
         _occupancyPerHour
             .elementAt(index)
             .percent = 0;
