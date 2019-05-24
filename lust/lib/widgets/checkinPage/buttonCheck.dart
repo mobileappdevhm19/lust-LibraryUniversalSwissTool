@@ -16,7 +16,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
   final DocumentReference postRefOccupancy =
       Firestore.instance.collection('lib_test').document('centralHM');
-  final CollectionReference colRefLogin = Firestore.instance.collection('events');
+  final CollectionReference colRefLogin =
+      Firestore.instance.collection('events');
 
   @override
   Widget build(BuildContext context) {
@@ -27,33 +28,19 @@ class _ButtonCheckState extends State<ButtonCheck> {
           child: Container(
             child: Text(
               _textButton,
-              style: TextStyle(fontSize: 28),
+              style: TextStyle(fontSize: 25, color: Colors.white),
             ),
             alignment: Alignment.center,
-            height: 100,
+            height: 120,
           ),
           padding: EdgeInsets.all(20),
           fillColor: _colorButton,
           splashColor: _splashButton,
-          elevation: 5,
+          elevation: 3,
           shape: CircleBorder(
-              side: BorderSide(style: BorderStyle.solid, color: Colors.black26, width: 10)),
-        )
-/*
-            InkWell(
-                onTap: onButtonPressed,
-                child: Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        color: _colorButton),
-                    child: Center(
-                        child: Text(
-                      _textButton,
-                      style: TextStyle(fontSize: 28),
-                    ))))*/
-        );
+              side: BorderSide(
+                  style: BorderStyle.solid, color: Colors.grey, width: 2)),
+        ));
   }
 
   void onButtonPressed() async {
@@ -81,8 +68,9 @@ class _ButtonCheckState extends State<ButtonCheck> {
     return Firestore.instance.runTransaction((Transaction tx) async {
       DocumentSnapshot postSnapshot = await tx.get(postRefOccupancy);
       if (postSnapshot.exists) {
-        await tx.update(
-            postRefOccupancy, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
+        await tx.update(postRefOccupancy, <String, dynamic>{
+          'occupancy': postSnapshot.data['occupancy'] + val
+        });
       }
     });
   }

@@ -13,10 +13,11 @@ void main() {
     // Using the main Widget to get all the needed info for subwidgets
     await tester.pumpWidget(TestHelper.buildWidget(CheckinPage()));
 
-    final checkInFinder = find.text("Check In!");
+    final buttonFinder = await find.widgetWithText(RawMaterialButton, "Check In!");
 
-    expect(checkInFinder, findsOneWidget);
+    expect(buttonFinder, findsOneWidget);
 
-    await tester.tap(find.byKey(Key("Checkin")));
+    await tester.tap(buttonFinder);
+    //await tester.tap(find.byKey(Key("Checkin")));
   });
 }
