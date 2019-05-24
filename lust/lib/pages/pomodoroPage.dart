@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 
+import 'package:lust/widgets/utils/menuDrawer.dart';
 
 
 class PomodoroPage extends StatefulWidget {
+  static String title = "Pomodoro";
+  static IconData icon = Icons.watch;
+
   @override
-  _PomodoroState createState() => new _PomodoroState();
+  _PomodoroState createState() => new _PomodoroState(title, icon);
 }
 
 class _PomodoroState extends State<PomodoroPage> {
-  final _title = "Pomodoro";
+  final String title;
+  final icon;
 
   //all in minutes
   int periodTime;
@@ -18,7 +23,7 @@ class _PomodoroState extends State<PomodoroPage> {
   int longBreakTime;
   int countPeriods;
 
-  _PomodoroState(){
+  _PomodoroState(this.title, this.icon){
     this.periodTime=25;
     this.shortBreakTime=9;
     this.longBreakTime=15;
@@ -31,9 +36,8 @@ class _PomodoroState extends State<PomodoroPage> {
     var _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(_title),
-        ),
+        appBar: AppBar(title: Text(title)),
+        drawer: MenuDrawer.getDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
