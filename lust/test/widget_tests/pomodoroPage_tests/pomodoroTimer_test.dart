@@ -1,4 +1,4 @@
-import 'package:flutter_test/flutter_test.dart';
+/*import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
@@ -98,4 +98,4 @@ void findTextInResetButton(){
   final startTextFinder = find.text("reset");
   expect(startTextFinder, findsOneWidget);
 
-}
+} */
