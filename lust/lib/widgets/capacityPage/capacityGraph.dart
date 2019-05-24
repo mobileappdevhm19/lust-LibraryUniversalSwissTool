@@ -48,7 +48,7 @@ class CapacityGraph extends StatelessWidget {
 
   /// Helper class to create the list of chart.Series out of an array of percentPerHour
   static List<charts.Series<PercentPerHour, String>> _createChartData(
-      occupancyPercentPerHour) {
+      List<PercentPerHour> occupancyPercentPerHour) {
     final data = occupancyPercentPerHour;
 
     var hour = TimeHandler.makeHourEven(DateTime
