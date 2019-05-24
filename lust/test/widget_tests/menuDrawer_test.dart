@@ -16,8 +16,6 @@ void main() {
   // Change this number according to the number of pages available in the menu
   int numberOfExpectedTiles = 2;
 
-  /*
-
   testWidgets('Open menu and go to capacitypage.', (WidgetTester tester) async {
     PageContainer page = PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage());
 
@@ -40,6 +38,7 @@ void main() {
     expect(find.byType(page.pageObject.runtimeType), findsOneWidget);
   });
 
+  /*
   testWidgets('Open menu and go to checkinpage', (WidgetTester tester) async {
     PageContainer page = PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage());
     // Create the Widget, tell the tester to build it
