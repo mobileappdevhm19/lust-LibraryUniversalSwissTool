@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../testHelper.dart';
 
+import 'package:lust/pages/pageContainer.dart';
+
 import 'package:lust/pages/capacityPage.dart';
 import 'package:lust/pages/checkinPage.dart';
+
+import 'package:lust/widgets/utils/menuDrawer.dart';
+
 
 void main() {
 
@@ -11,17 +17,25 @@ void main() {
   int numberOfExpectedTiles = 2;
 
   testWidgets('Open menu and go to capacitypage.', (WidgetTester tester) async {
+    PageContainer page = PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage());
     // Create the Widget, tell the tester to build it
-    await tester.pumpWidget(TestHelper.buildWidget(CapacityPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(page.pageObject));
 
-    //openPageByType(tester, CapacityPage());
+    await openPage(tester, page);
+
+    // Verify the page was opened
+    expect(find.byType(page.pageObject.runtimeType), findsOneWidget);
   });
 
   testWidgets('Open menu and go to checkinpage', (WidgetTester tester) async {
+    PageContainer page = PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage());
     // Create the Widget, tell the tester to build it
-    await tester.pumpWidget(TestHelper.buildWidget(CheckinPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(page.pageObject));
 
-    //openPageByType(tester, YOURPAGECONSTRUCTOR);
+    await openPage(tester, page);
+
+    // Verify the page was opened
+    expect(find.byType(page.pageObject.runtimeType), findsOneWidget);
   });
 
   /*
@@ -48,9 +62,22 @@ void main() {
     expect(
         find.descendant(of: find.byType(ListView), matching: find.byType(ListTile)), findsNWidgets(numberOfExpectedTiles));
   });
+
+  testWidgets('Open menu and find accountheader', (WidgetTester tester) async {
+    PageContainer page = PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage());
+    // Create the Widget, tell the tester to build it
+    await tester.pumpWidget(TestHelper.buildWidget(page.pageObject));
+
+    // Find menu button and open menu
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pump();
+
+    expect(find.byType(UserAccountsDrawerHeader), findsOneWidget);
+
+  });
 }
-/*
-void openPageByType(tester, StatefulPage page) async {
+
+void openPage(tester, PageContainer page) async {
   // Find menu button and open menu
   await tester.tap(find.byIcon(Icons.menu));
   await tester.pump();
@@ -60,7 +87,5 @@ void openPageByType(tester, StatefulPage page) async {
   // Open the corresponding page
   await tester.tap(find.descendant(of: find.byType(ListView), matching: find.text(page.title)));
   await tester.pump();
-  // Verify the page was opened
-  expect(find.byType(page.runtimeType), findsOneWidget);
 }
-*/
+
