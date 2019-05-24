@@ -35,18 +35,7 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
     occupancyLib = "...";
     totalSeatsLib = "...";
 
-    streamSub = dbLibraryCollectionReference.document('centralHM').snapshots().listen((DocumentSnapshot ds) {
-      print("setdata called");
-      // use ds as a snapshot
-      if (ds.data.isEmpty) {
-        occupancyLib = "....";
-        totalSeatsLib = "....";
-      }
-      setState(() {
-        occupancyLib = ds.data['occupancy'].toString();
-        totalSeatsLib = ds.data['totalseats'].toString();
-      });
-    });
+    streamSub = dbLibraryCollectionReference.document('centralHM').snapshots().listen((DocumentSnapshot ds) => setData(ds));
   }
 
   var _icons = const [Icons.arrow_upward, Icons.arrow_forward, Icons.arrow_downward];
@@ -137,12 +126,7 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
   void afterFirstLayout(BuildContext context) {
   }
 
-  /*
-  // PLEASE DONT DELETE -> COULD BE USED IN THE FUTURE AS IT IS
-  // --> FOR QUESTIONS ASK ANDRE
   void setData(DocumentSnapshot ds) {
-    print("setdata called");
-
     String occupancy;
     String totalSeats;
     // use ds as a snapshot
@@ -158,6 +142,4 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
       totalSeatsLib = totalSeats;
     });
   }
-
-  */
 }
