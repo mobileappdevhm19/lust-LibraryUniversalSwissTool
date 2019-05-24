@@ -14,45 +14,33 @@ class _ButtonCheckState extends State<ButtonCheck> {
   MaterialColor _splashButton = Colors.red;
   bool _buttonState = false;
 
-  final DocumentReference postRefOccupancy = Firestore.instance.collection('lib_test').document('centralHM');
-  final CollectionReference colRefLogin= Firestore.instance.collection('events');
+  final DocumentReference postRefOccupancy =
+      Firestore.instance.collection('lib_test').document('centralHM');
+  final CollectionReference colRefLogin =
+      Firestore.instance.collection('events');
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(top: 60),
-        child:
-            /*MaterialButton(
-                          height: 50,
-                          onPressed: onButtonPressed,
-                          child: Text(
-                            _textButton,
-                            //style: TextStyle(fontSize: 28),
-                          ),
-                          padding: EdgeInsets.all(20),
-                          color: _colorButton,
-                          splashColor: _splashButton,
-                          elevation: 5,
-                          shape: CircleBorder(
-                              side: BorderSide(
-                                  style: BorderStyle.solid,
-                                  color: Colors.black26,
-                                  width: 10)),
-                        )*/
-
-            InkWell(
-                onTap: onButtonPressed,
-                child: Container(
-                    height: 150,
-                    width: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        color: _colorButton),
-                    child: Center(
-                        child: Text(
-                      _textButton,
-                      style: TextStyle(fontSize: 28),
-                    )))));
+        child: RawMaterialButton(
+          onPressed: onButtonPressed,
+          child: Container(
+            child: Text(
+              _textButton,
+              style: TextStyle(fontSize: 25, color: Colors.white),
+            ),
+            alignment: Alignment.center,
+            height: 120,
+          ),
+          padding: EdgeInsets.all(20),
+          fillColor: _colorButton,
+          splashColor: _splashButton,
+          elevation: 3,
+          shape: CircleBorder(
+              side: BorderSide(
+                  style: BorderStyle.solid, color: Colors.grey, width: 2)),
+        ));
   }
 
   void onButtonPressed() async {
@@ -80,15 +68,19 @@ class _ButtonCheckState extends State<ButtonCheck> {
     return Firestore.instance.runTransaction((Transaction tx) async {
       DocumentSnapshot postSnapshot = await tx.get(postRefOccupancy);
       if (postSnapshot.exists) {
-        await tx.update(postRefOccupancy, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
+        await tx.update(postRefOccupancy, <String, dynamic>{
+          'occupancy': postSnapshot.data['occupancy'] + val
+        });
       }
     });
   }
 
   Future sendEventToDB(String eventType) {
-    Map<String,dynamic> data = { 'eventType':eventType, 'time': DateTime.now()};
+    Map<String, dynamic> data = {
+      'eventType': eventType,
+      'time': DateTime.now()
+    };
     return colRefLogin.document().setData(data);
-      //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
-
+    //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
   }
 }
