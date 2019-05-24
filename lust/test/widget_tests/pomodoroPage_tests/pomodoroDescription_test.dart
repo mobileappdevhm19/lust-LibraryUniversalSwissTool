@@ -1,6 +1,9 @@
-/*import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
 import 'package:flutter/material.dart';
+import '../../testHelper.dart';
+import 'package:lust/pages/pomodoroPage.dart';
+
 
 
 void main() {
@@ -10,7 +13,7 @@ void main() {
   testWidgets('pomodoroDescription', (WidgetTester tester) async {
     // Create the Widget tell the tester to build it
     // Using the main Widget to get all the needed info for subwidgets
-    await tester.pumpWidget(Lust());
+    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
 
     // Create our Finders
     final periodTimeFinder = find.text("period:");
@@ -28,4 +31,4 @@ void main() {
     // Find the dividers (2 in total) between the rows
     expect(dividerFinder, findsNWidgets(2));
   });
-} */
+}
