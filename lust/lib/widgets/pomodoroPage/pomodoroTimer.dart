@@ -4,10 +4,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lust/pages/pomodoroPage.dart';
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+//FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 
 enum Status{
@@ -62,7 +62,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   @override
-  initState() {
+ /* initState() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     super.initState();
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
@@ -74,7 +74,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
-  }
+  }*/
 
 
   @override
@@ -232,7 +232,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-    showNormalNoti();
+    //showNormalNoti();
     startTimer();
   }
 
@@ -254,9 +254,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  Future<void> showNormalNoti() async{
+  /*Future<void> showNormalNoti() async{
     await _showNotification();
-  }
+  }*/
 
   void setActTimeMinutesSeconds(){
     int minutes=(actTimerSeconds/60).toInt();
@@ -281,7 +281,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return ret;
   }
 
-  Future<void> _showNotification() async {
+  /*Future<void> _showNotification() async {
     var vibrationPatternlist = Int64List(4);
     vibrationPatternlist[0] = 0;
     vibrationPatternlist[1] = 1000;
@@ -308,7 +308,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       context,
       MaterialPageRoute(builder: (context) => PomodoroPage()),
     );*/
-  }
+  }*/
 
   Future<void> onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
@@ -341,5 +341,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   int getActTimerSeconds(){
     return actTimerSeconds;
   }
+
+  void dispose() {
+    if(_timer !=null){
+      _timer.cancel();
+    }
+  }
+
 }
 
