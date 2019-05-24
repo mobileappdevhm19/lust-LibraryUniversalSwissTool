@@ -343,6 +343,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
   void dispose() {
+    super.dispose();
     if(_timer !=null){
       _timer.cancel();
     }

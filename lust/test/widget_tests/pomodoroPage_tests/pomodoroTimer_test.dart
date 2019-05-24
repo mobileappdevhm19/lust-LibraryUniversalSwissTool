@@ -1,10 +1,12 @@
-/*import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:lust/pages/pomodoroPage.dart';
+import '../../testHelper.dart';
+
 
 
 //set member variables
@@ -24,7 +26,7 @@ void main() {
   // for us to work with. The WidgetTester will allow us to build and interact
   // with Widgets in the test environment.
   testWidgets('pomodoroTimer Initial Values', (WidgetTester tester) async {
-    await tester.pumpWidget(Lust());
+    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
     checkInitialValues();
   });
   testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
@@ -98,4 +100,4 @@ void findTextInResetButton(){
   final startTextFinder = find.text("reset");
   expect(startTextFinder, findsOneWidget);
 
-} */
+}
