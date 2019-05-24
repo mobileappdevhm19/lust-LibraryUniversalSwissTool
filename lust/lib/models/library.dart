@@ -29,20 +29,20 @@ class Library {
   /// Gives you the opening time today.
   /// Checks the current date and if the day is not today it ask of the new
   /// opening time for the current day
-  getOpeningTimeToday() {
+  DateTime getOpeningTimeToday() {
     return _openingTimeToday;
   }
 
   /// Gives you the closing time today
   /// checks the current date and if the day is not today it ask of the new
   /// opening time for the current day
-  getClosingTimeToday() {
+  DateTime getClosingTimeToday() {
     return _closingTimeToday;
   }
 
   /// Compares the given DateTime and gives out an array of opening ours between
   /// the opening our and the closing our.
-  getOccupancyPercentPerHour(DateTime date) {
+  List<PercentPerHour> getOccupancyPercentPerHour(DateTime date) {
     return _occupancyPerHour;
   }
 }
