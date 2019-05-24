@@ -76,10 +76,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   Future sendEventToDB(String eventType) {
-    Map<String, dynamic> data = {
-      'eventType': eventType,
-      'time': DateTime.now()
-    };
+    Map<String, dynamic> data = {'eventType': eventType, 'time': DateTime.now()};
     return colRefLogin.document().setData(data);
     //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
   }
