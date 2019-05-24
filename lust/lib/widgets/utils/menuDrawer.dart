@@ -9,6 +9,7 @@ class MenuDrawer {
 
   // Create a menu drawer
   static Widget getDrawer(BuildContext context) {
+    print("Hallo ich bin der menudrawer");
     List<PageContainer> pages = new List<PageContainer>();
 
     pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
@@ -27,6 +28,7 @@ class MenuDrawer {
 
   // method to switch between the pages
   static void _switchPage(BuildContext context, Widget widget) {
+    print("und ich switche zwischen den seiten");
     Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
         //replace the top view(widget) from the stack with the new one

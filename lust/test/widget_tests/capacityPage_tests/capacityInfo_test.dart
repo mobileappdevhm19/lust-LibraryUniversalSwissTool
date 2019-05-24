@@ -5,7 +5,6 @@ import '../../testHelper.dart';
 
 
 void main() {
-  /*
   // Define a test. The TestWidgets function will also provide a WidgetTester
   // for us to work with. The WidgetTester will allow us to build and interact
   // with Widgets in the test environment.
@@ -31,5 +30,4 @@ void main() {
     // Find the dividers (2 in total) between the rows
     expect(dividerFinder, findsNWidgets(2));
   });
-  */
 }

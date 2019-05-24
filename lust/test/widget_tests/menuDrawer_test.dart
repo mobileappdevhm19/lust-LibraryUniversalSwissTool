@@ -31,14 +31,13 @@ void main() {
         find.descendant(of: find.byType(ListView), matching: find.text(page.title)), findsOneWidget);
 
     // Open the corresponding page
-    await tester.tap(find.descendant(of: find.byType(ListView), matching: find.text(page.title)));
-    await tester.pump();
+    await tester.press(find.descendant(of: find.byType(ListView), matching: find.byIcon(page.icon)));
+    //await tester.pump();
 
     // Verify the page was opened
     expect(find.byType(page.pageObject.runtimeType), findsOneWidget);
   });
 
-  /*
   testWidgets('Open menu and go to checkinpage', (WidgetTester tester) async {
     PageContainer page = PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage());
     // Create the Widget, tell the tester to build it
@@ -49,8 +48,7 @@ void main() {
     // Verify the page was opened
     expect(find.byType(page.pageObject.runtimeType), findsOneWidget);
   });
-
-  /*
+/*
   Copy this part for your page and fill in the parameters
   Also change the number on top of this function to the number of inserted pages in the menu
 
@@ -61,7 +59,6 @@ void main() {
     openPageByType(tester, YOURPAGECONSTRUCTOR);
   });
 */
-
   testWidgets('Open menu and find correct amount of listtiles.', (WidgetTester tester) async {
     // Create the Widget, tell the tester to build it
     await tester.pumpWidget(TestHelper.buildWidget(CapacityPage()));
@@ -87,8 +84,6 @@ void main() {
     expect(find.byType(UserAccountsDrawerHeader), findsOneWidget);
 
   });
-
-  */
 }
 
 void openPage(tester, PageContainer page) async {
