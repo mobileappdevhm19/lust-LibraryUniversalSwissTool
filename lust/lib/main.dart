@@ -1,8 +1,6 @@
 // This sample shows adding an action to an [AppBar] that opens a shopping cart.
 
 import 'package:flutter/material.dart';
-import 'package:lust/pages/capacityPage.dart';
-import 'package:lust/pages/checkinPage.dart';
 import 'package:lust/pages/pomodoroPage.dart';
 
 void main() async=> runApp(Lust());
@@ -16,7 +14,7 @@ class Lust extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CapacityPage(),
+      home: PomodoroPage(),
     );
   }
 }
