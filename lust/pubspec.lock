@@ -44,6 +44,9 @@ packages:
     source: hosted
     version: "0.6.0"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -51,8 +54,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.11.0+2"
+<<<<<<< HEAD
 =======
 >>>>>>> rebasing
+=======
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
   collection:
     dependency: transitive
     description:
@@ -68,6 +74,9 @@ packages:
     source: hosted
     version: "0.1.2"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
   firebase_core:
     dependency: transitive
     description:
@@ -75,8 +84,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0+1"
+<<<<<<< HEAD
 =======
 >>>>>>> rebasing
+=======
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
   flutter:
     dependency: "direct main"
     description: flutter
@@ -221,6 +233,10 @@ packages:
 sdks:
   dart: ">=2.1.0 <3.0.0"
 <<<<<<< HEAD
+<<<<<<< HEAD
   flutter: ">=1.2.0 <2.0.0"
 =======
 >>>>>>> rebasing
+=======
+  flutter: ">=1.2.0 <2.0.0"
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401

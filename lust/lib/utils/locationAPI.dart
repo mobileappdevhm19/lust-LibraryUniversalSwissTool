@@ -1,6 +1,9 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:lust/models/bibs.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LocationAPI {
@@ -39,6 +42,7 @@ class LocationAPI {
       return true;
     }
     return false;
+<<<<<<< HEAD
   }}
 =======
 
@@ -61,3 +65,6 @@ class LocationAPI{
 }
 
 >>>>>>> rebasing
+=======
+  }}
+>>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
