@@ -1,17 +1,11 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:lust/models/bibs.dart';
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/models/library.dart';
 
 class LocationAPI {
   static Future getLocation() async {
-    /*LIB: {48.153954, 11.552292}
-    Library libHM = new Library(48.153954, 11.552292);
-    Position positionStudent = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
-    List<Placemark> positionLib = await Geolocator().placemarkFromAddress("Lothstraße 13D, 80335 München");*/
+
     Library libHM;
     final String bibLat = "latitude";
     final String bibLon = "longitude";
@@ -20,17 +14,23 @@ class LocationAPI {
     Position currentLocation = await Geolocator().getLastKnownPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
 
-    final DocumentReference documentHM =
-    Firestore.instance.collection('libs').document('centralHM');
+    //LIB: {48.153954, 11.552292}
+    libHM = new Library(latitude: 48.153954, longitude: 11.552292);
+    Position positionStudent = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
+    List<Placemark> positionLib = await Geolocator().placemarkFromAddress("Lothstraße 13D, 80335 München");
+
+    /*final DocumentReference documentHM =
+        Firestore.instance.collection('libs').document('centralHM');
 
     Firestore.instance.runTransaction((Transaction tx) async {
       DocumentSnapshot snapshot = await tx.get(documentHM);
       if (snapshot.exists) {
         snapLat = await snapshot.data[bibLat].toString();
         snapLon = await snapshot.data[bibLon].toString();
-        libHM = new Library(double.parse(snapLat), double.parse(snapLon));
+        libHM = new Library(
+            latitude: double.parse(snapLat), longitude: double.parse(snapLon));
       }
-    });
+    });*/
 
     double distance = await Geolocator().distanceBetween(
         currentLocation.latitude,
@@ -38,33 +38,11 @@ class LocationAPI {
         libHM.latitude,
         libHM.latitude);
 
-    if (distance < 100) {
+   /* if (distance < 100) {
       return true;
     }
     return false;
-<<<<<<< HEAD
-  }}
-=======
+  }*/
 
-class LocationAPI{
-  static Future getLocation() async {
-    //LIB: {48.153954, 11.552292}
-    Library libHM = new Library(48.153954, 11.552292);
-    Position positionStudent = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
-    List<Placemark> positionLib = await Geolocator().placemarkFromAddress("Lothstraße 13D, 80335 München");
-
-    double distance = await Geolocator().distanceBetween(positionStudent.latitude, positionStudent.longitude, libHM.latitude, libHM.latitude);
-
-    if (distance <100){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-}
-
->>>>>>> rebasing
-=======
-  }}
->>>>>>> a4c452ac29d2ccb20df95c25fb3a66b94ffa6401
+   return distance;
+}}

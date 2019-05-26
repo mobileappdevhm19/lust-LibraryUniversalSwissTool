@@ -1,8 +1,8 @@
 //To specify the bib: latitude and longitude
 
-class Library {
+class Library2 {
   final double latitude;
   final double longitude;
 
-  Library(this.latitude, this.longitude);
+  Library2(this.latitude, this.longitude);
 }

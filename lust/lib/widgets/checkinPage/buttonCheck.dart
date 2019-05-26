@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:lust/utils/locationAPI.dart';
 
 class ButtonCheck extends StatefulWidget {
   @override
@@ -45,6 +46,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
   void onButtonPressed() async {
     setState(() {
+     // print(LocationAPI.getLocation());
+
       if (_buttonState == true) {
         _buttonState = false;
         _colorButton = Colors.green;
