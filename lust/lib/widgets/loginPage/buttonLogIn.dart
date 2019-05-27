@@ -27,10 +27,10 @@ class _ButtonLoginState extends State<ButtonLogin> {
       height: 40,
       elevation: 5,
       color: buttonColor,
-      child: Text(
+      child: Container(child: Text(
         buttonText,
         style: TextStyle(fontSize: 20, color: Colors.black),
-      ),
+      )),
       onPressed: _buttonClicked(whichButton),
     );
   }
