@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:lust/pages/capacityPage.dart';
 import 'package:lust/pages/checkinPage.dart';
+import 'package:lust/pages/loginPage.dart';
 
 void main() => runApp(Lust());
 
@@ -15,7 +16,7 @@ class Lust extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CapacityPage(),
+      home: LoginPage(),
     );
   }
 }
