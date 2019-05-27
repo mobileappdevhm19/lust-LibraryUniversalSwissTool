@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lust/widgets/checkinPage/buttonCheck.dart';
 import 'package:lust/widgets/utils/getTextBox.dart';
+
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
 class CheckinPage extends StatefulWidget {
