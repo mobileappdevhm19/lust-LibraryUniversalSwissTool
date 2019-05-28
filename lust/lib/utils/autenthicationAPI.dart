@@ -15,8 +15,8 @@ abstract class AutenthicationAPI {
 
   Future<bool> isEmailVerified();
 }
-
-class Auth implements AutenthicationAPI {
+//PENDING: check it without the 'abstract'
+class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -54,5 +54,23 @@ class Auth implements AutenthicationAPI {
     FirebaseUser user = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return user.uid;
+  }
+}
+
+class checkUser {
+  //this formKey is absolutely essential to link the 'signIn/up' button w/the textBox
+  //the FormState class contains the validate method. When the validate method is called, it will run the validator function for each text field in the form.
+  final _formKey = new GlobalKey<FormState>();
+
+  bool _validateKey(){
+    final form = _formKey.currentState;
+    if(form.validate()){
+      form.save();
+      return true;
+    }
+    return false;
+  }
+  Future _checkUser() async{
+
   }
 }

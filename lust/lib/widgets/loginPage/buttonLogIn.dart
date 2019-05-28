@@ -6,7 +6,9 @@ class ButtonLogin extends StatefulWidget {
   final bool whichButton;
   final Color buttonColor;
 
-  const ButtonLogin({Key key, this.buttonText, this.whichButton, this.buttonColor}) : super(key: key);
+  const ButtonLogin(
+      {Key key, this.buttonText, this.whichButton, this.buttonColor})
+      : super(key: key);
 
   @override
   _ButtonLoginState createState() {
@@ -23,25 +25,31 @@ class _ButtonLoginState extends State<ButtonLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      height: 40,
-      elevation: 5,
-      color: buttonColor,
-      child: Container(child: Text(
-        buttonText,
-        style: TextStyle(fontSize: 20, color: Colors.black),
-      )),
-      onPressed: _buttonClicked(whichButton),
-    );
+    return SizedBox(
+        width: double.infinity,
+        height: 70,
+        child: Padding(
+          padding: EdgeInsets.only(top: 30, left: 30, right: 30),
+          child: RaisedButton(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30)),
+            color: Colors.blue,
+            child: Text(
+              buttonText,
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            onPressed: _buttonClicked(whichButton),
+          ),
+        ));
   }
 
   _buttonClicked(bool x) {
     setState(() {
-      if (x){
-        //LOG IN
-      }
-      else{
-        //REGISTER
+      if (x) {
+        print('LOG IN');
+      } else {
+        print('SIGN UP');
       }
     });
   }
