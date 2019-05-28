@@ -27,7 +27,7 @@ class _ButtonLoginState extends State<ButtonLogin> {
   Widget build(BuildContext context) {
     return SizedBox(
         width: double.infinity,
-        height: 70,
+        height: 75,
         child: Padding(
           padding: EdgeInsets.only(top: 30, left: 30, right: 30),
           child: RaisedButton(
@@ -37,7 +37,7 @@ class _ButtonLoginState extends State<ButtonLogin> {
             color: Colors.blue,
             child: Text(
               buttonText,
-              style: TextStyle(fontSize: 20, color: Colors.black),
+              style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400),
             ),
             onPressed: _buttonClicked(whichButton),
           ),
