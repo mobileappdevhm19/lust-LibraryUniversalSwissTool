@@ -25,19 +25,22 @@ class _ButtonLoginState extends State<ButtonLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: double.infinity,
-        height: 75,
-        child: Padding(
-          padding: EdgeInsets.only(top: 30, left: 30, right: 30),
-          child: RaisedButton(
+    return Padding(
+        padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+        child: SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: RawMaterialButton(
             elevation: 5,
             shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(30)),
-            color: Colors.blue,
+            fillColor: buttonColor,
             child: Text(
               buttonText,
-              style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400),
+              style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400),
             ),
             onPressed: _buttonClicked(whichButton),
           ),
@@ -45,6 +48,8 @@ class _ButtonLoginState extends State<ButtonLogin> {
   }
 
   _buttonClicked(bool x) {
+    print('eoe');
+
     setState(() {
       if (x) {
         print('LOG IN');
