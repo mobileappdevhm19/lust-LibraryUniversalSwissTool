@@ -20,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             //PENDING: add a circular progress/similar indicator
+            //TOP of the SCREEN: app icon!!
+
             TextBox.getTextBox(context, "E-mail",
                 "Do you already have an account?", Icons.email),
             TextBox.getTextBox(context, "Password", "123456", Icons.security),
@@ -27,12 +29,10 @@ class _LoginPageState extends State<LoginPage> {
                 buttonText: "Log in",
                 whichButton: true,
                 buttonColor: Colors.blue),
-
-            /*ButtonLogin(
+            ButtonLogin(
                 buttonText: "Register",
                 whichButton: false,
                 buttonColor: Colors.red)
-            //TOP of the SCREEN: app icon!!*/
           ],
         )));
   }
