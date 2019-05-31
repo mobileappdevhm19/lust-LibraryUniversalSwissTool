@@ -46,6 +46,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   Timer _timer;
 
   String startStopBtnText="Start";
+  String resetBtnText="reset";
   ColorSwatch startStopBtnColor=Colors.green;
   //notifications notification;
 
@@ -101,7 +102,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
               RaisedButton(
                 onPressed: () {resetButtonClicked();},
                 child: Text(
-                    'reset',
+                    '$resetBtnText',
                     style: TextStyle(fontSize: 20)
                 ),
               ),
