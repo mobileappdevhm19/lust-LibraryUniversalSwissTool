@@ -86,14 +86,14 @@ int getTimerActTimerSeconds(){
 
 void findTextInButton(String btnText){
 
-  print("in findTextInButton");
+  //print("in findTextInButton");
   expect(pomTimer.startStopBtnText, btnText);
 
 }
 
 void findTextInResetButton(String btnText){
 
-  print("in findTextInResetButton");
+  //print("in findTextInResetButton");
   // Create our Finders
   //final startTextFinder = find.text("reset");
   expect(pomTimer.resetBtnText, btnText);
