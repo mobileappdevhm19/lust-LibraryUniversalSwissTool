@@ -31,13 +31,22 @@ class _LoginPageState extends State<LoginPage> {
               buttonText: "Log in",
               whichButton: true,
               buttonColor: Colors.blue,
+              function: _login,
             ),
             ButtonLogin(
-              buttonText: "Register",
-              whichButton: false,
-              buttonColor: Colors.red,
-            )
+                buttonText: "Register",
+                whichButton: false,
+                buttonColor: Colors.red,
+                function: _register)
           ],
         )));
+  }
+
+  void _register() {
+    print("registered");
+  }
+
+  void _login() {
+    print("login");
   }
 }

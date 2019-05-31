@@ -5,14 +5,15 @@ class ButtonLogin extends StatefulWidget {
   final String buttonText;
   final bool whichButton;
   final Color buttonColor;
+  final Function function;
 
   const ButtonLogin(
-      {Key key, this.buttonText, this.whichButton, this.buttonColor})
+      {Key key, this.buttonText, this.whichButton, this.buttonColor, this.function})
       : super(key: key);
 
   @override
   _ButtonLoginState createState() {
-    return new _ButtonLoginState(buttonText, whichButton, buttonColor);
+    return new _ButtonLoginState(buttonText, whichButton, buttonColor, function);
   }
 }
 
@@ -20,8 +21,9 @@ class _ButtonLoginState extends State<ButtonLogin> {
   final String buttonText;
   final bool whichButton;
   final Color buttonColor;
+  final Function function;
 
-  _ButtonLoginState(this.buttonText, this.whichButton, this.buttonColor);
+  _ButtonLoginState(this.buttonText, this.whichButton, this.buttonColor, this.function);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _ButtonLoginState extends State<ButtonLogin> {
                   color: Colors.white,
                   fontWeight: FontWeight.w400),
             ),
-            onPressed: _buttonClicked(whichButton),
+            onPressed: function,// _buttonClicked(whichButton),
           ),
         ));
   }

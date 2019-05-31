@@ -5,13 +5,20 @@ class TextBox {
   //TextBox(this._text);
   //final String _text;
   //String inputUser;
+  static int _counter = 0;
 
-  static Widget getTextBox(BuildContext context, String _title, String _hint, IconData _icon) {
+  static int _getAndIncreaseCounter() {
+    return _counter++;
+  }
+
+  static Widget getTextBox(
+      BuildContext context, String _title, String _hint, IconData _icon) {
     String inputUser;
+    Key key = new Key(_title + _getAndIncreaseCounter().toString());
 
     return new ListTile(
-      leading: Icon(_icon, size: 35),
-          title: TextField(
+        leading: Icon(_icon, size: 35),
+        title: TextField(
           decoration: InputDecoration(
             labelText: _title,
             //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
@@ -24,4 +31,5 @@ class TextBox {
           keyboardType: TextInputType.text,
           onChanged: (input) => inputUser = input,
         ));
-    }}
+  }
+}
