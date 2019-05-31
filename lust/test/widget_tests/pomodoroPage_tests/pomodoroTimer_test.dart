@@ -28,22 +28,22 @@ void main() {
     await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
     checkInitialValues();
   });
-  testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
+  /*testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
 
 //    await tester.tap(find.text('Start'));
     //checkInitalTimerStart();
-  });
+  }); */
 }
 
 //
 void checkInitialValues(){
   findTextInButton("Start");
-  findTextInResetButton();
+  findTextInResetButton("reset");
   expect(pomTimer.actStatusText, pomTimer.initialStatusText);
   expect(pomTimer.actTimerSeconds, 0);
 }
 
-void checkInitalTimerStart() {
+/*void checkInitalTimerStart() {
   timerStartTime = new DateTime.now().millisecondsSinceEpoch;
   timerStartTime = (timerStartTime / 1000).toInt();
 
@@ -72,7 +72,7 @@ void checkInitalTimerStart() {
   print('timer: $timerSec');
 
   expect(timerSec, timeDif);
-}
+} */
 
 void startStopTimer() async {
   //await pomTimer.startStopButtonClicked(); //start/ stop the timer();
@@ -92,11 +92,11 @@ void findTextInButton(String btnText){
 
 }
 
-void findTextInResetButton(){
+void findTextInResetButton(String btnText){
 
   print("in findTextInResetButton");
   // Create our Finders
-  final startTextFinder = find.text("reset");
-  expect(startTextFinder, findsOneWidget);
+  //final startTextFinder = find.text("reset");
+  expect(pomTimer.resetBtnText, btnText);
 
 }

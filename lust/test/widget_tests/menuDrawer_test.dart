@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -61,11 +62,9 @@ void main() {
 /*
   Copy this part for your page and fill in the parameters
   Also change the number on top of this function to the number of inserted pages in the menu
-
   testWidgets('Open menu and go to checkinpage', (WidgetTester tester) async {
     // Create the Widget, tell the tester to build it
     await tester.pumpWidget(TestHelper.buildWidget(YOURPAGECONSTRUCTOR));
-
     openPageByType(tester, YOURPAGECONSTRUCTOR);
   });
 */
