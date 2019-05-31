@@ -61,8 +61,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
   }
 
-  /*@override
-  initState() {
+  @override
+ /* initState() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     super.initState();
     // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
@@ -308,7 +308,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       context,
       MaterialPageRoute(builder: (context) => PomodoroPage()),
     );*/
-  }
+  }*/
 
   Future<void> onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
@@ -335,11 +335,19 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         ],
       ),
     );
-  }*/
+  }
 
 
   int getActTimerSeconds(){
     return actTimerSeconds;
   }
+
+  void dispose() {
+    super.dispose();
+    if(_timer !=null){
+      _timer.cancel();
+    }
+  }
+
 }
 
