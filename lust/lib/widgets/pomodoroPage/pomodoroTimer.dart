@@ -4,10 +4,10 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lust/pages/pomodoroPage.dart';
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+//FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 
 enum Status{
@@ -61,7 +61,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
   }
 
-  @override
+  /*@override
   initState() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     super.initState();
@@ -74,7 +74,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
-  }
+  }*/
 
 
   @override
@@ -232,7 +232,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-    showNormalNoti();
+    //showNormalNoti();
     startTimer();
   }
 
@@ -254,9 +254,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     );
   }
 
-  Future<void> showNormalNoti() async{
+  /*Future<void> showNormalNoti() async{
     await _showNotification();
-  }
+  }*/
 
   void setActTimeMinutesSeconds(){
     int minutes=(actTimerSeconds/60).toInt();
@@ -281,7 +281,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return ret;
   }
 
-  Future<void> _showNotification() async {
+  /*Future<void> _showNotification() async {
     var vibrationPatternlist = Int64List(4);
     vibrationPatternlist[0] = 0;
     vibrationPatternlist[1] = 1000;
@@ -335,7 +335,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         ],
       ),
     );
-  }
+  }*/
 
 
   int getActTimerSeconds(){
