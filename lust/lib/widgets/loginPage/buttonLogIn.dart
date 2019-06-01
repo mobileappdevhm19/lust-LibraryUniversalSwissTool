@@ -23,7 +23,8 @@ class _ButtonLoginState extends State<ButtonLogin> {
   final Color buttonColor;
   final Function function;
 
-  _ButtonLoginState(this.buttonText, this.whichButton, this.buttonColor, this.function);
+  _ButtonLoginState(this.buttonText, this.whichButton, this.buttonColor,
+      this.function);
 
   @override
   Widget build(BuildContext context) {
@@ -44,20 +45,8 @@ class _ButtonLoginState extends State<ButtonLogin> {
                   color: Colors.white,
                   fontWeight: FontWeight.w400),
             ),
-            onPressed: function,// _buttonClicked(whichButton),
+            onPressed: function, // _buttonClicked(whichButton),
           ),
         ));
-  }
-
-  _buttonClicked(bool x) {
-    print('eoe');
-
-    setState(() {
-      if (x) {
-        print('LOG IN');
-      } else {
-        print('SIGN UP');
-      }
-    });
   }
 }
