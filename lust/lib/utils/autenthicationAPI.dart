@@ -15,7 +15,7 @@ class Auth {
   @override
   Future<String> signIn(String email, String password) async {
     FirebaseUser user = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);g
+        email: email, password: password);
     return user.uid;
   }
 
