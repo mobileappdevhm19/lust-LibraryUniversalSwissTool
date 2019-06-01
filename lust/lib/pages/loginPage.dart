@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             )));
   }
 
-  bool validateAndSave() {
+  bool checkTextFields() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print("FORM OK: $_email & $_password");
@@ -96,9 +96,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future validateAndSubmit() async {
+  Future accountValidation() async {
     String _userID;
-    if (validateAndSave()) {
+    if (checkTextFields()) {
       try {
         if (_formRegister == FormType.LOGIN) {
           _userID = await widget.auth.signIn(_email, _password);
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     print("registered");
-    validateAndSubmit();
+    accountValidation();
   }
 
   void _login() {
@@ -130,6 +130,6 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     print("login");
-    validateAndSubmit();
+    accountValidation();
   }
 }
