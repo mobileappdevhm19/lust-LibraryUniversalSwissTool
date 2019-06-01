@@ -18,7 +18,7 @@ class TextBox {
 
     return new ListTile(
         leading: Icon(_icon, size: 35),
-        title: TextField(
+        title: TextFormField(
           decoration: InputDecoration(
             labelText: _title,
             //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
@@ -29,7 +29,7 @@ class TextBox {
 //                            ? "You have to write something!"
 //                            : null,
           keyboardType: TextInputType.text,
-          onChanged: (input) => inputUser = input,
+          onSaved: (input) => inputUser = input,
         ));
   }
 }
