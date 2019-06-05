@@ -17,7 +17,8 @@ class Lust extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        //home: LoginPage(auth: new Auth()),
-        home: CapacityPage()); //(just to solve the tests problems)
+        home: LoginPage(auth: new Auth())
+        //home: CapacityPage(); //(just to solve the tests problems)
+        );
   }
 }

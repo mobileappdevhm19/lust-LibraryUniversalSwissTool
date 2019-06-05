@@ -6,6 +6,8 @@ import 'package:lust/widgets/loginPage/appLogo.dart';
 import 'package:lust/widgets/loginPage/buttonLogIn.dart';
 import 'package:lust/widgets/utils/getTextBox.dart';
 
+import 'capacityPage.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({this.auth});
 
@@ -35,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             child: ListView(
               children: <Widget>[
                 //PENDING: add a circular progress/similar indicator
-                //TOP of the SCREEN: app icon!!
+                //LOGIN? not register - dialog: do you want to register?
                 appLogo(),
                 /*TextBox.getTextBox(context, "E-mail",
                 "Do you already have an account?", Icons.email),
@@ -104,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
           _userID = await widget.auth.signIn(_email, _password);
           //String _userID = await auth.signIn(_email, _password);
           print('Signed in: $_userID');
+          _switchPage(context, CapacityPage());
         } else {
           //FormType.REGISTER
           _userID = await widget.auth.signUp(_email, _password);
@@ -115,6 +118,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  static void _switchPage(BuildContext context, Widget widget) {
+    Navigator.pop(context); //remove a page from the widget stack (close navigation)
+    Navigator.pushReplacement(
+      //replace the top view(widget) from the stack with the new one
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => widget));
+  }
+
   void _register() {
     setState(() {
       _formRegister = FormType.REGISTER;
@@ -123,7 +134,6 @@ class _LoginPageState extends State<LoginPage> {
     print("registered");
     accountValidation();
   }
-
   void _login() {
     setState(() {
       _formRegister = FormType.LOGIN;
