@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/utils/autenthicationAPI.dart';
-import 'package:lust/widgets/loginPage/appLogo.dart';
+import 'package:lust/widgets/utils/appLogo.dart';
 import 'package:lust/widgets/loginPage/buttonLogIn.dart';
-import 'package:lust/widgets/utils/getTextBox.dart';
-
 import 'capacityPage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = new GlobalKey<FormState>();
   FormType _formRegister = FormType.LOGIN;
 
+  _LoginPageState();
+
   /*final BaseAuth auth;
   _LoginPageState({this.auth});*/
 
@@ -32,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text(_title)),
+        //appBar: getAppBar(_title, signOut: false),
         body: Form(
             key: _formKey,
             child: ListView(
@@ -101,15 +101,15 @@ class _LoginPageState extends State<LoginPage> {
   Future accountValidation() async {
     String _userID;
     if (checkTextFields()) {
-      try {
+      try { //trim(): avoid problems of format
         if (_formRegister == FormType.LOGIN) {
-          _userID = await widget.auth.signIn(_email, _password);
+          _userID = await widget.auth.signIn(_email.toString().trim(), _password);
           //String _userID = await auth.signIn(_email, _password);
           print('Signed in: $_userID');
           _switchPage(context, CapacityPage());
         } else {
           //FormType.REGISTER
-          _userID = await widget.auth.signUp(_email, _password);
+          _userID = await widget.auth.signUp(_email.toString().trim(), _password);
           print('Registered in: $_userID');
         }
       } catch (e) {

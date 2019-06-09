@@ -14,6 +14,8 @@ abstract class BaseAuth {
   Future<void> signOut();
 
   Future<bool> isEmailVerified();
+
+  Future<void> signingOut();
 }
 
 
@@ -56,4 +58,10 @@ class Auth implements BaseAuth{
     FirebaseUser user = await _firebaseAuth.currentUser();
     user.sendEmailVerification();
   }
+
+  @override
+  Future<void> signingOut() {
+    
+  }
 }
+
