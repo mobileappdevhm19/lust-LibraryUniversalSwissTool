@@ -12,10 +12,11 @@ class LocationAPI {
 
     Position currentLocation = await Geolocator().getLastKnownPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
-
+    //OPTION 1:
     //LIB: {48.153954, 11.552292}
     //libHM = new Library(latitude: 48.153954, longitude: 11.552292);
 
+    //OPTION 2:
     final DocumentReference documentHM =
         Firestore.instance.collection('libs').document('centralHM');
 
