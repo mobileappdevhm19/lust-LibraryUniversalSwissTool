@@ -48,14 +48,6 @@ class _CheckinPageState extends State<CheckinPage> {
             child: ButtonCheck(),
           ),
 
-//    TextBox.getTextBox(context, "Subject",
-//    "Good luck with that!", Icons.local_library),
-//    TextBox.getTextBox(
-//    context, "Time goal", "Be realistic!", Icons.timer),
-//    TextBox.getTextBox(context, "Locker number",
-//    "I know that is difficult to remember", Icons.lock),
-//    ButtonCheck(),
-//                    ]))
         ]));
   }
 }

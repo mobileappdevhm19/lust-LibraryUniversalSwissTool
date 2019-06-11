@@ -12,7 +12,7 @@ class RootPage extends StatefulWidget {
   _RootPageState createState() => _RootPageState();
 }
 
-enum LogInOut {SIGNEDIN, NOTSIGNEDIN}
+enum LogInOut { SIGNEDIN, NOTSIGNEDIN}
 
 class _RootPageState extends State<RootPage> {
   LogInOut authStatus = LogInOut.NOTSIGNEDIN;
@@ -25,8 +25,22 @@ class _RootPageState extends State<RootPage> {
     widget.auth.getCurrentUser().then((userID) {
       setState(() {
         print("USER ID: $userID");
-        authStatus = userID == null ? LogInOut.NOTSIGNEDIN : LogInOut.SIGNEDIN;
+        //authStatus = userID == null ? LogInOut.NOTSIGNEDIN : LogInOut.SIGNEDIN;
       });
+    });
+  }
+
+  void _onSignedOut() {
+    setState(() {
+      print('CALLBACK: onSignedOut');
+      authStatus = LogInOut.NOTSIGNEDIN;
+    });
+  }
+
+  void _onSignedIn() {
+    setState(() {
+      print("CALLBACK: onSignedIn");
+      authStatus = LogInOut.SIGNEDIN;
     });
   }
 
@@ -34,9 +48,16 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     switch (authStatus) {
       case LogInOut.SIGNEDIN:
-        return new CapacityPage(auth: widget.auth);
+        print("CASE 1: signedIn");
+        return new CapacityPage(
+          auth: widget.auth,
+        );
+
       case LogInOut.NOTSIGNEDIN:
-        return new LoginPage(auth: widget.auth);
+        print("CASE 2: notSignedIn");
+        return new LoginPage(
+            auth: widget.auth,
+            onSignIn: _onSignedIn);
     }
   }
 }

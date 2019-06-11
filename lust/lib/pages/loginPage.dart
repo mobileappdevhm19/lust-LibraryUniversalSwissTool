@@ -6,9 +6,10 @@ import 'package:lust/widgets/loginPage/buttonLogIn.dart';
 import 'capacityPage.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({this.auth});
+  LoginPage({this.auth, this.onSignIn});
 
   final BaseAuth auth;
+  final VoidCallback onSignIn;
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (input) =>
                           input.isEmpty ? "You have to write something!" : null,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.emailAddress,
                       onSaved: (input) => _email = input,
                     )),
                 ListTile(
@@ -69,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                       validator: (input) =>
                           input.isEmpty ? "You have to write something!" : null,
                       keyboardType: TextInputType.text,
+                      obscureText: true,
                       onSaved: (input) => _password = input,
                     )),
 
@@ -101,29 +103,22 @@ class _LoginPageState extends State<LoginPage> {
   Future accountValidation() async {
     String _userID;
     if (checkTextFields()) {
-      try { //trim(): avoid problems of format
+      try {
         if (_formRegister == FormType.LOGIN) {
-          _userID = await widget.auth.signIn(_email.toString().trim(), _password);
+          _userID = await widget.auth.signIn(_email.toString().trim(), _password);  //trim(): avoid problems of format w/email
           //String _userID = await auth.signIn(_email, _password);
-          print('Signed in: $_userID');
-          _switchPage(context, CapacityPage());
+          print('Signed in Tameos: $_userID');
+          //_switchPage(context, CapacityPage());
         } else {
           //FormType.REGISTER
           _userID = await widget.auth.signUp(_email.toString().trim(), _password);
           print('Registered in: $_userID');
         }
+        widget.onSignIn();
       } catch (e) {
         print(e);
       }
     }
-  }
-
-  static void _switchPage(BuildContext context, Widget widget) {
-    Navigator.pop(context); //remove a page from the widget stack (close navigation)
-    Navigator.pushReplacement(
-      //replace the top view(widget) from the stack with the new one
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => widget));
   }
 
   void _register() {

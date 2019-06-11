@@ -15,20 +15,6 @@ void main(){
     //await tester.pumpWidget(TestHelper.buildWidget(TextBox.getTextBox(_title, _hint, _icon)));
     await tester.pumpWidget(TestHelper.buildWidget(CheckinPage()));
 
-    final findIconSubject = find.byIcon(Icons.local_library);
-    final findIconTime = find.byIcon(Icons.timer);
-    final findIconLocker = find.byIcon(Icons.lock);
-
-    expect(findIconSubject, findsOneWidget);
-    expect(findIconTime, findsOneWidget);
-    expect(findIconLocker, findsOneWidget);
-  });
-
-  testWidgets('Find icons of the TextBoxs', (WidgetTester tester) async {
-
-    //await tester.pumpWidget(TestHelper.buildWidget(TextBox.getTextBox(_title, _hint, _icon)));
-    await tester.pumpWidget(TestHelper.buildWidget(CheckinPage()));
-
     final findIconSubject = await find.byIcon(Icons.local_library);
     final findIconTime = await find.byIcon(Icons.timer);
     final findIconLocker = await find.byIcon(Icons.lock);

@@ -19,5 +19,4 @@ void main() {
 
     await tester.tap(buttonFinder);
     //await tester.tap(find.byKey(Key("Checkin")));
-  });
-}
+});}

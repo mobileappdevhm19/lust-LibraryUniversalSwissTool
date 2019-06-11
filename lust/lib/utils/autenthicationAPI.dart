@@ -15,7 +15,6 @@ abstract class BaseAuth {
 
   Future<bool> isEmailVerified();
 
-  Future<void> signingOut();
 }
 
 
@@ -59,9 +58,5 @@ class Auth implements BaseAuth{
     user.sendEmailVerification();
   }
 
-  @override
-  Future<void> signingOut() {
-    
-  }
 }
 
