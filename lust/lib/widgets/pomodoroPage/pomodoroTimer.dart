@@ -19,6 +19,8 @@ enum Status{
 const StartTime_KEY = "startTime";
 const IsRunning_KEY = "isRunning";
 const StopTime_KEY = "stopTime";
+const ActStatus_KEY="actStatus";
+const ActPeriod_KEY="actPeriod";
 
 //like struct in c++
 class statusClass {
@@ -42,10 +44,10 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   List<statusClass> statuslist=new List();
   int countPeriods;
 
-  int actPeriod=0;
+  int actPeriod;
   int actTimerSeconds;
   String actTimeMinutesSeconds="";
-  Status actStatus=Status.nothing; //initial
+  Status actStatus;//=Status.nothing; //initial
   String initialStatusText="Click on 'Start' to start the pomodoro timer";
   String actStatusText;
   int startTime;
@@ -99,6 +101,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       });
 
       isRunning = prefs.getBool(IsRunning_KEY);
+      actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
       if(isRunning){
         if (_timer != null) {
           _timer.cancel(); //stop timer if exist
@@ -107,13 +110,17 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         startStopBtnColor = Colors.red;
         startTimer(); //start Timer with actual values
       }
-      else{
-        actTimerSeconds = actTimerSeconds-(actTime-stopTime); //subtrac the time beetween last stop click and now
+      else{ //actual stopped
+
+        actTimerSeconds =statuslist[actStatus.index].time;//- (stopTime-startTime); //subtrac the time beetween last stop click and now
+        print("act Status $actStatus");
+        actStatusText=descriptionText();
       }
     } else {
       startTime = actTime;
       actTimerSeconds = 0;
       isRunning=false; //when no seconds count, the timer cannot be started
+      actStatus=Status.nothing; //initial
     }
 
     setState(() {
@@ -132,7 +139,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
 
-
+//WIRD SUCH NACH JEDEM NEUSTART AUFGERUFEN (AUCH WENN SCHON DATEN VORHANDEN SIND)
   PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     statuslist.add(statusClass(-1, ""));
     statuslist.add(statusClass(periodTime, "actual you have to learn!"));
@@ -310,7 +317,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   /// starts timer
   /// set description Status text
 
-  void changeStatus(){
+  void changeStatus() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     //necessary, otherwise multiple timer instances interfere each other
 
     actTimerSeconds=0;
@@ -335,6 +343,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     }
 
     actTimerSeconds=statuslist[actStatus.index].time;
+    prefs.setInt(ActStatus_KEY, actStatus.index);
+
 
     actStatusText=descriptionText();
 
