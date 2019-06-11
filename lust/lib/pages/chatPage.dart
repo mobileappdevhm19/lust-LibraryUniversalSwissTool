@@ -1,79 +1,140 @@
 import 'package:flutter/material.dart';
 
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatPage extends StatefulWidget {
-  static String title = "Capacity";
-  static IconData icon = Icons.equalizer;
+  static String title = "Tutor Chat";
+  static IconData icon = Icons.chat;
+
+  final String _userID;
+  final String _topicID;
+
+  ChatPage(this._userID, this._topicID);
 
   @override
-  _ChatPageState createState() => new _ChatPageState(title, icon);
+  _ChatPageState createState() => new _ChatPageState(title, icon, _userID, _topicID);
 }
 
 class _ChatPageState extends State<ChatPage> {
   final String title;
   final icon;
 
-  final reference = FirebaseDatabase.instance.reference().child('messages');
+  final String _userID;
+  final String _topicID;
 
-  _ChatPageState(this.title, this.icon);
+  final TextEditingController _textEditingController = new TextEditingController();
+
+  bool _isComposingMessage = false;
+
+  final messageReference = Firestore.instance.collection('messages');
+
+  _ChatPageState(this.title, this.icon, this._userID, this._topicID);
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Flutter Chat App"),
-//          elevation:
-//          Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
-/*
-          actions: <Widget>[
-            new IconButton(
-                icon: new Icon(Icons.exit_to_app), onPressed: _signOut)
-          ],
-*/
+          title: new Text("Tutor Chat"),
+          //leading: BackButton(),
         ),
         body: new Container(
           child: new Column(
             children: <Widget>[
               new Flexible(
-                child: new FirebaseAnimatedList(
-                  query: reference,
-                  padding: const EdgeInsets.all(8.0),
-                  reverse: true,
-                  sort: (a, b) => b.key.compareTo(a.key),
-                  //comparing timestamp of messages to check which one would appear first
-                  itemBuilder: (_, DataSnapshot messageSnapshot,
-                      Animation<double> animation) {
-                    return new ChatMessageListItem(
-                      messageSnapshot: messageSnapshot,
-                      animation: animation,
-                    );
-                  },
-                ),
+                child: _buildChatList(),
               ),
               new Divider(height: 1.0),
               new Container(
-                decoration:
-                new BoxDecoration(color: Theme.of(context).cardColor),
+                decoration: new BoxDecoration(color: Theme.of(context).cardColor),
                 child: _buildTextComposer(),
               ),
-              new Builder(builder: (BuildContext context) {
-                _scaffoldContext = context;
-                return new Container(width: 0.0, height: 0.0);
-              })
             ],
           ),
-          decoration: Theme.of(context).platform == TargetPlatform.iOS
-              ? new BoxDecoration(
-              border: new Border(
-                  top: new BorderSide(
-                    color: Colors.grey[200],
-                  )))
-              : null,
         ));
   }
 
+  Widget _buildChatList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: messageReference
+          .where('idTopic', isEqualTo: _topicID)
+          .orderBy('timestamp', descending: true)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) return new Text('Error: ${snapshot.error}');
+        if (!snapshot.hasData) return new Text('Empty');
+        return new ListView(
+          reverse: true,
+          children: snapshot.data.documents.map((DocumentSnapshot document) {
+            return new Container(
+              child: Text(
+                document['content'],
+                style: TextStyle(color: Color(0xff203152)),
+                textAlign: document['idFrom'] == _userID ? TextAlign.right : TextAlign.left,
+              ),
+              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+              //width: 20.0,
+              decoration:
+                  BoxDecoration(color: Color(0xffE8E8E8), borderRadius: BorderRadius.circular(8.0)),
+              margin: EdgeInsets.only(
+                bottom: 10.0,
+                left: document['idFrom'] == _userID ? 50.0 : 0.0,
+                right: document['idFrom'] == _userID ? 0.0 : 50.0,
+              ),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+
+  Widget _buildTextComposer() {
+    return new IconTheme(
+        data: new IconThemeData(color: Theme.of(context).accentColor),
+        child: new Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: new Row(
+            children: <Widget>[
+              new Flexible(
+                child: new TextField(
+                  controller: _textEditingController,
+                  onChanged: (String messageText) {
+                    setState(() {
+                      _isComposingMessage = messageText.length > 0;
+                    });
+                  },
+                  onSubmitted: null,
+                  decoration: new InputDecoration.collapsed(hintText: "Send a message"),
+                ),
+              ),
+              new Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: new IconButton(
+                  icon: new Icon(Icons.send),
+                  onPressed: _isComposingMessage
+                      ? () => _textMessageSubmitted(_textEditingController.text)
+                      : null,
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  Future<Null> _textMessageSubmitted(String text) async {
+    _textEditingController.clear();
+    setState(() {
+      _isComposingMessage = false;
+    });
+//    await _ensureLoggedIn();
+    _sendMessage(messageText: text);
+  }
+
+  void _sendMessage({String messageText}) {
+    messageReference.document().setData({
+      'content': messageText,
+      'idFrom': _userID,
+      'idTopic': _topicID,
+      'timestamp': DateTime.now()
+    });
+  }
 }
