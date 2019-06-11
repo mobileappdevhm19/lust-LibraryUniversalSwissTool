@@ -4,7 +4,6 @@ import 'package:lust/models/library.dart';
 import 'package:lust/widgets/capacityPage/capacityGraph.dart';
 import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 import 'package:lust/widgets/utils/menuDrawer.dart';
-import 'package:lust/widgets/utils/getAppBar.dart';
 
 class CapacityPage extends StatefulWidget {
   CapacityPage({this.auth});

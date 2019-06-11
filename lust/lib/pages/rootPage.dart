@@ -30,7 +30,7 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
-  void _onSignedOut() {
+  void _onSignedOut() {   //not implemented yet
     setState(() {
       print('CALLBACK: onSignedOut');
       authStatus = LogInOut.NOTSIGNEDIN;

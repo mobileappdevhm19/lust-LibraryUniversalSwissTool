@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 //PENDING: add a circular progress/similar indicator
                 //LOGIN? not register - dialog: do you want to register?
                 appLogo(),
+
                 /*TextBox.getTextBox(context, "E-mail",
                 "Do you already have an account?", Icons.email),
             TextBox.getTextBox(context, "Password", "123456", Icons.security),*/
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                         //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
                       ),
                       validator: (input) =>
-                          input.isEmpty ? "You have to write something!" : null,
+                          input.isEmpty ? "Please write your email" : null,
                       keyboardType: TextInputType.emailAddress,
                       onSaved: (input) => _email = input,
                     )),
