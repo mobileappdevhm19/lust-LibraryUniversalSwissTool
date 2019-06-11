@@ -2,27 +2,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GetAppBar extends StatefulWidget {
-  GetAppBar(this._title, {this.signOut});
+  final String title;
+  final Function function;
 
-  String _title;
-  bool signOut = true;
+  const GetAppBar(this.title, this.function, {Key key})
+      : super(key: key);
 
   @override
-  _GetAppBarState createState() => _GetAppBarState(_title);
+  _GetAppBarState createState() {
+    return new _GetAppBarState(title, function);
+  }
 }
 
 class _GetAppBarState extends State<GetAppBar> {
-  String _title;
-  bool signOut = true;
+  String title;
+  final Function function;
 
-  _GetAppBarState(this._title, {this.signOut});
+  _GetAppBarState(this.title, this.function);
 
   @override
   Widget build(BuildContext context) {
     return new AppBar(
-      title: Text(_title),
+      title: Text(title),
       actions: <Widget>[
-        IconButton(icon: Icon(Icons.power_settings_new), onPressed: null)
+        IconButton(icon: Icon(Icons.power_settings_new), onPressed: function)
       ],
     );
   }
