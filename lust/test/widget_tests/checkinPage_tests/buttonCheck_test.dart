@@ -16,8 +16,6 @@ void main() {
     final buttonFinder = await find.widgetWithText(RawMaterialButton, "Check In!");
 
     expect(buttonFinder, findsOneWidget);
-
-    await tester.tap(buttonFinder);
     //await tester.tap(find.byKey(Key("Checkin")));
   });
 }
