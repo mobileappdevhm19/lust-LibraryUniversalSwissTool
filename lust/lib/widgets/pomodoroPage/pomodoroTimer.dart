@@ -22,6 +22,10 @@ const StopTime_KEY = "stopTime";
 const ActStatus_KEY="actStatus";
 const ActPeriod_KEY="actPeriod";
 
+
+
+
+
 //like struct in c++
 class statusClass {
   final int time;
@@ -31,10 +35,28 @@ class statusClass {
 
 class PomodoroTimer extends StatefulWidget {
   PomodoroTimerState ptS;
-  PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+
+  int countPeriods;
+  List<statusClass> statuslist=new List();
+
+
+  /*PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+    this.countPeriods=countPeriods;
     //flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     ptS=new PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
+  } */
+
+  PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+    statuslist.add(statusClass(-1, ""));
+    statuslist.add(statusClass(periodTime, "actual you have to learn!"));
+    statuslist.add(statusClass(shortBreakTime, "make a short break"));
+    statuslist.add(statusClass(longBreakTime, "make a long break"));
+
+    print("in PomodoroTimerState konstruktor");
+    this.countPeriods = countPeriods;
+    ptS=new PomodoroTimerState();
   }
+
 
   @override
   PomodoroTimerState createState() => ptS;
@@ -65,9 +87,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void initState() {
     super.initState();
 
+    this.countPeriods = widget.countPeriods;
+    this.statuslist=widget.statuslist;
+
+
     actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
-
 
     initPlatformState();
   }
@@ -102,6 +127,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
       isRunning = prefs.getBool(IsRunning_KEY);
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
+      actPeriod=prefs.getInt(ActPeriod_KEY);
       if(isRunning){
         if (_timer != null) {
           _timer.cancel(); //stop timer if exist
@@ -121,6 +147,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       actTimerSeconds = 0;
       isRunning=false; //when no seconds count, the timer cannot be started
       actStatus=Status.nothing; //initial
+      actStatusText=initialStatusText;
     }
 
     setState(() {
@@ -140,17 +167,21 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
 //WIRD SUCH NACH JEDEM NEUSTART AUFGERUFEN (AUCH WENN SCHON DATEN VORHANDEN SIND)
-  PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+ /* PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     statuslist.add(statusClass(-1, ""));
     statuslist.add(statusClass(periodTime, "actual you have to learn!"));
     statuslist.add(statusClass(shortBreakTime, "make a short break"));
     statuslist.add(statusClass(longBreakTime, "make a long break"));
 
-    this.countPeriods = countPeriods;
+    if(this.countPeriods !=null){
+      print("in PomodoroTimerState konstruktor");
+      this.countPeriods = countPeriods;
 
-    actStatusText=initialStatusText;
-    setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
-  }
+      actStatusText=initialStatusText;
+      setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
+    }
+
+  } */
 
   @override
  /* initState() {
@@ -341,6 +372,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         actPeriod++;
       }
     }
+
+    prefs.setInt(ActPeriod_KEY, actPeriod);
 
     actTimerSeconds=statuslist[actStatus.index].time;
     prefs.setInt(ActStatus_KEY, actStatus.index);
