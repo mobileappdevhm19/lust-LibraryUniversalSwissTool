@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:lust/widgets/chatPage/messageTile.dart';
+
 class ChatPage extends StatefulWidget {
   static String title = "Tutor Chat";
   static IconData icon = Icons.chat;
@@ -65,22 +67,7 @@ class _ChatPageState extends State<ChatPage> {
         return new ListView(
           reverse: true,
           children: snapshot.data.documents.map((DocumentSnapshot document) {
-            return new Container(
-              child: Text(
-                document['content'],
-                style: TextStyle(color: Color(0xff203152)),
-                textAlign: document['idFrom'] == _userID ? TextAlign.right : TextAlign.left,
-              ),
-              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-              //width: 20.0,
-              decoration:
-                  BoxDecoration(color: Color(0xffE8E8E8), borderRadius: BorderRadius.circular(8.0)),
-              margin: EdgeInsets.only(
-                bottom: 10.0,
-                left: document['idFrom'] == _userID ? 50.0 : 0.0,
-                right: document['idFrom'] == _userID ? 0.0 : 50.0,
-              ),
-            );
+            return new MessageTile(document, _userID);
           }).toList(),
         );
       },
