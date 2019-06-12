@@ -52,7 +52,6 @@ class PomodoroTimer extends StatefulWidget {
     statuslist.add(statusClass(shortBreakTime, "make a short break"));
     statuslist.add(statusClass(longBreakTime, "make a long break"));
 
-    print("in PomodoroTimerState konstruktor");
     this.countPeriods = countPeriods;
     ptS=new PomodoroTimerState();
   }
@@ -91,7 +90,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     this.statuslist=widget.statuslist;
 
 
-    actTimerSeconds=0;
+    //actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
 
     initPlatformState();
@@ -123,7 +122,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     });*/
 
     if (startTime != null) {
-      actTimerSeconds = actTime - startTime;
       setState(() {
         setActTimeMinutesSeconds();
       });
@@ -137,7 +135,44 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         }
         startStopBtnText = "Stop";
         startStopBtnColor = Colors.red;
+
+        actTimerSeconds = statuslist[actStatus.index].time-(actTime - startTime)+statuslist[actStatus.index].time;
+        int difTime=(actTime - startTime);
+
+        //only varibles for this loop to find out which time in the actual status we have
+        Status hereStatus=actStatus;
+        int hereTimerSeconds=actTimerSeconds;
+        int herePeriod=actPeriod;
+        while(hereTimerSeconds<0){ //because in the background maybe a few periods passed
+
+
+          switch(hereStatus){
+            case Status.learning: {
+              if(herePeriod>=countPeriods){
+                hereStatus=Status.longBreak;
+                herePeriod=0; //start counting periods new
+              }
+              else{
+                hereStatus=Status.shortBreak;
+              }
+              break;
+            }
+            default: {
+              hereStatus=Status.learning;
+              herePeriod++;
+            }
+          }
+
+          hereTimerSeconds=hereTimerSeconds+statuslist[hereStatus.index].time;
+
+
+          print("actTimerSeconds $hereTimerSeconds");
+        }
+
+       // actTimerSeconds=statuslist[actStatus.index].time-hereTimerSeconds;
+        actStatusText=descriptionText();
         startTimer(); //start Timer with actual values
+
       }
       else{ //actual stopped
 
@@ -291,7 +326,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
     stopTime=actTime;
-    startTime=startTime+actTimerSeconds;
+    startTime=startTime-actTimerSeconds;
     /*setState(() {
       actErrors += "startTime $startTime \n";
     });*/
@@ -388,7 +423,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     actStatusText=descriptionText();
 
-    //showNormalNoti();
+    //showNormalNoti()
     startTimer();
   }
 
@@ -508,11 +543,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         ],
       ),
     );
-  }
-
-
-  int getActTimerSeconds(){
-    return actTimerSeconds;
   }
 
   void dispose() {
