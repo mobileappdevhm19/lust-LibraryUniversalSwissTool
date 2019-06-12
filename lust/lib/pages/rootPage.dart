@@ -25,7 +25,7 @@ class _RootPageState extends State<RootPage> {
     widget.auth.getCurrentUser().then((userID) {
       setState(() {
         print("USER ID: $userID");
-        //authStatus = userID == null ? LogInOut.NOTSIGNEDIN : LogInOut.SIGNEDIN;
+        authStatus = userID == null ? LogInOut.NOTSIGNEDIN : LogInOut.SIGNEDIN;
       });
     });
   }
@@ -51,6 +51,7 @@ class _RootPageState extends State<RootPage> {
         print("CASE 1: signedIn");
         return new CapacityPage(
           auth: widget.auth,
+          onSignedOut: _onSignedOut,
         );
 
       case LogInOut.NOTSIGNEDIN:
@@ -62,3 +63,4 @@ class _RootPageState extends State<RootPage> {
   }
 
 }
+

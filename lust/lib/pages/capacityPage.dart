@@ -3,10 +3,12 @@ import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/models/library.dart';
 import 'package:lust/widgets/capacityPage/capacityGraph.dart';
 import 'package:lust/widgets/capacityPage/capacityInfo.dart';
+import 'package:lust/widgets/utils/getAppBar.dart';
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
 class CapacityPage extends StatefulWidget {
-  CapacityPage({this.auth});
+  CapacityPage({this.auth, this.onSignedOut});
+  VoidCallback onSignedOut;
 
   static String title = "Capacity";
   static IconData icon = Icons.equalizer;
@@ -29,9 +31,10 @@ class _CapacityPageState extends State<CapacityPage> {
     var _height = MediaQuery.of(context).size.height;
     _height -= 85;
     return Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
           title: Text(title),
-        ),
+        ),*/
+        appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(55)),
         drawer: MenuDrawer.getDrawer(context),
         body: ListView(
             reverse: false,
@@ -49,4 +52,15 @@ class _CapacityPageState extends State<CapacityPage> {
               ),
             ]));
   } // build
+
+  void _signOut() {
+    print("CURRENT USER: mateo mateo");
+    try {
+      widget.auth.signOut();
+      widget.onSignedOut();       //callback
+    } catch (e) {
+      print(e);
+    }
+  }
 }
+
