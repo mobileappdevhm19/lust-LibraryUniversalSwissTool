@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/models/tutorEntry.dart';
+import 'package:lust/pages/tutorEntryPage.dart';
 
 class TutorRequests extends StatefulWidget {
   // a constructor for this class
@@ -70,11 +71,21 @@ class TutorRequestsState extends State<TutorRequests> {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
-                  onTap: () => null,
+                    onTap: () =>
+                        _switchPage(
+                            context, TutorEntryPage(offerings[position]))
                 ),
               ],
             );
           }),
     );
+  }
+
+  // method to switch between the pages
+  static void _switchPage(BuildContext context, Widget widget) {
+    Navigator.pushReplacement(
+      //replace the top view(widget) from the stack with the new one
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => widget));
   }
 }
