@@ -44,11 +44,11 @@ class TutorFindingPage extends StatelessWidget {
                 TutorRequests(),
               ])),
     );
-  } // build
+  } // buildx
 
   // method to switch between the pages
   static void _switchPage(BuildContext context, Widget widget) {
-    Navigator.pushReplacement(
+    Navigator.push(
       //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));

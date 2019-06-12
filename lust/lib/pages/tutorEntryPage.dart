@@ -34,7 +34,6 @@ class _TutorEntryPageState extends State<TutorEntryPage> {
         appBar: AppBar(
           title: Text(title),
         ),
-        drawer: MenuDrawer.getDrawer(context),
         body: ListView(
           children: <Widget>[
             OneLineText(text: "Topic:", fontSize: 22.0,),
@@ -45,16 +44,13 @@ class _TutorEntryPageState extends State<TutorEntryPage> {
               child: Text("Chat"),
               onPressed: () => _switchPage(context, ChatPage("testUser", tutorEntry.offeringId)),
             )
-
-
           ],
-
         ));
   } // build
 
   // method to switch between the pages
   static void _switchPage(BuildContext context, Widget widget) {
-    Navigator.pushReplacement(
+    Navigator.push(
       //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));

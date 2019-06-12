@@ -40,9 +40,9 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
         appBar: AppBar(
           title: Text(title),
         ),
-        drawer: MenuDrawer.getDrawer(context),
+//        drawer: MenuDrawer.getDrawer(context),
         body: ListView(
-          itemExtent: _height,
+          itemExtent: _height / 3,
           children: <Widget>[
             DropdownButton(
               value: dropdownValue,
@@ -114,6 +114,8 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                   collection.add(dataMap);
 
                   _formKey.currentState.dispose();
+                  Navigator.pop(context);
+
                 }),
           ],
         ));
