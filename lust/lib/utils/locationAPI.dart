@@ -3,44 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lust/models/library.dart';
 
 class LocationAPI {
-  static Future getLocation() async {
 
-    Library libHM;
-    final String bibLat = 'latitude';
-    final String bibLon = 'longitude';
-    String snapLat, snapLon;
+  static Future<bool> getLocation(GeoPoint _point) async {
+    final double _maxRadius = 100.0;
+    double _distance;
+    Library libHM = new Library(longitude: _point.longitude, latitude: _point.latitude);
 
     Position currentLocation = await Geolocator().getLastKnownPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
-    //OPTION 1:
-    //LIB: {48.153954, 11.552292}
-    //libHM = new Library(latitude: 48.153954, longitude: 11.552292);
+    print('USER coordinates: (${currentLocation.latitude}, ${currentLocation.longitude})');
 
-    //OPTION 2:
-    final DocumentReference documentHM =
-        Firestore.instance.collection('libs').document('centralHM');
-
-    Firestore.instance.runTransaction((Transaction tx) async {
-      DocumentSnapshot snapshot = await tx.get(documentHM);
-      if (snapshot.exists) {
-        snapLat = await snapshot.data[bibLat].toString();
-        snapLon = await snapshot.data[bibLon].toString();
-        libHM = new Library(
-            latitude: double.parse(snapLat), longitude: double.parse(snapLon));
-      }
-    });
-
-    double distance = await Geolocator().distanceBetween(
+    _distance = await Geolocator().distanceBetween(
         currentLocation.latitude,
         currentLocation.longitude,
         libHM.latitude,
-        libHM.latitude);
+        libHM.longitude);
+    print('DISTANCE: $_distance');
 
-
-   /*if (distance < 100) {
+   if (_distance < _maxRadius) {
       return true;
     }
     return false;
-  }*/
-   return snapLat;
-}}
+  }
+}

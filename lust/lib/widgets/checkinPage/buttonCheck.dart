@@ -8,15 +8,11 @@ class ButtonCheck extends StatefulWidget {
   _ButtonCheckState createState() => _ButtonCheckState();
 }
 
-class _ButtonCheckState extends State<ButtonCheck> {
-  //PROVISIONAL
-  final String bibLat = 'latitude';
-  final String bibLon = 'longitude';
-  String snapLat, snapLon;
-  final DocumentReference documentHM =
-  Firestore.instance.collection('libs').document('centralHM');
-  //PROVISIONAL
+enum ButtonEnable{ENABLE, DISABLED}
 
+class _ButtonCheckState extends State<ButtonCheck> {
+  GeoPoint _libHM;
+  ButtonEnable status;
 
   String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
@@ -28,11 +24,23 @@ class _ButtonCheckState extends State<ButtonCheck> {
   final CollectionReference colRefLogin =
       Firestore.instance.collection('events');
 
+  /*@override
+  Future initState() async {
+    super.initState();
+    print('INIT STATE');
+
+    locationAPI();
+    getLibPosition();
+
+    //status = await LocationAPI.getLocation(_libHM) == true ? ButtonEnable.ENABLE : ButtonEnable.DISABLED;
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(top: 60),
         child: RawMaterialButton(
+
           onPressed: onButtonPressed,
           child: Container(
             child: Text(
@@ -53,26 +61,38 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   void onButtonPressed() async {
-    String distance = await getLib();
-    print(distance);
-    print('hehehe: $distance');
+    await getLibPosition();
+    locationAPI();
+    print(await LocationAPI.getLocation(_libHM));
 
+    /*switch(status){
+      case ButtonEnable.ENABLE:
+        break;
+
+      case ButtonEnable.DISABLED:
+        return null;
+    }*/
     setState(() {
+      print('STATUS: $status');
+
       if (_buttonState == true) {
-        _buttonState = false;
-        _colorButton = Colors.green;
-        _splashButton = Colors.red;
-        _textButton = "Check In!";
-        sendEventToDB('logout');
-      } else {
-        _buttonState = true;
-        _colorButton = Colors.red;
-        _splashButton = Colors.green;
-        _textButton = "Check out";
-        sendEventToDB('login');
+        if (status == ButtonEnable.ENABLE) {
+          _buttonState = false;
+          _colorButton = Colors.green;
+          _splashButton = Colors.red;
+          _textButton = "Check In!";
+          sendEventToDB('logout');
+        } else {
+          _buttonState = true;
+          _colorButton = Colors.red;
+          _splashButton = Colors.green;
+          _textButton = "Check out";
+          sendEventToDB('login');
+        }
       }
     });
     await sendValueToDB(_buttonState);
+
   }
 
   Future sendValueToDB(bool increment) {
@@ -97,17 +117,23 @@ class _ButtonCheckState extends State<ButtonCheck> {
     //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
   }
 
-  //PROVISIONAL
-  Future getLib() {
-    Firestore.instance.runTransaction((Transaction tx) async {
-      DocumentSnapshot snapshot = await tx.get(documentHM);
-      if (snapshot.exists) {
-        snapLat = await snapshot.data[bibLat].toString();
-        snapLon = await snapshot.data[bibLon].toString();
-      }
-      return snapLat;
+  Future getLibPosition() {
+    postRefOccupancy.get()
+        .then((DocumentSnapshot document) {
+       _libHM = document['location'];
     });
+    print('HM coordinates: (${_libHM.latitude}, ${_libHM.longitude})');
   }
-  //PROVISIONAL
 
+
+  locationAPI() async{
+    print('locationAPI LOCATIONAPI');
+    if(await LocationAPI.getLocation(_libHM)){
+      status = ButtonEnable.ENABLE;
+    }
+    else{
+      status = ButtonEnable.DISABLED;
+    }
+    print('STATUS: $status');
+  }
 }
