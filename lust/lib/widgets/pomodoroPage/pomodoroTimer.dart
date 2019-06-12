@@ -21,7 +21,7 @@ const IsRunning_KEY = "isRunning";
 const StopTime_KEY = "stopTime";
 const ActStatus_KEY="actStatus";
 const ActPeriod_KEY="actPeriod";
-
+const OldTimerSeconds_KEY="oldTimerSeconds";
 
 
 
@@ -105,6 +105,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
     startTime = prefs.getInt(StartTime_KEY);
+    int oldTimerSeconds=prefs.getInt(OldTimerSeconds_KEY);
+
+
     /*setState(() {
       actErrors += "startTime $startTime \n";
     });*/
@@ -138,13 +141,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
       else{ //actual stopped
 
-        actTimerSeconds =statuslist[actStatus.index].time;//- (stopTime-startTime); //subtrac the time beetween last stop click and now
+        actTimerSeconds =oldTimerSeconds; //subtrac the time beetween last stop click and now
         print("act Status $actStatus");
         actStatusText=descriptionText();
       }
     } else {
       startTime = actTime;
       actTimerSeconds = 0;
+      prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
       isRunning=false; //when no seconds count, the timer cannot be started
       actStatus=Status.nothing; //initial
       actStatusText=initialStatusText;
@@ -287,11 +291,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
     stopTime=actTime;
-    startTime=stopTime-actTimerSeconds;
+    startTime=startTime+actTimerSeconds;
     /*setState(() {
       actErrors += "startTime $startTime \n";
     });*/
     prefs.setInt(StopTime_KEY, stopTime);
+    prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
   }
 
 
@@ -376,6 +381,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     prefs.setInt(ActPeriod_KEY, actPeriod);
 
     actTimerSeconds=statuslist[actStatus.index].time;
+    prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+
     prefs.setInt(ActStatus_KEY, actStatus.index);
 
 
@@ -401,7 +408,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         oneSec,
             (Timer timer) => setState(() {
               actTimerSeconds--;
-          if (actTimerSeconds < 1) {
+              prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+
+              if (actTimerSeconds < 1) {
             timer.cancel();
 
             changeStatus();
