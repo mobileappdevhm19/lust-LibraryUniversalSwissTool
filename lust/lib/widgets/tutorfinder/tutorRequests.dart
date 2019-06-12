@@ -4,22 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/models/tutorEntry.dart';
 
-
-class TutorOfferings extends StatefulWidget {
+class TutorRequests extends StatefulWidget {
   // a constructor for this class
-  TutorOfferings();
+  TutorRequests();
 
   @override
-  State<StatefulWidget> createState() => TutorOfferingsState();
-
+  State<StatefulWidget> createState() => TutorRequestsState();
 }
 
-class TutorOfferingsState extends State<TutorOfferings> {
-
-  TutorOfferingsState();
+class TutorRequestsState extends State<TutorRequests> {
+  TutorRequestsState();
 
   List<TutorEntry> offerings = [];
-
   Firestore db = Firestore.instance;
   StreamSubscription<QuerySnapshot> sub;
 
@@ -31,24 +27,20 @@ class TutorOfferingsState extends State<TutorOfferings> {
 
   @override
   Widget build(context) {
-    CollectionReference collection = db.collection("tutors");
-    Stream<QuerySnapshot> snapshots =
-    collection.orderBy("timeStamp", descending: true).where("timeStamp",
-        isGreaterThan: DateTime.utc(
-            DateTime
-                .now()
-                .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)).snapshots();
+    CollectionReference collection = db.collection("tutorRequest");
+    Stream<QuerySnapshot> snapshots = collection
+        .orderBy("timeStamp", descending: true)
+        .where("timeStamp",
+            isGreaterThan: DateTime.utc(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day))
+        .snapshots();
 
     sub?.cancel();
     sub = snapshots.listen((QuerySnapshot snapshot) {
-      final List<TutorEntry> offerings = snapshot.documents.map(
-              (documentSnapshot) =>
-              TutorEntry.fromMap(
-                  documentSnapshot.data, documentSnapshot.documentID)).toList();
+      final List<TutorEntry> offerings = snapshot.documents
+          .map((documentSnapshot) => TutorEntry.fromMap(
+              documentSnapshot.data, documentSnapshot.documentID))
+          .toList();
       setState(() {
         this.offerings = offerings;
       });
@@ -85,6 +77,4 @@ class TutorOfferingsState extends State<TutorOfferings> {
           }),
     );
   }
-
-
 }
