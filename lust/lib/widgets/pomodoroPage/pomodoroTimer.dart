@@ -199,13 +199,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
             }
           }
           actTimerSeconds=hereTimerSeconds;
-
         }
 
 
         actStatusText=descriptionText();
         startTimer(); //start Timer with actual values
-
       }
       else{ //actual stopped
 
@@ -225,8 +223,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     setState(() {
       setActTimeMinutesSeconds();
     });
-
-
 
 
     // If the widget was removed from the tree while the asynchronous platform
