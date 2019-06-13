@@ -14,8 +14,8 @@ int periodTime=25;
 int shortBreakTime=9;
 int longBreakTime=15;
 int countPeriods=4;
-PomodoroTimer pomTimer= new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods);
-PomodoroTimerState pomTimerState=new PomodoroTimerState();
+PomodoroTimer pomTimer;//= new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods);
+PomodoroTimerState pomTimerState;//=new PomodoroTimerState();
 
 int secondRange=1; //range of 1 seconds between timer of class and time at this test class
 int actTimeInSeconds=0;
@@ -35,6 +35,10 @@ Future setupSomePreferences(int startTime) async {
 
 
 void main() {
+  pomTimer= new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods);
+  pomTimerState=new PomodoroTimerState();
+
+
   //setupSomePreferences(null);
   // Define a test. The TestWidgets function will also provide a WidgetTester
   // for us to work with. The WidgetTester will allow us to build and interact
@@ -64,8 +68,8 @@ void checkInitialValues(){
 }
 
 void checkInitalTimerStart(WidgetTester tester) {
-  /*pomTimerState.start();
-  expect(pomTimerState.isRunning, true);
+  //pomTimerState.start();
+  /*expect(pomTimerState.isRunning, true);
   findTextInButton("Stop");*/
 
 }
