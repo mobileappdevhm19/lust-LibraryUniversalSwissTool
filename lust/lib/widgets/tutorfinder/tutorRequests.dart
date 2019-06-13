@@ -61,16 +61,16 @@ class TutorRequestsState extends State<TutorRequests> {
                     '${offerings[position].topic}',
                     style: TextStyle(
                       fontSize: 22.0,
-                      color: Colors.deepOrangeAccent,
+                      color: Colors.black54,
                     ),
                   ),
-                  subtitle: Text(
-                    '${offerings[position].description}',
-                    style: new TextStyle(
-                      fontSize: 18.0,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
+//                  subtitle: Text(
+//                    '${offerings[position].description}',
+//                    style: new TextStyle(
+//                      fontSize: 18.0,
+//                      fontStyle: FontStyle.italic,
+//                    ),
+//                  ),
                     onTap: () =>
                         _switchPage(
                             context, TutorEntryPage(offerings[position]))
