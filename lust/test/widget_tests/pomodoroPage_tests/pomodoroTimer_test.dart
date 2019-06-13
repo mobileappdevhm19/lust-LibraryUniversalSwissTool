@@ -35,62 +35,40 @@ Future setupSomePreferences(int startTime) async {
 
 
 void main() {
-  setupSomePreferences(null);
+  //setupSomePreferences(null);
   // Define a test. The TestWidgets function will also provide a WidgetTester
   // for us to work with. The WidgetTester will allow us to build and interact
   // with Widgets in the test environment.
+  pomTimerState.initState();
+
   testWidgets('pomodoroTimer Initial Values', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
     checkInitialValues();
   });
-  /*testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
 
-//    await tester.tap(find.text('Start'));
-    //checkInitalTimerStart();
-  }); */
+  testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    checkInitalTimerStart();
+  });
 }
 
 //
 void checkInitialValues(){
   findTextInButton("Start");
   findTextInResetButton("reset");
-  /*expect(pomTimerState.actStatusText, pomTimerState.initialStatusText);
-  expect(pomTimerState.actTimerSeconds, 0);*/
+
+  expect( pomTimerState.actTimerSeconds, 0);
+  expect( pomTimerState.actTimeMinutesSeconds,"00:00");
+  expect(pomTimerState.actStatusText, pomTimerState.initialStatusText);
 }
 
-/*void checkInitalTimerStart() {
-  timerStartTime = new DateTime.now().millisecondsSinceEpoch;
-  timerStartTime = (timerStartTime / 1000).toInt();
-
-  print('timerStartTime: $timerStartTime');
-
-  startStopTimer(); //start/ stop the timer();
-  sleep(const Duration(seconds:5));
-  print('nach sleep');
-
-  //findTextInButton("Stop");
-  startStopTimer(); //start/ stop the timer();
-
-  actTimeInSeconds = new DateTime.now().millisecondsSinceEpoch;
-  actTimeInSeconds = (actTimeInSeconds / 1000).toInt();
-
-  //now check if PmodoroTimerState::actTimerSeconds is correct (5)
-  int timeDif=actTimeInSeconds-timerStartTime;
-  print('time Dif: $timeDif');
-
-  int timerSec = getTimerActTimerSeconds();
-  if((timeDif-1) < timerSec &&  timerSec> (timeDif+1)){
-    timeDif=timerSec;
-  }
+void checkInitalTimerStart() {
 
 
-  print('timer: $timerSec');
-
-  expect(timerSec, timeDif);
-} */
+}
 
 void startStopTimer() async {
-  //await pomTimer.startStopButtonClicked(); //start/ stop the timer();
+  pomTimerState.start();
 }
 
 

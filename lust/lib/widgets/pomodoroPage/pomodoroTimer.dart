@@ -87,8 +87,29 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void initState() {
     super.initState();
 
-    this.countPeriods = widget.countPeriods;
-    this.statuslist=widget.statuslist;
+    if (widget != null){
+      this.countPeriods = widget.countPeriods;
+      this.statuslist = widget.statuslist;
+    }else{ //only for testing
+      print("in test Constructor in PomodoroTimerState");
+      statuslist.add(statusClass(-1, ""));
+      statuslist.add(statusClass(25, "actual you have to learn!"));
+      statuslist.add(statusClass(9, "make a short break"));
+      statuslist.add(statusClass(15, "make a long break"));
+
+      this.countPeriods = 3;
+      this.statuslist = statuslist;
+
+      int actTime = new DateTime.now().millisecondsSinceEpoch;
+      actTime = (actTime / 1000).toInt();
+      startTime = actTime;
+      actTimerSeconds = 0;
+      isRunning=false; //when no seconds count, the timer cannot be started
+      actStatus=Status.nothing; //initial
+      actStatusText=initialStatusText;
+      setActTimeMinutesSeconds(); //for 00:00 at first
+      return;
+    }
 
 
     //actTimerSeconds=0;
@@ -213,41 +234,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     // setState to update our non-existent appearance.
     if (!mounted) return;
   }
-
-
-
-
-//WIRD SUCH NACH JEDEM NEUSTART AUFGERUFEN (AUCH WENN SCHON DATEN VORHANDEN SIND)
- /* PomodoroTimerState(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
-    statuslist.add(statusClass(-1, ""));
-    statuslist.add(statusClass(periodTime, "actual you have to learn!"));
-    statuslist.add(statusClass(shortBreakTime, "make a short break"));
-    statuslist.add(statusClass(longBreakTime, "make a long break"));
-
-    if(this.countPeriods !=null){
-      print("in PomodoroTimerState konstruktor");
-      this.countPeriods = countPeriods;
-
-      actStatusText=initialStatusText;
-      setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
-    }
-
-  } */
-
-  @override
- /* initState() {
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    super.initState();
-    // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-    var initializationSettingsAndroid =
-    AndroidInitializationSettings('app_icon');
-    var initializationSettingsIOS = IOSInitializationSettings(
-        onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-    var initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
-  }*/
 
 
   @override
