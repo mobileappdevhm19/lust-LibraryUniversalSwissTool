@@ -346,10 +346,10 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     prefs.setInt(StartTime_KEY, startTime);
     prefs.setBool(IsRunning_KEY, true);
-
-
-    startTimer(); //start a new timer
     isRunning=true;
+    //print("pomTimerState start is running: $isRunning");
+    startTimer(); //start a new timer
+
   }
 
 
