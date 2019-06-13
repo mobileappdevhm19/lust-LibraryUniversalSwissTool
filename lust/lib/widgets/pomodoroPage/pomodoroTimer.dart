@@ -136,40 +136,51 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         startStopBtnText = "Stop";
         startStopBtnColor = Colors.red;
 
-        actTimerSeconds = statuslist[actStatus.index].time-(actTime - startTime)+statuslist[actStatus.index].time;
+
         int difTime=(actTime - startTime);
+        if(difTime<statuslist[actStatus.index].time){
+          actTimerSeconds = statuslist[actStatus.index].time-difTime;
+        }
+        else{
+          //only varibles for this loop to find out which time in the actual status we have
+          Status hereStatus=actStatus;
+          int hereTimerSeconds=difTime;
+          int herePeriod=actPeriod;
+          while(hereTimerSeconds>0){ //because in the background maybe a few periods passed
 
-        //only varibles for this loop to find out which time in the actual status we have
-        Status hereStatus=actStatus;
-        int hereTimerSeconds=actTimerSeconds;
-        int herePeriod=actPeriod;
-        while(hereTimerSeconds<0){ //because in the background maybe a few periods passed
-
-
-          switch(hereStatus){
-            case Status.learning: {
-              if(herePeriod>=countPeriods){
-                hereStatus=Status.longBreak;
-                herePeriod=0; //start counting periods new
+            int oldTimerSec=hereTimerSeconds;
+            int oldPeriod=herePeriod;
+            switch(hereStatus){
+              case Status.learning: {
+                if(herePeriod>=countPeriods){
+                  hereStatus=Status.longBreak;
+                  herePeriod=0; //start counting periods new
+                }
+                else{
+                  hereStatus=Status.shortBreak;
+                }
+                break;
               }
-              else{
-                hereStatus=Status.shortBreak;
+              default: {
+                hereStatus=Status.learning;
+                herePeriod++;
               }
+            }
+
+            hereTimerSeconds=hereTimerSeconds-statuslist[hereStatus.index].time;
+
+            print("actTimerSeconds $hereTimerSeconds");
+            if(hereTimerSeconds<0){
+              hereTimerSeconds=oldTimerSec;
+              actPeriod=oldPeriod;
               break;
             }
-            default: {
-              hereStatus=Status.learning;
-              herePeriod++;
-            }
           }
+          actTimerSeconds=hereTimerSeconds;
 
-          hereTimerSeconds=hereTimerSeconds+statuslist[hereStatus.index].time;
-
-
-          print("actTimerSeconds $hereTimerSeconds");
         }
 
-       // actTimerSeconds=statuslist[actStatus.index].time-hereTimerSeconds;
+
         actStatusText=descriptionText();
         startTimer(); //start Timer with actual values
 
@@ -341,6 +352,15 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       startStopBtnText = "Stop";
       startStopBtnColor = Colors.red;
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int actTime = new DateTime.now().millisecondsSinceEpoch;
+    actTime = (actTime / 1000).toInt();
+    startTime=actTime-actTimerSeconds;
+
+    prefs.setInt(StartTime_KEY, startTime);
+    prefs.setBool(IsRunning_KEY, true);
+
+
     startTimer(); //start a new timer
     isRunning=true;
   }
@@ -430,14 +450,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   void startTimer() async{
     //for background
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int actTime = new DateTime.now().millisecondsSinceEpoch;
-    actTime = (actTime / 1000).toInt();
-    startTime=actTime-actTimerSeconds;
 
-    prefs.setInt(StartTime_KEY, startTime);
-    prefs.setBool(IsRunning_KEY, true);
+
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
@@ -550,6 +565,13 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     if(_timer !=null){
       _timer.cancel();
     }
+
+    /*SharedPreferences prefs = await SharedPreferences.getInstance();
+    int actTime = new DateTime.now().millisecondsSinceEpoch;
+    actTime = (actTime / 1000).toInt();
+    startTime=actTime-actTimerSeconds;
+
+    prefs.setInt(StartTime_KEY, startTime); */
   }
 
 }
