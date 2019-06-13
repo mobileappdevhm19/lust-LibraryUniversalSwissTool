@@ -82,6 +82,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   ColorSwatch startStopBtnColor=Colors.green;
   //notifications notification;
 
+
   @override
   void initState() {
     super.initState();
@@ -191,7 +192,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         print("act Status $actStatus");
         actStatusText=descriptionText();
       }
-    } else {
+    } else { //startTime =null
       startTime = actTime;
       actTimerSeconds = 0;
       prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
