@@ -3,6 +3,7 @@ import 'package:lust/pages/pageContainer.dart';
 
 import 'package:lust/pages/capacityPage.dart';
 import 'package:lust/pages/checkinPage.dart';
+import 'package:lust/pages/pomodoroPage.dart';
 import 'package:lust/pages/tutorFindingPage.dart';
 
 class MenuDrawer {
@@ -15,6 +16,7 @@ class MenuDrawer {
     pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
     pages.add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
     pages.add(PageContainer(TutorFindingPage.title, TutorFindingPage.icon, TutorFindingPage()));
+    pages.add(PageContainer(PomodoroPage.title, PomodoroPage.icon, PomodoroPage()));
     // TODO: add your new page here.
     // your page must have a "static String title" and a "static IconData icon"
     // use  the following template
@@ -31,7 +33,7 @@ class MenuDrawer {
   static void _switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
-        //replace the top view(widget) from the stack with the new one
+      //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
   }
@@ -67,3 +69,4 @@ class MockUserInfo {
 
   const MockUserInfo({this.name, this.email});
 }
+

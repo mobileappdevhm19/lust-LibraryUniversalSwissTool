@@ -64,4 +64,3 @@ class _CapacityPageState extends State<CapacityPage> {
     }
   }
 }
-
