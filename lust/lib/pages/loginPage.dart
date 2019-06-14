@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
 
     print("registered");
     accountValidation();
-    Scaffold.of(context).showSnackBar(_snackBar);
+//    Scaffold.of(context).showSnackBar(_snackBar);
   }
   void _login() {
     setState(() {
@@ -141,6 +141,6 @@ class _LoginPageState extends State<LoginPage> {
 
     print("login");
     accountValidation();
-    Scaffold.of(context).showSnackBar(_snackBar);
+//    Scaffold.of(context).showSnackBar(_snackBar);
   }
 }
