@@ -5,7 +5,7 @@ import 'package:lust/models/library.dart';
 class LocationAPI {
 
   static Future<bool> getLocation(GeoPoint _point) async {
-    final double _maxRadius = 500.0;
+    final double _maxRadius = 150;
     double _distance;
     Library libHM = new Library(longitude: _point.longitude, latitude: _point.latitude);
 

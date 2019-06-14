@@ -73,7 +73,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
     }*/
     setState(() {
       print('STATUS: $status & buttonState: $_buttonState');
-      if (status == ButtonEnable.ENABLE) {  
+      if (status == ButtonEnable.ENABLE) {
         if (_buttonState == true) {
           print("ENABLE FELIX");
           _buttonState = false;
