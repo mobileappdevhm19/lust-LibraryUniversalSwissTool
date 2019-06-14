@@ -8,10 +8,16 @@ class ChatPage extends StatefulWidget {
   static String title = "Tutor Chat";
   static IconData icon = Icons.chat;
 
+//  final BaseAuth auth;
   final String _userID;
   final String _topicID;
 
   ChatPage(this._userID, this._topicID);
+/*
+  ChatPage(this.auth, this._topicID) {
+    _userID = auth.getUserID();
+  }
+*/
 
   @override
   _ChatPageState createState() => new _ChatPageState(title, icon, _userID, _topicID);
@@ -112,7 +118,6 @@ class _ChatPageState extends State<ChatPage> {
     setState(() {
       _isComposingMessage = false;
     });
-//    await _ensureLoggedIn();
     _sendMessage(messageText: text);
   }
 
