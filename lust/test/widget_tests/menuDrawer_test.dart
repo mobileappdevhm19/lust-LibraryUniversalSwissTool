@@ -14,7 +14,7 @@ import 'package:lust/widgets/utils/menuDrawer.dart';
 void main() {
 
   // Change this number according to the number of pages available in the menu
-  int numberOfExpectedTiles = 2;
+  int numberOfExpectedTiles = 3;
 
   testWidgets('Open menu and go to capacitypage.', (WidgetTester tester) async {
     PageContainer page = PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage());
