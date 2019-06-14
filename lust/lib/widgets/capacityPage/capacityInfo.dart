@@ -20,7 +20,7 @@ class CapacityInfo extends StatefulWidget {
   _CapacityInfoState createState() => _CapacityInfoState(widgetLibrary);
 }
 
-class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<CapacityInfo> {
+class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<CapacityInfo> {
   Library stateLibrary;
 
   var dbLibraryCollectionReference;
@@ -120,12 +120,6 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
     );
   }
 
-  // needs to be overritten to get AfterLayoutMixin<CapacityInfo> functionality
-  // -> set state new after drawing
-  @override
-  void afterFirstLayout(BuildContext context) {
-  }
-
   void setData(DocumentSnapshot ds) {
     String occupancy;
     String totalSeats;
@@ -136,10 +130,12 @@ class _CapacityInfoState extends State<CapacityInfo> with AfterLayoutMixin<Capac
     }
     occupancy = occupancyLib = ds.data['occupancy'].toString();
     totalSeats = totalSeatsLib = ds.data['totalseats'].toString();
-    setState(() {
-      //occupancyLib = widget;
-      occupancyLib = occupancy;
-      totalSeatsLib = totalSeats;
-    });
+    if (context != null) {
+      setState(() {
+        //occupancyLib = widget;
+        occupancyLib = occupancy;
+        totalSeatsLib = totalSeats;
+      });
+    }
   }
 }
