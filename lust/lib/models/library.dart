@@ -3,6 +3,9 @@ import 'package:lust/models/trend.dart';
 
 class Library {
 // interface
+  double latitude;
+  double longitude;
+
   DateTime _openingTimeToday;
   DateTime _closingTimeToday;
 
@@ -11,7 +14,7 @@ class Library {
 
   List<PercentPerHour> _occupancyPerHour;
 
-  Library();
+  Library({this.latitude, this.longitude});
 
   /// creates a library with sample data
   Library.withSampleData() {

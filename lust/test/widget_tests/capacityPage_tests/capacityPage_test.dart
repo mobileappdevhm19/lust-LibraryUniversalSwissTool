@@ -1,5 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
+import 'package:lust/pages/capacityPage.dart';
+
+import '../../testHelper.dart';
 
 
 void main() {
@@ -8,7 +11,8 @@ void main() {
   // with Widgets in the test environment.
   testWidgets('MyWidget has a title and message', (WidgetTester tester) async {
     // Create the Widget tell the tester to build it
-    await tester.pumpWidget(Lust());
+    await tester.pumpWidget(TestHelper.buildWidget(CapacityPage()));
+    //await tester.pumpWidget(Lust()); - old version
 
     // Create our Finders
     final titleFinder = find.text('Capacity');

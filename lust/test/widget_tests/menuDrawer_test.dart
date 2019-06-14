@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,6 +8,7 @@ import 'package:lust/pages/pageContainer.dart';
 
 import 'package:lust/pages/capacityPage.dart';
 import 'package:lust/pages/checkinPage.dart';
+import 'package:lust/pages/pomodoroPage.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
@@ -14,7 +16,7 @@ import 'package:lust/widgets/utils/menuDrawer.dart';
 void main() {
 
   // Change this number according to the number of pages available in the menu
-  int numberOfExpectedTiles = 2;
+  int numberOfExpectedTiles = 4;
 
   testWidgets('Open menu and go to capacitypage.', (WidgetTester tester) async {
     PageContainer page = PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage());
@@ -61,17 +63,16 @@ void main() {
 /*
   Copy this part for your page and fill in the parameters
   Also change the number on top of this function to the number of inserted pages in the menu
-
   testWidgets('Open menu and go to checkinpage', (WidgetTester tester) async {
     // Create the Widget, tell the tester to build it
     await tester.pumpWidget(TestHelper.buildWidget(YOURPAGECONSTRUCTOR));
-
     openPageByType(tester, YOURPAGECONSTRUCTOR);
   });
 */
   testWidgets('Open menu and find correct amount of listtiles.', (WidgetTester tester) async {
     // Create the Widget, tell the tester to build it
     await tester.pumpWidget(TestHelper.buildWidget(CapacityPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
 
     // Find menu button and open menu
     await tester.tap(find.byIcon(Icons.menu));

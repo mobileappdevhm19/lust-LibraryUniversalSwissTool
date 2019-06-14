@@ -1,23 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/utils/locationAPI.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ButtonCheck extends StatefulWidget {
   @override
   _ButtonCheckState createState() => _ButtonCheckState();
 }
 
+enum ButtonEnable { ENABLE, DISABLED }
+
 class _ButtonCheckState extends State<ButtonCheck> {
+  GeoPoint _libHM;
+  ButtonEnable status;
+
+  final String BUTTONSTATE = 'BUTTONSTATE';
+
   String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
   MaterialColor _splashButton = Colors.red;
-  bool _buttonState = false;
+  bool _buttonState;
 
-  final DocumentReference postRefOccupancy =
+  final DocumentReference libReference =
       Firestore.instance.collection('lib_test').document('centralHM');
   final CollectionReference colRefLogin =
       Firestore.instance.collection('events');
+
+  /*@override
+  Future initState() async {
+    super.initState();
+    print('INIT STATE');
+
+    locationAPI();
+    getLibPosition();
+
+    //status = await LocationAPI.getLocation(_libHM) == true ? ButtonEnable.ENABLE : ButtonEnable.DISABLED;
+  }*/
+
+  @override
+  void initState() {
+    getButtonState();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,21 +71,39 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   void onButtonPressed() async {
+
+    await getLibPosition();
+    _locationAPI();
+    //print(await LocationAPI.getLocation(_libHM));
+
+    /*switch(status){
+      case ButtonEnable.ENABLE:
+        break;
+
+      case ButtonEnable.DISABLED:
+        return null;
+    }*/
     setState(() {
-      if (_buttonState == true) {
-        _buttonState = false;
-        _colorButton = Colors.green;
-        _splashButton = Colors.red;
-        _textButton = "Check In!";
-        sendEventToDB('logout');
-      } else {
-        _buttonState = true;
-        _colorButton = Colors.red;
-        _splashButton = Colors.green;
-        _textButton = "Check out";
-        sendEventToDB('login');
+      print('STATUS: $status & buttonState: $_buttonState');
+      if (status == ButtonEnable.ENABLE) {
+        if (_buttonState == true) {
+          print("ENABLE FELIX");
+          _buttonState = false;
+          _colorButton = Colors.green;
+          _splashButton = Colors.red;
+          _textButton = "Check In!";
+          sendEventToDB('logout');
+        } else {
+          print("DISABLED ANDRE");
+          _buttonState = true;
+          _colorButton = Colors.red;
+          _splashButton = Colors.green;
+          _textButton = "Check out";
+          sendEventToDB('login');
+        }
       }
     });
+    saveButtonState();
     await sendValueToDB(_buttonState);
   }
 
@@ -66,9 +111,9 @@ class _ButtonCheckState extends State<ButtonCheck> {
     int val = increment ? 1 : -1;
     // send new value to database
     return Firestore.instance.runTransaction((Transaction tx) async {
-      DocumentSnapshot postSnapshot = await tx.get(postRefOccupancy);
+      DocumentSnapshot postSnapshot = await tx.get(libReference);
       if (postSnapshot.exists) {
-        await tx.update(postRefOccupancy, <String, dynamic>{
+        await tx.update(libReference, <String, dynamic>{
           'occupancy': postSnapshot.data['occupancy'] + val
         });
       }
@@ -76,8 +121,70 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   Future sendEventToDB(String eventType) {
-    Map<String, dynamic> data = {'eventType': eventType, 'time': DateTime.now()};
+    Map<String, dynamic> data = {
+      'eventType': eventType,
+      'time': DateTime.now()
+    };
     return colRefLogin.document().setData(data);
     //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
+  }
+
+  Future getLibPosition() {
+    libReference.get().then((DocumentSnapshot document) {
+      print('Trying to get the location');
+      _libHM = document['location'];
+    });
+    //print('HM coordinates: (${_libHM.latitude}, ${_libHM.longitude})');
+  }
+
+  _locationAPI() async {
+    print('locationAPI LOCATIONAPI');
+    if (await LocationAPI.getLocation(_libHM)) {
+      status = ButtonEnable.ENABLE;
+    } else {
+      status = ButtonEnable.DISABLED;
+    }
+    print('STATUS: $status');
+  }
+
+  // Checks if there is already a state stored
+  // If nothing is stored -> sets state to false
+  // If state exists takes the old value and sets the state
+  void getButtonState() async {
+    bool tempState;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if(pref.getBool(BUTTONSTATE) == null) {
+      tempState = false;
+      //pref.setBool(BUTTONSTATE, tempState);
+    }
+    else {
+      tempState = pref.getBool(BUTTONSTATE);
+    }
+    setState(() {
+      _buttonState = tempState;
+      updatePageFromState(_buttonState);
+    });
+  }
+
+  // Saves the current button state to the device
+  // so that it can be fetched again
+  void saveButtonState() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setBool(BUTTONSTATE, _buttonState);
+  }
+
+  // Puts the correct appearance to the button
+  // depending on the boolean state of the button
+  void updatePageFromState(bool state) {
+    if(state) {
+      _colorButton = Colors.red;
+      _splashButton = Colors.green;
+      _textButton = "Check out";
+    }
+    else {
+      _colorButton = Colors.green;
+      _splashButton = Colors.red;
+      _textButton = "Check In!";
+    }
   }
 }
