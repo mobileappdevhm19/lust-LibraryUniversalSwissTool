@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   String _email, _password;
   final _formKey = new GlobalKey<FormState>();
   FormType _formRegister = FormType.LOGIN;
+  SnackBar _snackBar;
 
   _LoginPageState();
 
@@ -109,15 +110,17 @@ class _LoginPageState extends State<LoginPage> {
           _userID = await widget.auth.signIn(_email.toString().trim(), _password);  //trim(): avoid problems of format w/email
           //String _userID = await auth.signIn(_email, _password);
           print('Signed in Tameos: $_userID');
-          //_switchPage(context, CapacityPage());
+          _snackBar = new SnackBar(content: Text("Sig "));
         } else {
           //FormType.REGISTER
           _userID = await widget.auth.signUp(_email.toString().trim(), _password);
           print('Registered in: $_userID');
+          _snackBar = new SnackBar(content: Text("Registered succesfully in $_email"));
         }
         widget.onSignIn();
       } catch (e) {
         print(e);
+        _snackBar=new SnackBar(content: Text(e));
       }
     }
   }
@@ -129,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
 
     print("registered");
     accountValidation();
+    Scaffold.of(context).showSnackBar(_snackBar);
   }
   void _login() {
     setState(() {
@@ -137,5 +141,6 @@ class _LoginPageState extends State<LoginPage> {
 
     print("login");
     accountValidation();
+    Scaffold.of(context).showSnackBar(_snackBar);
   }
 }

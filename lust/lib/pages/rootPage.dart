@@ -12,7 +12,7 @@ class RootPage extends StatefulWidget {
   _RootPageState createState() => _RootPageState();
 }
 
-enum LogInOut { SIGNEDIN, NOTSIGNEDIN}
+enum LogInOut { SIGNEDIN, NOTSIGNEDIN }
 
 class _RootPageState extends State<RootPage> {
   LogInOut authStatus = LogInOut.NOTSIGNEDIN;
@@ -30,7 +30,8 @@ class _RootPageState extends State<RootPage> {
     });
   }
 
-  void _onSignedOut() {   //not implemented yet
+  void _onSignedOut() {
+    //not implemented yet
     setState(() {
       print('CALLBACK: onSignedOut');
       authStatus = LogInOut.NOTSIGNEDIN;
@@ -61,6 +62,4 @@ class _RootPageState extends State<RootPage> {
             onSignIn: _onSignedIn);
     }
   }
-
 }
-

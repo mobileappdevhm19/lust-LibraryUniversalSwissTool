@@ -29,14 +29,4 @@ class _GetAppBarState extends State<GetAppBar> {
       ],
     );
   }
-
-/*Icon getSignOutIcon() {
-    if (signOut) {
-      try {
-        return Icon(Icons.power_settings_new);
-      } catch (e) {
-        print(e);
-      }
-    }
-  }*/
 }

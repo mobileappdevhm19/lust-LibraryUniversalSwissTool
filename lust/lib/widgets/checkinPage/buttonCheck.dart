@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/utils/locationAPI.dart';
 
 class ButtonCheck extends StatefulWidget {
   @override
@@ -8,6 +9,15 @@ class ButtonCheck extends StatefulWidget {
 }
 
 class _ButtonCheckState extends State<ButtonCheck> {
+  //PROVISIONAL
+  final String bibLat = 'latitude';
+  final String bibLon = 'longitude';
+  String snapLat, snapLon;
+  final DocumentReference documentHM =
+  Firestore.instance.collection('libs').document('centralHM');
+  //PROVISIONAL
+
+
   String _textButton = "Check In!";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
   MaterialColor _splashButton = Colors.red;
@@ -43,6 +53,10 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   void onButtonPressed() async {
+    String distance = await getLib();
+    print(distance);
+    print('hehehe: $distance');
+
     setState(() {
       if (_buttonState == true) {
         _buttonState = false;
@@ -75,8 +89,25 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   Future sendEventToDB(String eventType) {
-    Map<String, dynamic> data = {'eventType': eventType, 'time': DateTime.now()};
+    Map<String, dynamic> data = {
+      'eventType': eventType,
+      'time': DateTime.now()
+    };
     return colRefLogin.document().setData(data);
     //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
   }
+
+  //PROVISIONAL
+  Future getLib() {
+    Firestore.instance.runTransaction((Transaction tx) async {
+      DocumentSnapshot snapshot = await tx.get(documentHM);
+      if (snapshot.exists) {
+        snapLat = await snapshot.data[bibLat].toString();
+        snapLon = await snapshot.data[bibLon].toString();
+      }
+      return snapLat;
+    });
+  }
+  //PROVISIONAL
+
 }
