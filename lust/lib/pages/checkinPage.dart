@@ -24,7 +24,6 @@ class _CheckinPageState extends State<CheckinPage> {
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
     _height -= 85;
-    print("CHEKPAGE: $_scaffState");
 
     return Scaffold(
         key: _scaffState,
@@ -48,17 +47,9 @@ class _CheckinPageState extends State<CheckinPage> {
           Container(
             alignment: Alignment.center,
             height: _height * 0.6,
-//              margin: const EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10),
             child: ButtonCheck(scaffState: _scaffState),
           ),
         ]));
-  }
-
-  _showSnackBar() {
-    print("EOEOE: $_scaffState");
-
-    _scaffState.currentState.showSnackBar(SnackBar(
-      content: Text("Hola buen dia"),
-    ));
   }
 }

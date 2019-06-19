@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/models/location.dart';
 import 'package:lust/utils/locationAPI.dart';
 import 'package:lust/widgets/utils/snackBar.dart';
 
@@ -22,30 +23,21 @@ enum ButtonEnable { ENABLE, DISABLED }
 class _ButtonCheckState extends State<ButtonCheck> {
   GeoPoint _libHM;
   ButtonEnable status;
+  Location _location;
 
   final String BUTTONSTATE = 'BUTTONSTATE';
 
   String _textButton = "Check In!";
-  String _textSnackBar="";
+  String _textSnackBar = "Loading location services...";
   MaterialColor _colorButton = Colors.green; //change once pressed the button
   MaterialColor _splashButton = Colors.red;
   bool _buttonState;
 
   final DocumentReference libReference =
-      Firestore.instance.collection('lib_test').document('centralHM');
+  Firestore.instance.collection('lib_test').document('centralHM');
   final CollectionReference colRefLogin =
-      Firestore.instance.collection('events');
+  Firestore.instance.collection('events');
 
-  /*@override
-  Future initState() async {
-    super.initState();
-    print('INIT STATE');
-
-    locationAPI();
-    getLibPosition();
-
-    //status = await LocationAPI.getLocation(_libHM) == true ? ButtonEnable.ENABLE : ButtonEnable.DISABLED;
-  }*/
 
   @override
   void initState() {
@@ -79,7 +71,6 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   _showSnackBar() {
-    print("BOTON!: $widget.scaffState");
     widget.scaffState.currentState.showSnackBar(SnackBar(
       content: Text(_textSnackBar),
     ));
@@ -114,7 +105,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
       case ButtonEnable.DISABLED:
         _textSnackBar =
-            "You are too far from the lib!"; //PENDING: show distance!
+        "You are too far from the lib!: ${_location.distance.round()} metres";  //PENDING: show distance!
         break;
     }
     _showSnackBar();
@@ -151,7 +142,10 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   _locationAPI() async {
-    if (await LocationAPI.getLocation(_libHM)) {
+    _location = await LocationAPI.getLocation(_libHM);
+    print("DISTANCE: ${_location.distance} BOOL: ${_location.onRange}");
+
+    if (_location.onRange) {
       status = ButtonEnable.ENABLE;
     } else {
       status = ButtonEnable.DISABLED;
