@@ -21,7 +21,8 @@ class ButtonCheck extends StatefulWidget {
 enum ButtonEnable { ENABLE, DISABLED }
 
 class _ButtonCheckState extends State<ButtonCheck> {
-  GeoPoint _libHM;
+  GeoPoint _libHM = new GeoPoint(0, 0);   //solves the problem but it is not a good solution
+  //GeoPoint _libHM = new GeoPoint(0, 0);
   ButtonEnable status;
   Location _location;
 
@@ -41,7 +42,11 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
   @override
   void initState() {
-    getButtonState();
+    _getButtonState();
+    //getLibPosition();
+    _locationAPI();
+
+    print("INITIAL STATE");
     super.initState();
   }
 
@@ -78,7 +83,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
   void _onButtonPressed() async {
     await getLibPosition();
-    _locationAPI();
+    await _locationAPI();
+
     print('STATUS: $status & buttonState: $_buttonState');
 
     switch (status) {
@@ -156,7 +162,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
   // Checks if there is already a state stored
   // If nothing is stored -> sets state to false
   // If state exists takes the old value and sets the state
-  void getButtonState() async {
+  void _getButtonState() async {
     bool tempState;
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (pref.getBool(BUTTONSTATE) == null) {
