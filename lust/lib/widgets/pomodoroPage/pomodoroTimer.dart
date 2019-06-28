@@ -46,14 +46,24 @@ class PomodoroTimer extends StatefulWidget {
     ptS=new PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
   } */
 
-  PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+  PomodoroTimer() {
+    updateValues(0,  0,  0, 0); //only default values
+    ptS=new PomodoroTimerState();
+    ptS.updateValues();
+  }
+
+  void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
+    statuslist.clear();
     statuslist.add(statusClass(-1, ""));
     statuslist.add(statusClass(periodTime*60, "actual you have to learn!"));
     statuslist.add(statusClass(shortBreakTime*60, "make a short break"));
     statuslist.add(statusClass(longBreakTime*60, "make a long break"));
 
     this.countPeriods = countPeriods;
-    ptS=new PomodoroTimerState();
+
+    if(ptS !=null){ //for case before condtructor
+      ptS.updateValues(); //update the values in PomodoroTimerState
+    }
   }
 
 
@@ -86,33 +96,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   @override
   void initState() {
     super.initState();
-
-    if (widget != null){
-      this.countPeriods = widget.countPeriods;
-      this.statuslist = widget.statuslist;
-    }else{ //only for testing
-      print("in test Constructor in PomodoroTimerState");
-      statuslist.add(statusClass(-1, ""));
-      statuslist.add(statusClass(25, "actual you have to learn!"));
-      statuslist.add(statusClass(9, "make a short break"));
-      statuslist.add(statusClass(15, "make a long break"));
-
-      this.countPeriods = 3;
-      this.statuslist = statuslist;
-
-      int actTime = new DateTime.now().millisecondsSinceEpoch;
-      actTime = (actTime / 1000).toInt();
-      startTime = actTime;
-      actTimerSeconds = 0;
-      isRunning=false; //when no seconds count, the timer cannot be started
-      actStatus=Status.nothing; //initial
-      actStatusText=initialStatusText;
-      setActTimeMinutesSeconds(); //for 00:00 at first
-      return;
-    }
-
-
-    //actTimerSeconds=0;
+    updateValues();
+     //actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
 
     initPlatformState();
@@ -231,6 +216,35 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     if (!mounted) return;
   }
 
+  //updatest the time values
+  //in the actual timer, the time will not change
+  void updateValues(){
+    if (widget != null){
+      this.statuslist.clear();
+      this.countPeriods = widget.countPeriods;
+      this.statuslist = widget.statuslist;
+      //actStatusText=descriptionText();//update desc text
+    }else{ //only for testing
+      print("in test Constructor in PomodoroTimerState");
+      statuslist.add(statusClass(-1, ""));
+      statuslist.add(statusClass(25, "actual you have to learn!"));
+      statuslist.add(statusClass(9, "make a short break"));
+      statuslist.add(statusClass(15, "make a long break"));
+
+      this.countPeriods = 3;
+      this.statuslist = statuslist;
+
+      int actTime = new DateTime.now().millisecondsSinceEpoch;
+      actTime = (actTime / 1000).toInt();
+      startTime = actTime;
+      actTimerSeconds = 0;
+      isRunning=false; //when no seconds count, the timer cannot be started
+      actStatus=Status.nothing; //initial
+      actStatusText=initialStatusText;
+      setActTimeMinutesSeconds(); //for 00:00 at first
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
