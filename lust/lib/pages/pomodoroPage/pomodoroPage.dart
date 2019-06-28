@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
-import 'package:lust/widgets/utils/getAppBar.dart';
+
 import 'package:lust/widgets/utils/menuDrawer.dart';
-import '../rootPage.dart';
 
 
 class PomodoroPage extends StatefulWidget {
@@ -19,20 +17,22 @@ class _PomodoroState extends State<PomodoroPage> {
   final String title;
   final icon;
 
-  final double _appBarHeight = 55;
-
   //all in minutes
-  int periodTime;
-  int shortBreakTime;
-  int longBreakTime;
-  int countPeriods;
+  int periodTime=10;
+  int shortBreakTime=4;
+  int longBreakTime=3;
+  int countPeriods=9;
+
+  pomodoroDescription pomDesc;
+  PomodoroTimer pomTimer;
+
 
   _PomodoroState(this.title, this.icon){
-    this.periodTime=25;
-    this.shortBreakTime=9;
-    this.longBreakTime=15;
-    this.countPeriods=4;
+    pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods);
+    pomTimer= new PomodoroTimer();
+    updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,32 +40,27 @@ class _PomodoroState extends State<PomodoroPage> {
     var _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
-        drawer: MenuDrawer(context),
+        appBar: AppBar(title: Text(title)),
+        drawer: MenuDrawer.getDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Align(
                   //height: _height*0.40,
-                  child: new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                  child: pomDesc,
                 ),
                 Expanded(
-                  child: new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                  child:pomTimer,
                 )
            ]),
         ));
   } // build
 
-  void _signOut() {
-    var auth = AuthProvider.of(context).auth;
-    print("CURRENT USER: mateo mateo");
-    try {
-      auth.signOut();
-      MenuDrawer.switchPage(context, RootPage());
-    } catch (e) {
-      print(e);
-    }
+  void updateVales(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
+    pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
+
+
 }
 
