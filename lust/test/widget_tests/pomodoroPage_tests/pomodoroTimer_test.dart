@@ -74,15 +74,36 @@ void checkInitialValues(){
 }
 
 void checkSharedPreferences(WidgetTester tester){
-  pomTimerState.initPlatformState();
-  int sT=pomTimerState.startTime;
-
-  int difTime=10; //aloowed difTime between startTime and actual Time
   int actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
 
+  pomTimerState.initPlatformState();
+  int sT=pomTimerState.startTime;
+
+  int difTime=2; //aloowed difTime between startTime and actual Time
+
   expect(((actTime-difTime)<=sT &&sT<=actTime), true);
+
+
+  print("now check SharedPreferences when restart");
+  const int waitSec=5000;
+  sleep(const Duration(milliseconds: waitSec));
+  pomTimerState.initPlatformState();
+  sT=pomTimerState.startTime;
+  int oldTime=actTime;
+  actTime = new DateTime.now().millisecondsSinceEpoch;
+  actTime = (actTime / 1000).toInt();
+
+  /*print("startTime $sT");
+  print("Old actTime $oldTime");
+  print("Old actTime $actTime"); */
+
+  //pomTimer uses NOT the actual time, but the old start Time
+  expect(((actTime-difTime)<=sT &&sT<=actTime), false);
+  expect(((oldTime-difTime)<=sT &&sT<=oldTime), true);
+
 }
+
 
 void checkInitalTimerStart(WidgetTester tester) {
   /*pomTimerState.start();
