@@ -51,6 +51,11 @@ void main() {
     checkInitialValues();
   });
 
+  testWidgets('pomodoroTimer check shared preferences', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    checkSharedPreferences(tester);
+  });
+
   testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
     checkInitalTimerStart(tester);
@@ -68,12 +73,23 @@ void checkInitialValues(){
   expect(pomTimerState.isRunning, false);
 }
 
-void checkInitalTimerStart(WidgetTester tester) {
-  //pomTimerState.start();
-  /*expect(pomTimerState.isRunning, true);
-  findTextInButton("Stop");*/
+void checkSharedPreferences(WidgetTester tester){
+  pomTimerState.initPlatformState();
+  int sT=pomTimerState.startTime;
 
+  int difTime=10; //aloowed difTime between startTime and actual Time
+  int actTime = new DateTime.now().millisecondsSinceEpoch;
+  actTime = (actTime / 1000).toInt();
+
+  expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 }
+
+void checkInitalTimerStart(WidgetTester tester) {
+  /*pomTimerState.start();
+  expect(pomTimerState.isRunning, true);
+  findTextInButton("Stop");*/
+}
+
 
 
 
