@@ -60,6 +60,11 @@ void main() {
     await tester.pumpWidget(Lust());
     checkInitalTimerStart(tester);
   });
+
+  testWidgets('pomodoroTimer Initial Timer Stop', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    checkInitalTimerStoo(tester);
+  });
 }
 
 //
@@ -106,11 +111,18 @@ void checkSharedPreferences(WidgetTester tester){
 
 
 void checkInitalTimerStart(WidgetTester tester) {
-  /*pomTimerState.start();
+  pomTimerState.start();
+  findTextInButton("Stop");
   expect(pomTimerState.isRunning, true);
-  findTextInButton("Stop");*/
+
 }
 
+void checkInitalTimerStoo(WidgetTester tester) {
+  pomTimerState.stop();
+  findTextInButton("Start");
+  expect(pomTimerState.isRunning, false);
+
+}
 
 
 

@@ -108,12 +108,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     setActTimeMinutesSeconds(); //for 00:00 at first
     // Load persisted fetch events from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
     startTime = prefs.getInt(StartTime_KEY);
-    //if(startTime==null){startTime=actTime;}
     int oldTimerSeconds=prefs.getInt(OldTimerSeconds_KEY);
-    if(oldTimerSeconds==null){oldTimerSeconds=0;}
+
 
     /*setState(() {
       actErrors += "startTime $startTime \n";
@@ -135,11 +135,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       });
 
       isRunning = prefs.getBool(IsRunning_KEY);
-      if(isRunning==null){isRunning=false;}
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
-      if(actStatus==null){actStatus=Status.nothing;}
       actPeriod=prefs.getInt(ActPeriod_KEY);
-      if(actPeriod==null){actPeriod=0;}
       if(isRunning){
         if (_timer != null) {
           _timer.cancel(); //stop timer if exist
@@ -192,7 +189,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
         actStatusText=descriptionText();
-        setActTimeMinutesSeconds();
         startTimer(); //start Timer with actual values
       }
       else{ //actual stopped
@@ -208,14 +204,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       isRunning=false; //when no seconds count, the timer cannot be started
       actStatus=Status.nothing; //initial
       actStatusText=initialStatusText;
-      setActTimeMinutesSeconds();
     }
-
-    /*if(this !=null){
-      this.setState(() {
+    if(mounted){
+      setState(() {
         setActTimeMinutesSeconds();
       });
-    }*/
+    }
 
 
 
@@ -322,23 +316,28 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     });
   }
   void stop() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
 
     //if(isRunning){
-    setState(() {
+    if (mounted) {
+      setState(() {
+        startStopBtnText = "Start";
+        startStopBtnColor = Colors.green;
+      });
+    }
+    else{
       startStopBtnText = "Start";
       startStopBtnColor = Colors.green;
-    });
+    }
+
     if (_timer != null) {
       _timer.cancel(); //stop timer if exist
     }
     // }
     isRunning=false;
 
-
-
     //for background
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool(IsRunning_KEY, isRunning);
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
@@ -354,20 +353,28 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
   void start() async {
-    setState(() {
+    if (mounted){
+        setState(() {
+          startStopBtnText = "Stop";
+          startStopBtnColor = Colors.red;
+        });
+    }
+    else{
       startStopBtnText = "Stop";
       startStopBtnColor = Colors.red;
-    });
+    }
+    isRunning=true;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
     startTime=actTime-actTimerSeconds;
 
     prefs.setInt(StartTime_KEY, startTime);
-    prefs.setBool(IsRunning_KEY, true);
-    isRunning=true;
-    //print("pomTimerState start is running: $isRunning");
-    startTimer(); //start a new timer
+    prefs.setBool(IsRunning_KEY, isRunning);
+
+    if (mounted) {
+      startTimer(); //start a new timer
+    }
 
   }
 
