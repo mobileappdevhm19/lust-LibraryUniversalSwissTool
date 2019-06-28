@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
           //await widget.auth.sendEmailVerification();
 
           print('Registered in: $_userID');
-          _textSnackBar = "Please confirm account, email received in: $_email";
+          _textSnackBar = "Succesfully registered in: $_email";
         }
         //widget.onSignIn();
       } catch (e) {
