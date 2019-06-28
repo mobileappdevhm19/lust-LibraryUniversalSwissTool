@@ -23,11 +23,19 @@ class _LoginPageState extends State<LoginPage> {
   String _email, _password;
   final _formKey = new GlobalKey<FormState>();
   FormType _formRegister = FormType.LOGIN;
+  bool _emailChecked;
 
   String _textSnackBar;
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
 
   _LoginPageState();
+
+  @override
+  /* void initState() {
+    super.initState();
+    _isEmailVerified();
+    print("INIT email VERIFIED: $_emailChecked");
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -113,17 +121,32 @@ class _LoginPageState extends State<LoginPage> {
         if (_formRegister == FormType.LOGIN) {
           _userID = await widget.auth.signIn(_email.toString().trim(),
               _password); //trim(): avoid problems of format w/email
-          //String _userID = await auth.signIn(_email, _password);
-          print('Signed in Tameos: $_userID');
+          print('Email verified: $_userID');
           _textSnackBar = "Signed in: $_email";
-
           widget.onSignIn();
+
+          /*if (await _isEmailVerified()) {
+            _userID = await widget.auth.signIn(_email.toString().trim(),
+                _password); //trim(): avoid problems of format w/email
+            print('Email verified: $_userID');
+            _textSnackBar = "Signed in: $_email";
+            widget.onSignIn();
+          }
+          else{
+            await widget.auth.sendEmailVerification();
+
+            print('Email not verified!!');
+            _textSnackBar = "Email not verified! Please check your mailbox: $_email";
+          }*/
+
         } else {
           //FormType.REGISTER
           _userID =
               await widget.auth.signUp(_email.toString().trim(), _password);
+          //await widget.auth.sendEmailVerification();
+
           print('Registered in: $_userID');
-          _textSnackBar = "Registered succesfully in $_email";
+          _textSnackBar = "Please confirm account, email received in: $_email";
         }
         //widget.onSignIn();
       } catch (e) {
@@ -134,6 +157,12 @@ class _LoginPageState extends State<LoginPage> {
     _showSnackBar();
   }
 
+  Future<bool> _isEmailVerified() async {
+    _emailChecked = await widget.auth.isEmailVerified();
+    print("EMAIL VERIFIED: $_emailChecked");
+    return _emailChecked;
+  }
+
   void _register() {
     setState(() {
       _formRegister = FormType.REGISTER;
@@ -141,7 +170,6 @@ class _LoginPageState extends State<LoginPage> {
 
     print("registered");
     accountValidation();
-//    Scaffold.of(context).showSnackBar(_snackBar);
   }
 
   void _login() {
@@ -151,6 +179,5 @@ class _LoginPageState extends State<LoginPage> {
 
     print("login");
     accountValidation();
-//    Scaffold.of(context).showSnackBar(_snackBar);
   }
 }

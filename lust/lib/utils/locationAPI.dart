@@ -7,7 +7,7 @@ class LocationAPI {
 
   static Future<Location> getLocation(GeoPoint _point) async {
 
-    final double _maxRadius = 6000;
+    final double _maxRadius = 300;
     double _distance;
     bool _onRange;
     print("step 1 xxxx");
