@@ -63,7 +63,12 @@ void main() {
 
   testWidgets('pomodoroTimer Initial Timer Stop', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
-    checkInitalTimerStoo(tester);
+    checkInitalTimerStop(tester);
+  });
+
+  testWidgets('pomodoroTimer Change Status', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    checkChangeStatus(tester);
   });
 }
 
@@ -89,7 +94,6 @@ void checkSharedPreferences(WidgetTester tester){
 
   expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 
-
   print("now check SharedPreferences when restart");
   const int waitSec=5000;
   sleep(const Duration(milliseconds: waitSec));
@@ -99,45 +103,33 @@ void checkSharedPreferences(WidgetTester tester){
   actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
 
-  /*print("startTime $sT");
-  print("Old actTime $oldTime");
-  print("Old actTime $actTime"); */
-
-  //pomTimer uses NOT the actual time, but the old start Time
   expect(((actTime-difTime)<=sT &&sT<=actTime), false);
   expect(((oldTime-difTime)<=sT &&sT<=oldTime), true);
-
 }
-
 
 void checkInitalTimerStart(WidgetTester tester) {
   pomTimerState.start();
   findTextInButton("Stop");
   expect(pomTimerState.isRunning, true);
-
 }
 
-void checkInitalTimerStoo(WidgetTester tester) {
+void checkInitalTimerStop(WidgetTester tester) {
   pomTimerState.stop();
   findTextInButton("Start");
   expect(pomTimerState.isRunning, false);
-
 }
 
-
+void checkChangeStatus(WidgetTester tester) {
+  pomTimerState.changeStatus();
+  Status actStat=pomTimerState.actStatus;
+  expect(pomTimerState.actStatus, actStat);
+}
 
 void findTextInButton(String btnText){
-
-  //print("in findTextInButton");
   expect(pomTimerState.startStopBtnText, btnText);
-
 }
 
 void findTextInResetButton(String btnText){
-
-  //print("in findTextInResetButton");
-  // Create our Finders
-  //final startTextFinder = find.text("reset");
   expect(pomTimerState.resetBtnText, btnText);
 
 }
