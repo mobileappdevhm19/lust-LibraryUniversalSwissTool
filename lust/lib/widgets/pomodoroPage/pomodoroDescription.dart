@@ -22,60 +22,77 @@ class pomodoroDescription extends StatelessWidget {
           children: <Widget>[
             new Row(
               children: <Widget>[
-                const Expanded(child: Text(
-                  "period:",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                  textAlign: TextAlign.center,
-                )),
-                Expanded(child: Text(
-                  "$periodTime min",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                  textAlign: TextAlign.center,
-                )),
+                Expanded(child: new Column(
+                    children: <Widget>[
+                      Text(
+                        "Period",
+                        textScaleFactor: 0.8,
+                        style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ]),
+                ),
               ],
             ),
-            new Divider(
-              height: 50.0,
-              indent: 0.0,
-              color: Colors.black,
-            ),
+
             new Row(
               children: <Widget>[
-                const Expanded(child: Text(
-                  "break:",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                  textAlign: TextAlign.center,
-                )),
-                Expanded(child: Text(
-                  "$shortBreakTime min"+" / "+"$longBreakTime min",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                  textAlign: TextAlign.center,
-                )),
+               Expanded(child: new Column(
+                children: <Widget>[
+                  new TextField(
+                    decoration: new InputDecoration(labelText: "time"),
+                    keyboardType: TextInputType.number,
+
+                  ),
+                ]),
+               ),
+                Expanded(child: new Column(
+                    children: <Widget>[
+                      new TextField(
+                        decoration: new InputDecoration(labelText: "count"),
+                        keyboardType: TextInputType.number,
+
+                      ),
+                    ]),
+                ),
+
+
               ],
             ),
-            new Divider(
-              height: 50.0,
-              indent: 0.0,
-              color: Colors.black,
-            ),
+
             new Row(
               children: <Widget>[
-                const Expanded(child: Text(
-                  "periods:",
-                  textScaleFactor: 0.8,
-                  style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                  textAlign: TextAlign.center,
-                )),
-                Expanded(child: Text(
-                  '$countPeriods',
-                  textScaleFactor: 0.8,
-                  style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                  textAlign: TextAlign.center,
-                )),
+                Expanded(child: new Column(
+                    children: <Widget>[
+                      Text(
+                        "Break",
+                        textScaleFactor: 0.8,
+                        style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
+                        textAlign: TextAlign.center,
+                      ),
+                    ]),
+                ),
+              ],
+            ),
+
+            new Row(
+              children: <Widget>[
+                Expanded(child: new Column(
+                    children: <Widget>[
+                      new TextField(
+                        decoration: new InputDecoration(labelText: "short"),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ]),
+                ),
+                Expanded(child: new Column(
+                    children: <Widget>[
+                      new TextField(
+                        decoration: new InputDecoration(labelText: "long"),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ]),
+                ),
               ],
             ),
             new SizedBox(
