@@ -3,32 +3,44 @@ import 'package:lust/main.dart';
 import 'package:flutter/material.dart';
 import '../../testHelper.dart';
 import 'package:lust/pages/pomodoroPage.dart';
+import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
+
 
 
 
 void main() {
-  // Define a test. The TestWidgets function will also provide a WidgetTester
-  // for us to work with. The WidgetTester will allow us to build and interact
-  // with Widgets in the test environment.
-  testWidgets('pomodoroDescription', (WidgetTester tester) async {
-    // Create the Widget tell the tester to build it
-    // Using the main Widget to get all the needed info for subwidgets
+  testWidgets('pomodoroDesc headline tests', (WidgetTester tester) async {
     await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
-
-    // Create our Finders
-    final periodTimeFinder = find.text("period:");
-    final breakFinder = find.text("break:");
-    final periodsFinder = find.text("periods:");
-
-    final dividerFinder = find.byType(Divider);
-
-    // Use the `findsOneWidget` matcher provided by flutter_test to verify our
-    // Text Widgets appear exactly once in the Widget tree
-    expect(periodTimeFinder, findsOneWidget);
-    expect(breakFinder, findsOneWidget);
-    expect(periodsFinder, findsOneWidget);
-
-    // Find the dividers (2 in total) between the rows
-    expect(dividerFinder, findsNWidgets(2));
+    checkHeadlines(tester);
   });
+
+
+  testWidgets('pomodoroDesc TextField', (WidgetTester tester) async {
+    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
+    checkTextFieldTexts(tester);
+  });
+}
+
+
+
+void checkHeadlines(WidgetTester tester){
+  // Create our Finders
+  final periodTimeFinder = find.text("Period");
+  final breakFinder = find.text("Break");
+  expect(periodTimeFinder, findsOneWidget);
+  expect(breakFinder, findsOneWidget);
+}
+
+void checkTextFieldTexts(WidgetTester tester){
+  final periodTimeFinder = find.text("time");
+  expect(periodTimeFinder, findsOneWidget);
+
+  final periodCountFinder = find.text("count");
+  expect(periodCountFinder, findsOneWidget);
+
+  final shortBreakFinder = find.text("short");
+  expect(shortBreakFinder, findsOneWidget);
+
+  final longBreakFinder = find.text("long");
+  expect(longBreakFinder, findsOneWidget);
 }

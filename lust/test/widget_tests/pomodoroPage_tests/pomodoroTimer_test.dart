@@ -112,6 +112,11 @@ void checkSharedPreferences(WidgetTester tester) async{
   pomTimerState.start();
 
   pomTimerState.initPlatformState();
+  pomTimerState.start();
+  pomTimerState.initPlatformState();
+
+
+
 }
 
 void checkInitalTimerStart(WidgetTester tester) {
