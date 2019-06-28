@@ -10,10 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 //set member variables
-int periodTime=25;
-int shortBreakTime=9;
-int longBreakTime=15;
-int countPeriods=4;
 PomodoroTimer pomTimer;//= new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods);
 PomodoroTimerState pomTimerState;//=new PomodoroTimerState();
 
@@ -70,6 +66,11 @@ void main() {
     await tester.pumpWidget(Lust());
     checkChangeStatus(tester);
   });
+
+  testWidgets('reset Button', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    resetButton(tester);
+  });
 }
 
 //
@@ -120,9 +121,23 @@ void checkInitalTimerStop(WidgetTester tester) {
 }
 
 void checkChangeStatus(WidgetTester tester) {
+  for(int i=0; i<pomTimerState.countPeriods;i++){
+    pomTimerState.changeStatus();
+    String aS=pomTimerState.actStatus.toString();
+    print("$aS");
+    expect(pomTimerState.actStatus, Status.learning);
+    pomTimerState.changeStatus();
+    aS=pomTimerState.actStatus.toString();
+    print("$aS");
+    expect(pomTimerState.actStatus, Status.shortBreak);
+  }
+  pomTimerState.changeStatus(); //learining
+  String aS=pomTimerState.actStatus.toString();
+  print("$aS");
   pomTimerState.changeStatus();
-  Status actStat=pomTimerState.actStatus;
-  expect(pomTimerState.actStatus, actStat);
+  aS=pomTimerState.actStatus.toString();
+  print("$aS");
+  expect(pomTimerState.actStatus, Status.longBreak);
 }
 
 void findTextInButton(String btnText){
@@ -131,5 +146,27 @@ void findTextInButton(String btnText){
 
 void findTextInResetButton(String btnText){
   expect(pomTimerState.resetBtnText, btnText);
+
+}
+
+
+void resetButton(WidgetTester tester) {
+  pomTimerState.changeStatus(); //just that status is not nothing
+
+  int tSec=10;
+  pomTimerState.actTimerSeconds=tSec;
+
+  AlertDialog resDiag=pomTimerState.resetAlertDiaglog();
+  expect(resDiag.actions.length, 2);
+
+  FlatButton closeBtn=resDiag.actions[0];
+  closeBtn.onPressed();
+  expect( pomTimerState.actStatus, Status.learning);
+  expect( pomTimerState.actTimerSeconds, tSec);
+
+  FlatButton resetBtn=resDiag.actions[1];
+  resetBtn.onPressed();
+  expect( pomTimerState.actStatus, Status.nothing);
+  expect( pomTimerState.actTimerSeconds, 0);
 
 }
