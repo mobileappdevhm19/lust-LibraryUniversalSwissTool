@@ -22,7 +22,6 @@ void main() {
 }
 
 
-
 void checkHeadlines(WidgetTester tester){
   // Create our Finders
   final periodTimeFinder = find.text("Period");
