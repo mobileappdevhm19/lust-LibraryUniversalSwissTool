@@ -192,7 +192,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
         actStatusText=descriptionText();
-        startTimer(); //start Timer with actual values
+        if(mounted) {
+          startTimer(); //start Timer with actual values
+        }
       }
       else{ //actual stopped
 
@@ -489,7 +491,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     //for background
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
         oneSec,
@@ -546,7 +547,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     if(_timer !=null){
       _timer.cancel();
     }
-
   }
 
 }
