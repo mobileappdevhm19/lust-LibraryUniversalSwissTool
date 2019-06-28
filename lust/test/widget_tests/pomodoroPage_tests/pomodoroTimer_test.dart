@@ -35,11 +35,12 @@ Future setupSomePreferences(int startTime) async {
 
 
 void main() {
-  pomTimer= new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods);
+  pomTimer= new PomodoroTimer();
+  pomTimer.updateValues(1, 1, 1, 1); //default values
   pomTimerState=new PomodoroTimerState();
 
 
-  //setupSomePreferences(null);
+  setupSomePreferences(null);
   // Define a test. The TestWidgets function will also provide a WidgetTester
   // for us to work with. The WidgetTester will allow us to build and interact
   // with Widgets in the test environment.
