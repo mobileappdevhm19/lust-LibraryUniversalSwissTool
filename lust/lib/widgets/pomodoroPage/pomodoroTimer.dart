@@ -510,74 +510,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return ret;
   }
 
-  /*Future<void> _showNotification() async {
-    var vibrationPatternlist = Int64List(4);
-    vibrationPatternlist[0] = 0;
-    vibrationPatternlist[1] = 1000;
-    vibrationPatternlist[2] = 5000;
-    vibrationPatternlist[3] = 2000;
-
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High, ticker: 'ticker', vibrationPattern: vibrationPatternlist, enableVibration:  true);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, 'LUST', '$actStatusText', platformChannelSpecifics,
-        payload: 'item x');
-  }
-
-  Future<void> onSelectNotification(String payload) async {
-    /*if (payload != null) {
-      debugPrint('notification payload: ' + payload);
-    }
-
-    await Navigator.push<void>(
-      context,
-      MaterialPageRoute(builder: (context) => PomodoroPage()),
-    );*/
-  }*/
-
-  Future<void> onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
-    // display a dialog with the notification details, tap ok to go to another page
-    await showDialog<void>(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-        title: Text(title),
-        content: Text(body),
-        actions: [
-          CupertinoDialogAction(
-            isDefaultAction: true,
-            child: Text('Ok'),
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: true).pop();
-              await Navigator.push<void>(
-                context,
-                MaterialPageRoute(
-                //  builder: (context) => PomodoroPage(),
-                ),
-              );
-            },
-          )
-        ],
-      ),
-    );
-  }
-
   void dispose() {
     super.dispose();
     if(_timer !=null){
       _timer.cancel();
     }
 
-    /*SharedPreferences prefs = await SharedPreferences.getInstance();
-    int actTime = new DateTime.now().millisecondsSinceEpoch;
-    actTime = (actTime / 1000).toInt();
-    startTime=actTime-actTimerSeconds;
-
-    prefs.setInt(StartTime_KEY, startTime); */
   }
 
 }
