@@ -1,28 +1,34 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lust/models/library.dart';
+import 'package:lust/models/location.dart';
 
 class LocationAPI {
 
-  static Future<bool> getLocation(GeoPoint _point) async {
-    final double _maxRadius = 150;
+  static Future<Location> getLocation(GeoPoint _point) async {
+
+    final double _maxRadius = 6000;
     double _distance;
-    Library libHM = new Library(longitude: _point.longitude, latitude: _point.latitude);
+    bool _onRange;
+    print("step 1 xxxx");
+    Library libHM =
+        new Library(longitude: _point.longitude, latitude: _point.latitude);
+    print("step 2 xxxx");
 
-    Position currentLocation = await Geolocator().getLastKnownPosition(
+    Position currentLocation = await Geolocator().getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
-    print('USER coordinates: (${currentLocation.latitude}, ${currentLocation.longitude})');
+    print(
+        'USER coordinates: (${currentLocation.latitude}, ${currentLocation.longitude})');
 
-    _distance = await Geolocator().distanceBetween(
-        currentLocation.latitude,
-        currentLocation.longitude,
-        libHM.latitude,
-        libHM.longitude);
-    print('DISTANCE: $_distance');
+    _distance = await Geolocator().distanceBetween(currentLocation.latitude,
+        currentLocation.longitude, libHM.latitude, libHM.longitude);
 
-   if (_distance < _maxRadius) {
-      return true;
+    if (_distance < _maxRadius) {
+      _onRange = true;
+    } else {
+      _onRange = false;
     }
-    return false;
+
+    return new Location(distance: _distance, onRange: _onRange);
   }
 }

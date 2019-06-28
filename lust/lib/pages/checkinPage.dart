@@ -16,6 +16,7 @@ class CheckinPage extends StatefulWidget {
 class _CheckinPageState extends State<CheckinPage> {
   final String title;
   final icon;
+  final GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
 
   _CheckinPageState(this.title, this.icon);
 
@@ -25,6 +26,7 @@ class _CheckinPageState extends State<CheckinPage> {
     _height -= 85;
 
     return Scaffold(
+        key: _scaffState,
         appBar: AppBar(title: Text(title)),
         drawer: MenuDrawer.getDrawer(context),
         body: ListView(children: [
@@ -45,11 +47,9 @@ class _CheckinPageState extends State<CheckinPage> {
           Container(
             alignment: Alignment.center,
             height: _height * 0.6,
-//              margin: const EdgeInsets.only(left: 10, right: 10),
-            child: ButtonCheck(),
+            margin: const EdgeInsets.only(left: 10, right: 10),
+            child: ButtonCheck(scaffState: _scaffState),
           ),
-
-
         ]));
   }
 }
