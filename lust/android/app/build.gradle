@@ -57,7 +57,7 @@ android {
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
+            storeFile file('C:/Users/mateo/key.jks')
             storePassword keystoreProperties['storePassword']
         }
     }
