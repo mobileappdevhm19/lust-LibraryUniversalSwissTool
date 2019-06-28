@@ -4,8 +4,12 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
+//import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
+//FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 
 enum Status{
@@ -18,6 +22,7 @@ const StopTime_KEY = "stopTime";
 const ActStatus_KEY="actStatus";
 const ActPeriod_KEY="actPeriod";
 const OldTimerSeconds_KEY="oldTimerSeconds";
+
 
 
 
@@ -34,15 +39,19 @@ class PomodoroTimer extends StatefulWidget {
   int countPeriods;
   List<statusClass> statuslist=new List();
 
-  PomodoroState pomPage;
 
-  PomodoroTimer(PomodoroState pomPage) {
-    this.pomPage=pomPage;
+  /*PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
+    this.countPeriods=countPeriods;
+    //flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    ptS=new PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
+  } */
+
+  PomodoroTimer() {
     updateValues(0,  0,  0, 0); //only default values
     ptS=new PomodoroTimerState();
+    ptS.updateValues();
   }
 
-  //*60 because it should be minutes
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     statuslist.clear();
     statuslist.add(statusClass(-1, ""));
@@ -51,21 +60,12 @@ class PomodoroTimer extends StatefulWidget {
     statuslist.add(statusClass(longBreakTime*60, "make a long break"));
 
     this.countPeriods = countPeriods;
-  }
 
-  void updateFromPomPage(){
-    if(pomPage !=null){
-      updateValues(pomPage.periodTime, pomPage.shortBreakTime, pomPage.longBreakTime, pomPage.countPeriods);
+    if(ptS !=null){ //for case before condtructor
+      ptS.updateValues(); //update the values in PomodoroTimerState
     }
   }
 
-  //update the values in PomodoroTimerState
-  void initPomTimerState(){
-    print("updatePomTimerState $countPeriods");
-   // ptS.initState();
-    ptS.statuslist=this.statuslist;
-    ptS.countPeriods=this.countPeriods;
-  }
 
   @override
   PomodoroTimerState createState() => ptS;
@@ -90,12 +90,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   String startStopBtnText="Start";
   String resetBtnText="reset";
   ColorSwatch startStopBtnColor=Colors.green;
+  //notifications notification;
 
 
   @override
   void initState() {
     super.initState();
-    if(widget==null) return; //only for test
+    updateValues();
+     //actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
 
     initPlatformState();
@@ -103,15 +105,18 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   Future<void> initPlatformState() async {
     setActTimeMinutesSeconds(); //for 00:00 at first
-
-    int actTime = new DateTime.now().millisecondsSinceEpoch;
-    actTime = (actTime / 1000).toInt();
     // Load persisted fetch events from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-
+    int actTime = new DateTime.now().millisecondsSinceEpoch;
+    actTime = (actTime / 1000).toInt();
     startTime = prefs.getInt(StartTime_KEY);
     int oldTimerSeconds=prefs.getInt(OldTimerSeconds_KEY);
+
+
+    /*setState(() {
+      actErrors += "startTime $startTime \n";
+    });*/
 
     int stopT = prefs.getInt(StopTime_KEY);
     if (stopT != null) {
@@ -119,25 +124,18 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     } else {
       stopTime = actTime;
     }
+    /*setState(() {
+      actErrors += "stop $stopTime \n";
+    });*/
 
     if (startTime != null) {
-      if(mounted) {
-        setState(() {
-          setActTimeMinutesSeconds();
-        });
-      }
+      setState(() {
+        setActTimeMinutesSeconds();
+      });
 
       isRunning = prefs.getBool(IsRunning_KEY);
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
-      if(actStatus==Status.nothing){
-        resetValues(true);
-        return;
-      }
-
       actPeriod=prefs.getInt(ActPeriod_KEY);
-      updateValues();
-
-
       if(isRunning){
         if (_timer != null) {
           _timer.cancel(); //stop timer if exist
@@ -145,15 +143,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         startStopBtnText = "Stop";
         startStopBtnColor = Colors.red;
 
+
         int difTime=(actTime - startTime);
         if(difTime<statuslist[actStatus.index].time){
           actTimerSeconds = statuslist[actStatus.index].time-difTime;
         }
         else{
-
           //only varibles for this loop to find out which time in the actual status we have
           Status hereStatus=actStatus;
-          String aS=hereStatus.toString();
           int hereTimerSeconds=difTime;
           int herePeriod=actPeriod;
           while(hereTimerSeconds>0){ //because in the background maybe a few periods passed
@@ -171,7 +168,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
                 }
                 break;
               }
-              default: { //after every break comes a learning period
+              default: {
                 hereStatus=Status.learning;
                 herePeriod++;
               }
@@ -179,6 +176,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
             hereTimerSeconds=hereTimerSeconds-statuslist[hereStatus.index].time;
 
+            print("actTimerSeconds $hereTimerSeconds");
             if(hereTimerSeconds<0){
               hereTimerSeconds=oldTimerSec;
               actPeriod=oldPeriod;
@@ -190,25 +188,31 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
         actStatusText=descriptionText();
-        if(mounted) {
-          startTimer(); //start Timer with actual values
-        }
+        startTimer(); //start Timer with actual values
       }
       else{ //actual stopped
 
         actTimerSeconds =oldTimerSeconds; //subtrac the time beetween last stop click and now
+        print("act Status $actStatus");
         actStatusText=descriptionText();
       }
-    } else { //reset, because some sharedPreferences are null
-      resetValues(true);
-    }
-    if(mounted){
-      setState(() {
-        setActTimeMinutesSeconds();
-      });
+    } else { //startTime =null
+      startTime = actTime;
+      actTimerSeconds = 0;
+      prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+      isRunning=false; //when no seconds count, the timer cannot be started
+      actStatus=Status.nothing; //initial
+      actStatusText=initialStatusText;
     }
 
+    setState(() {
+      setActTimeMinutesSeconds();
+    });
 
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
     if (!mounted) return;
   }
 
@@ -216,22 +220,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   //in the actual timer, the time will not change
   void updateValues(){
     if (widget != null){
+      this.statuslist.clear();
       this.countPeriods = widget.countPeriods;
       this.statuslist = widget.statuslist;
-
-      int pT=statuslist[1].time;
-
-      if(countPeriods<=0){
-        widget.updateFromPomPage();
-      }
-
-      this.countPeriods = widget.countPeriods;
-      this.statuslist = widget.statuslist;
-
-      pT=statuslist[1].time;
-
-      actStatusText=descriptionText();//update desc text
+      //actStatusText=descriptionText();//update desc text
     }else{ //only for testing
+      print("in test Constructor in PomodoroTimerState");
       statuslist.add(statusClass(-1, ""));
       statuslist.add(statusClass(25, "actual you have to learn!"));
       statuslist.add(statusClass(9, "make a short break"));
@@ -254,66 +248,61 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   @override
   Widget build(BuildContext context) {
-    const double margin=10;
     return new Align(
-      alignment: Alignment.center,
-      child: Container(
-        margin: const EdgeInsets.only(left: margin, right: margin),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
+        alignment: Alignment.center,
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
                 width: MediaQuery.of(context).size.width, //screen width
-                //height: 100.0,
+                height: 100.0,
                 child:
-                RaisedButton(
-                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                  color: startStopBtnColor,
-                  onPressed: () {startStopButtonClicked();},
-                  child: Text(
-                      '$startStopBtnText',
-                      style: TextStyle(fontSize: 40)
-                  ),
-                )
-            ),
-
-            RaisedButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                  side: BorderSide(color: Colors.red)),
-              onPressed: () {resetButtonClicked();},
-              child: Text(
-                  '$resetBtnText',
-                  style: TextStyle(fontSize: 20)
-              ),
-            ),
-
-            Container(
-              width: MediaQuery.of(context).size.width, //screen width
-              //height: 200.0,
-              child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Text(
-                    "$actTimeMinutesSeconds",
-                    textScaleFactor: 0.8,
-                    style: TextStyle(fontSize: 20.0, letterSpacing: 2.0, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                  RaisedButton(
+                    color: startStopBtnColor,
+                    onPressed: () {startStopButtonClicked();},
+                    child: Text(
+                        '$startStopBtnText',
+                        style: TextStyle(fontSize: 40)
+                    ),
                   )
               ),
-            ),
-            Expanded(child: Text(
-              "$actStatusText",
-              textScaleFactor: 0.8,
-              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-              textAlign: TextAlign.center,
-            )),
-          ],
+
+              RaisedButton(
+                onPressed: () {resetButtonClicked();},
+                child: Text(
+                    '$resetBtnText',
+                    style: TextStyle(fontSize: 20)
+                ),
+              ),
+
+               Container(
+               // color: Colors.blue,
+                width: MediaQuery.of(context).size.width, //screen width
+                height: 200.0,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                    child: Text(
+                      "$actTimeMinutesSeconds",
+                      textScaleFactor: 0.8,
+                      style: TextStyle(fontSize: 20.0, letterSpacing: 2.0, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    )
+                ),
+              ),
+              Expanded(child: Text(
+                "$actStatusText",
+                textScaleFactor: 0.8,
+                style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+                textAlign: TextAlign.center,
+              )),
+            ],
+         ),
         ),
-      ),
     );
   }
 
   void startStopButtonClicked(){
-    this.setState((){
+      this.setState((){
       if(startStopBtnText=="Start"){
         start();
         return; //jut to leave this function
@@ -324,33 +313,31 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     });
   }
   void stop() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     //if(isRunning){
-    if (mounted) {
-      setState(() {
-        startStopBtnText = "Start";
-        startStopBtnColor = Colors.green;
-      });
-    }
-    else{
+    setState(() {
       startStopBtnText = "Start";
       startStopBtnColor = Colors.green;
-    }
-
+    });
     if (_timer != null) {
       _timer.cancel(); //stop timer if exist
     }
     // }
     isRunning=false;
 
+
+
     //for background
+
+    prefs.setBool(IsRunning_KEY, isRunning);
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
     stopTime=actTime;
     startTime=startTime-actTimerSeconds;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(IsRunning_KEY, isRunning);
-
-
+    /*setState(() {
+      actErrors += "startTime $startTime \n";
+    });*/
     prefs.setInt(StopTime_KEY, stopTime);
     prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
   }
@@ -358,41 +345,20 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
   void start() async {
-    SharedPreferences prefs;
-    if (mounted){
-      prefs=await SharedPreferences.getInstance();
-      setState(() {
-        startStopBtnText = "Stop";
-        startStopBtnColor = Colors.red;
-      });
-    }
-    else{
+    setState(() {
       startStopBtnText = "Stop";
       startStopBtnColor = Colors.red;
-    }
-    isRunning=true;
-
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
-    startTime=actTime-(statuslist[actStatus.index].time-actTimerSeconds);
-
-    if(actStatus==Status.nothing){
-      actStatus=Status.learning;
-      if(mounted){
-        prefs.setInt(ActStatus_KEY, actStatus.index);
-      }
-      actTimerSeconds=statuslist[actStatus.index].time;
-      actStatusText=descriptionText();
-    }
-
-    if(!mounted){return;}
+    startTime=actTime-actTimerSeconds;
 
     prefs.setInt(StartTime_KEY, startTime);
-    prefs.setBool(IsRunning_KEY, isRunning);
-
-    if (mounted) {
-      startTimer(); //start a new timer
-    }
+    prefs.setBool(IsRunning_KEY, true);
+    isRunning=true;
+    //print("pomTimerState start is running: $isRunning");
+    startTimer(); //start a new timer
 
   }
 
@@ -402,77 +368,50 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return resetAlertDiaglog();
+        return AlertDialog(
+          title: new Text("Reset Pomodoro"),
+          content: new Text("Do you really want to reset the pomodoro timer?\n"
+              "Are you sure that you can learn good without this feature of lust?"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop(); //just close dialogwindow
+              },
+            ),
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("reset"),
+              onPressed: () {
+                actStatus=Status.nothing;
+                actTimerSeconds=0;
+                actPeriod=0;
+                setState(() {
+                  setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
+                  actStatusText=initialStatusText;
+                });
+                stop();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       },
     );
-  }
-
-  AlertDialog resetAlertDiaglog(){
-    return AlertDialog(
-      title: new Text("Reset Pomodoro"),
-      content: new Text("All the progress will be lost!\n"
-          "Are you sure that you want to reset the pomodoro timer?"),
-      actions: <Widget>[
-        // usually buttons at the bottom of the dialog
-        new FlatButton(
-          child: new Text("Close"),
-          onPressed: () {
-            if(mounted) {
-              Navigator.of(context).pop();//just close dialogwindow
-            }
-          },
-        ),
-        // usually buttons at the bottom of the dialog
-        new FlatButton(
-          child: new Text("reset"),
-          onPressed: () {
-            resetValues();
-          },
-        ),
-      ],
-    );
-  }
-
-  void resetValues([bool initial=false]){
-    bool init=initial;
-    actStatus=Status.nothing;
-    actTimerSeconds=0;
-    actPeriod=0;
-    setVarsToShared();
-    updateValues();
-    if(mounted) {
-      setState(() {
-        setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
-        actStatusText = initialStatusText;
-      });
-    }
-
-    stop();
-
-    if(mounted && !init) {
-      Navigator.of(context).pop();
-    }
-  }
-  //help function for reset
-  void setVarsToShared() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt(ActPeriod_KEY, actPeriod);
-    prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
-    prefs.setInt(ActStatus_KEY, actStatus.index);
   }
 
 
   /// starts timer
   /// set description Status text
+
   void changeStatus() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //necessary, otherwise multiple timer instances interfere each other
 
-
-    if(mounted){
-      updateValues(); //update the values (when user changes inputs in pomodoro desc)
-    }
     actTimerSeconds=0;
     if(_timer !=null){
-      _timer.cancel(); //necessary, otherwise multiple timer instances interfere each other
+      _timer.cancel();
     }
     switch(actStatus){
       case Status.learning: {
@@ -487,57 +426,53 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
       default: {
         actStatus=Status.learning;
-        if(actPeriod !=null){
-          actPeriod++;
-        }
-        else{ //only for test
-          actPeriod=0;
-        }
+        actPeriod++;
       }
     }
-    actStatusText=descriptionText();
-    actTimerSeconds=statuslist[actStatus.index].time;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     prefs.setInt(ActPeriod_KEY, actPeriod);
 
-
+    actTimerSeconds=statuslist[actStatus.index].time;
     prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
 
     prefs.setInt(ActStatus_KEY, actStatus.index);
 
 
-    if(mounted) {
-      startTimer();
-    }
+    actStatusText=descriptionText();
+
+    //showNormalNoti()
+    startTimer();
   }
 
 
   void startTimer() async{
-
-    const oneSec = const Duration(seconds: 1);
-
     //for background
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if(!mounted){return;} //only for test
+
+    const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
-      oneSec,
-          (Timer timer) => setState(() {
-        actTimerSeconds--;
-        prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+        oneSec,
+            (Timer timer) => setState(() {
+              actTimerSeconds--;
+              prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
 
-        if (actTimerSeconds < 1) {
-          timer.cancel();
+              if (actTimerSeconds < 1) {
+            timer.cancel();
 
-          changeStatus();
-        } else {
-          setActTimeMinutesSeconds();
-        }
-      }),
+            changeStatus();
+          } else {
+            setActTimeMinutesSeconds();
+          }
+        }),
     );
   }
 
 
+  /*Future<void> showNormalNoti() async{
+    await _showNotification();
+  }*/
+  ///only for textual output
   void setActTimeMinutesSeconds() {
     if (actTimerSeconds == null) {
       actTimerSeconds = 0;
@@ -548,9 +483,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     String secondsString = setFirst0(actTimerSeconds - (minutes * 60));
 
     actTimeMinutesSeconds = "$minutesString : $secondsString";
+    //return actTimeMinutesSeconds;
   }
 
-  //for numbers <0
   String setFirst0(int number) {
     if (number < 10) {
       return "0$number";
@@ -561,26 +496,80 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   String descriptionText(){
     String ret=statuslist[actStatus.index].text;
-    String p=" period";
-    if((countPeriods-actPeriod)>1){
-      p+="s";
-    }
     ret +="\n";
-    ret +=(countPeriods-actPeriod).toString() +p+" till next long break";
+    ret +=(countPeriods-actPeriod).toString() +"periods till next long break";
     return ret;
   }
 
-  //help function for testing
-  void setSharedStartTime(int sT) async{
-    print("setSharedStartTime $sT");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt(StartTime_KEY, sT);
+  /*Future<void> _showNotification() async {
+    var vibrationPatternlist = Int64List(4);
+    vibrationPatternlist[0] = 0;
+    vibrationPatternlist[1] = 1000;
+    vibrationPatternlist[2] = 5000;
+    vibrationPatternlist[3] = 2000;
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.Max, priority: Priority.High, ticker: 'ticker', vibrationPattern: vibrationPatternlist, enableVibration:  true);
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'LUST', '$actStatusText', platformChannelSpecifics,
+        payload: 'item x');
   }
+
+  Future<void> onSelectNotification(String payload) async {
+    /*if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+
+    await Navigator.push<void>(
+      context,
+      MaterialPageRoute(builder: (context) => PomodoroPage()),
+    );*/
+  }*/
+
+  Future<void> onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) async {
+    // display a dialog with the notification details, tap ok to go to another page
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('Ok'),
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await Navigator.push<void>(
+                context,
+                MaterialPageRoute(
+                //  builder: (context) => PomodoroPage(),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   void dispose() {
     super.dispose();
     if(_timer !=null){
       _timer.cancel();
     }
+
+    /*SharedPreferences prefs = await SharedPreferences.getInstance();
+    int actTime = new DateTime.now().millisecondsSinceEpoch;
+    actTime = (actTime / 1000).toInt();
+    startTime=actTime-actTimerSeconds;
+
+    prefs.setInt(StartTime_KEY, startTime); */
   }
 
 }
+
