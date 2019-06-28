@@ -19,76 +19,80 @@ enum FormType { LOGIN, REGISTER }
 
 class _LoginPageState extends State<LoginPage> {
   String _title = "LUST - LibUniversalSwissTool";
+
   String _email, _password;
   final _formKey = new GlobalKey<FormState>();
   FormType _formRegister = FormType.LOGIN;
-  SnackBar _snackBar;
+
+  String _textSnackBar;
+  GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
 
   _LoginPageState();
-
-  /*final BaseAuth auth;
-  _LoginPageState({this.auth});*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffState,
         appBar: AppBar(title: Text(_title)),
         //appBar: getAppBar(_title, signOut: false),
-        body: Form(
-            key: _formKey,
-            child: ListView(
-              children: <Widget>[
-                //PENDING: add a circular progress/similar indicator
-                //LOGIN? not register - dialog: do you want to register?
-                appLogo(),
+        body: Center(
+            child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: <Widget>[
+                    appLogo(),
+                    ListTile(
+                        leading: Icon(Icons.email, size: 35),
+                        title: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                            hintText: "Do you already have an account?",
+                            //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                          ),
+                          validator: (input) =>
+                              input.isEmpty ? "Please write your email" : null,
+                          keyboardType: TextInputType.emailAddress,
+                          onSaved: (input) => _email = input,
+                        )),
+                    ListTile(
+                        leading: Icon(Icons.security, size: 35),
+                        title: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: _title,
+                            //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                            hintText: "123456",
+                            //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                          ),
+                          validator: (input) => input.isEmpty
+                              ? "You have to write something!"
+                              : null,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          onSaved: (input) => _password = input,
+                        )),
+                    /*SizedBox(
+                  height: 40
+                ),*/
+                    ButtonLogin(
+                      buttonText: "Log in",
+                      whichButton: true,
+                      buttonColor: Colors.blue,
+                      function: _login,
+                    ),
+                    ButtonLogin(
+                        buttonText: "Register",
+                        whichButton: false,
+                        buttonColor: Colors.red,
+                        function: _register)
+                  ],
+                ))));
+  }
 
-                /*TextBox.getTextBox(context, "E-mail",
-                "Do you already have an account?", Icons.email),
-            TextBox.getTextBox(context, "Password", "123456", Icons.security),*/
-
-                ListTile(
-                    leading: Icon(Icons.email, size: 35),
-                    title: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "Do you already have an account?",
-                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                      ),
-                      validator: (input) =>
-                      input.isEmpty ? "Please write your email" : null,
-                      keyboardType: TextInputType.emailAddress,
-                      onSaved: (input) => _email = input,
-                    )),
-                ListTile(
-                    leading: Icon(Icons.security, size: 35),
-                    title: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: _title,
-                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "123456",
-                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                      ),
-                      validator: (input) =>
-                      input.isEmpty ? "You have to write something!" : null,
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      onSaved: (input) => _password = input,
-                    )),
-
-                ButtonLogin(
-                  buttonText: "Log in",
-                  whichButton: true,
-                  buttonColor: Colors.blue,
-                  function: _login,
-                ),
-                ButtonLogin(
-                    buttonText: "Register",
-                    whichButton: false,
-                    buttonColor: Colors.red,
-                    function: _register)
-              ],
-            )));
+  _showSnackBar() {
+    _scaffState.currentState.showSnackBar(SnackBar(
+      content: Text(_textSnackBar),
+    ));
   }
 
   bool checkTextFields() {
@@ -107,22 +111,27 @@ class _LoginPageState extends State<LoginPage> {
     if (checkTextFields()) {
       try {
         if (_formRegister == FormType.LOGIN) {
-          _userID = await widget.auth.signIn(_email.toString().trim(), _password);  //trim(): avoid problems of format w/email
+          _userID = await widget.auth.signIn(_email.toString().trim(),
+              _password); //trim(): avoid problems of format w/email
           //String _userID = await auth.signIn(_email, _password);
           print('Signed in Tameos: $_userID');
-          _snackBar = new SnackBar(content: Text("Sig "));
+          _textSnackBar = "Signed in: $_email";
+
+          widget.onSignIn();
         } else {
           //FormType.REGISTER
-          _userID = await widget.auth.signUp(_email.toString().trim(), _password);
+          _userID =
+              await widget.auth.signUp(_email.toString().trim(), _password);
           print('Registered in: $_userID');
-          _snackBar = new SnackBar(content: Text("Registered succesfully in $_email"));
+          _textSnackBar = "Registered succesfully in $_email";
         }
-        widget.onSignIn();
+        //widget.onSignIn();
       } catch (e) {
         print(e);
-        _snackBar=new SnackBar(content: Text(e));
+        _textSnackBar = e.toString();
       }
     }
+    _showSnackBar();
   }
 
   void _register() {
@@ -134,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
     accountValidation();
 //    Scaffold.of(context).showSnackBar(_snackBar);
   }
+
   void _login() {
     setState(() {
       _formRegister = FormType.LOGIN;
