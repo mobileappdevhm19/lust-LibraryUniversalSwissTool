@@ -18,17 +18,21 @@ class _PomodoroState extends State<PomodoroPage> {
   final icon;
 
   //all in minutes
-  int periodTime;
-  int shortBreakTime;
-  int longBreakTime;
-  int countPeriods;
+  int periodTime=10;
+  int shortBreakTime=4;
+  int longBreakTime=3;
+  int countPeriods=9;
+
+  pomodoroDescription pomDesc;
+  PomodoroTimer pomTimer;
+
 
   _PomodoroState(this.title, this.icon){
-    this.periodTime=25;
-    this.shortBreakTime=9;
-    this.longBreakTime=15;
-    this.countPeriods=4;
+    pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods);
+    pomTimer= new PomodoroTimer();
+    updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +48,19 @@ class _PomodoroState extends State<PomodoroPage> {
               children: [
                 Container(
                   //height: _height*0.40,
-                  child: new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                  child: pomDesc,
                 ),
                 Expanded(
-                  child: new PomodoroTimer(periodTime, shortBreakTime, longBreakTime, countPeriods),
+                  child:pomTimer,
                 )
            ]),
         ));
   } // build
+
+  void updateVales(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
+    pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
+  }
+
+
 }
 
