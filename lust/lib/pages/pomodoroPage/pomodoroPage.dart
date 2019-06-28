@@ -46,7 +46,7 @@ class _PomodoroState extends State<PomodoroPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
+                Align(
                   //height: _height*0.40,
                   child: new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods),
                 ),
