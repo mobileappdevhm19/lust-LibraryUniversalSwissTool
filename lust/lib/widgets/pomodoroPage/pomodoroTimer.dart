@@ -422,7 +422,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   /// set description Status text
 
   void changeStatus() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     //necessary, otherwise multiple timer instances interfere each other
 
     actTimerSeconds=0;
@@ -442,22 +442,31 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
       default: {
         actStatus=Status.learning;
-        actPeriod++;
+        if(actPeriod !=null){
+          actPeriod++;
+        }
+        else{ //only for test
+          actPeriod=0;
+        }
       }
     }
-
+    actStatusText=descriptionText();
+    actTimerSeconds=statuslist[actStatus.index].time;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt(ActPeriod_KEY, actPeriod);
 
-    actTimerSeconds=statuslist[actStatus.index].time;
+
     prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
 
     prefs.setInt(ActStatus_KEY, actStatus.index);
 
 
-    actStatusText=descriptionText();
+
 
     //showNormalNoti()
-    startTimer();
+    if(mounted) {
+      startTimer();
+    }
   }
 
 
