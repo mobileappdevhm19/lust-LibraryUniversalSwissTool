@@ -384,36 +384,48 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-        return AlertDialog(
-          title: new Text("Reset Pomodoro"),
-          content: new Text("Do you really want to reset the pomodoro timer?\n"
-              "Are you sure that you can learn good without this feature of lust?"),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop(); //just close dialogwindow
-              },
-            ),
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text("reset"),
-              onPressed: () {
-                actStatus=Status.nothing;
-                actTimerSeconds=0;
-                actPeriod=0;
-                setState(() {
-                  setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
-                  actStatusText=initialStatusText;
-                });
-                stop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+          return resetAlertDiaglog();
       },
+    );
+  }
+
+  AlertDialog resetAlertDiaglog(){
+    return AlertDialog(
+      title: new Text("Reset Pomodoro"),
+      content: new Text("Do you really want to reset the pomodoro timer?\n"
+          "Are you sure that you can learn good without this feature of lust?"),
+      actions: <Widget>[
+        // usually buttons at the bottom of the dialog
+        new FlatButton(
+          child: new Text("Close"),
+          onPressed: () {
+            if(mounted) {
+              Navigator.of(context).pop();//just close dialogwindow
+            }
+          },
+        ),
+        // usually buttons at the bottom of the dialog
+        new FlatButton(
+          child: new Text("reset"),
+          onPressed: () {
+            actStatus=Status.nothing;
+            actTimerSeconds=0;
+            actPeriod=0;
+            if(mounted) {
+              setState(() {
+                setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
+                actStatusText = initialStatusText;
+              });
+            }
+
+            stop();
+
+            if(mounted) {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
+      ],
     );
   }
 
