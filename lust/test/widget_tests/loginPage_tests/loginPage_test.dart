@@ -8,15 +8,11 @@ void main() {
   testWidgets('Login and register buttons', (WidgetTester tester) async {
     await tester.pumpWidget(TestHelper.buildWidget(LoginPage()));
 
-    final buttonFinder = await find.widgetWithText(RawMaterialButton, "Log in");
-    final buttonFinder2 = await find.widgetWithText(RawMaterialButton, "Register");
+    final buttonFinder = await find.widgetWithText(RawMaterialButton, "Log in", skipOffstage: true);
+    final buttonFinder2 = await find.widgetWithText(RawMaterialButton, "Register", skipOffstage: true);
 
     expect(buttonFinder, findsOneWidget);
     expect(buttonFinder2, findsOneWidget);
-
-    await tester.tap(buttonFinder);
-    await tester.tap(buttonFinder2);
-    //await tester.tap(find.byKey(Key("Checkin")));
   });
 
   testWidgets('Find icons of the TextBoxs', (WidgetTester tester) async {
