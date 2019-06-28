@@ -97,6 +97,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void initState() {
     super.initState();
     updateValues();
+    if(widget==null) return; //only for test
      //actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
 
