@@ -130,9 +130,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     });*/
 
     if (startTime != null) {
-      setState(() {
-        setActTimeMinutesSeconds();
-      });
+      if(mounted) {
+        setState(() {
+          setActTimeMinutesSeconds();
+        });
+      }
 
       isRunning = prefs.getBool(IsRunning_KEY);
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];

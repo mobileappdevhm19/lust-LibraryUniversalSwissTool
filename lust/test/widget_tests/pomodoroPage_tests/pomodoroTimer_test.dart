@@ -84,7 +84,7 @@ void checkInitialValues(){
   expect(pomTimerState.isRunning, false);
 }
 
-void checkSharedPreferences(WidgetTester tester){
+void checkSharedPreferences(WidgetTester tester) async{
   int actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
 
@@ -106,6 +106,12 @@ void checkSharedPreferences(WidgetTester tester){
 
   expect(((actTime-difTime)<=sT &&sT<=actTime), false);
   expect(((oldTime-difTime)<=sT &&sT<=oldTime), true);
+
+  //to set variables
+  pomTimerState.changeStatus();
+  pomTimerState.start();
+
+  pomTimerState.initPlatformState();
 }
 
 void checkInitalTimerStart(WidgetTester tester) {
@@ -121,7 +127,7 @@ void checkInitalTimerStop(WidgetTester tester) {
 }
 
 void checkChangeStatus(WidgetTester tester) {
-  for(int i=0; i<pomTimerState.countPeriods;i++){
+  for(int i=1; i<pomTimerState.countPeriods;i++){
     pomTimerState.changeStatus();
     String aS=pomTimerState.actStatus.toString();
     print("$aS");
