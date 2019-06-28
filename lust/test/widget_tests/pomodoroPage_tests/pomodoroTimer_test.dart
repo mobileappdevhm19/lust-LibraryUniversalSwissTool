@@ -19,6 +19,7 @@ int timerStartTime=0;
 
 
 const StartTime_KEY = "startTime";
+const IsRunning_KEY = "isRunning";
 
 //see https://github.com/flutter/flutter/issues/28837
 Future setupSomePreferences(int startTime) async {
@@ -111,12 +112,10 @@ void checkSharedPreferences(WidgetTester tester) async{
   pomTimerState.changeStatus();
   pomTimerState.start();
 
+  //pomTimerState.initPlatformState();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool(IsRunning_KEY, true);
   pomTimerState.initPlatformState();
-  pomTimerState.start();
-  pomTimerState.initPlatformState();
-
-
-
 }
 
 void checkInitalTimerStart(WidgetTester tester) {
