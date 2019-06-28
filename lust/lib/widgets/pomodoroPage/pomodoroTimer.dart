@@ -128,6 +128,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
 
       isRunning = prefs.getBool(IsRunning_KEY);
+      print("is Running: $isRunning");
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
       if(actStatus==Status.nothing){
         resetValues(true);
