@@ -501,6 +501,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     const oneSec = const Duration(seconds: 1);
+    if(!mounted){return;} //only for test
     _timer = new Timer.periodic(
       oneSec,
           (Timer timer) => setState(() {
