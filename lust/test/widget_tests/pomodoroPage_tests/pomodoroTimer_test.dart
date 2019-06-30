@@ -206,8 +206,9 @@ void checkInitalTimerStart(WidgetTester tester) {
 
 void checkInitalTimerStop(WidgetTester tester) {
   pomTimerState.stop();
-  findTextInButton("Start");
   expect(pomTimerState.isRunning, false);
+  findTextInButton("Start");
+
 }
 
 void checkChangeStatus(WidgetTester tester) {
