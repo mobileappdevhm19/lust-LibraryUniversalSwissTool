@@ -77,6 +77,10 @@ void main() {
     await tester.pumpWidget(Lust());
     checkChangeStatus(tester);
   });
+  testWidgets('pomodoroTimer start Timer', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    startTimer(tester);
+  });
 
   testWidgets('reset Button', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
@@ -88,6 +92,8 @@ void main() {
 void checkInitialValues(){
   findTextInButton("Start");
   findTextInResetButton("reset");
+  pomTimerState.actTimerSeconds=null;
+  pomTimerState.setActTimeMinutesSeconds();
 
   expect( pomTimerState.actTimerSeconds, 0);
   expect( pomTimerState.actTimeMinutesSeconds,"00 : 00");
@@ -208,6 +214,11 @@ void checkChangeStatus(WidgetTester tester) {
   aS=pomTimerState.actStatus.toString();
   print("$aS");
   expect(pomTimerState.actStatus, Status.longBreak);
+}
+
+
+void startTimer(WidgetTester tester) {
+  pomTimerState.startTimer();
 }
 
 void findTextInButton(String btnText){
