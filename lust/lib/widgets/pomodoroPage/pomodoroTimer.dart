@@ -92,15 +92,13 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   ColorSwatch startStopBtnColor=Colors.green;
   //notifications notification;
 
-  //String actErrors="";
-
 
   @override
   void initState() {
     super.initState();
     updateValues();
     if(widget==null) return; //only for test
-     //actTimerSeconds=0;
+    //actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
 
     initPlatformState();
@@ -152,11 +150,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
         int difTime=(actTime - startTime);
         if(difTime<statuslist[actStatus.index].time){
+          print("L153, $difTime");
           actTimerSeconds = statuslist[actStatus.index].time-difTime;
         }
         else{
           //only varibles for this loop to find out which time in the actual status we have
           Status hereStatus=actStatus;
+          String aS=hereStatus.toString();
+          print("L158, $aS");
           int hereTimerSeconds=difTime;
           int herePeriod=actPeriod;
           while(hereTimerSeconds>0){ //because in the background maybe a few periods passed
@@ -259,60 +260,60 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   @override
   Widget build(BuildContext context) {
     return new Align(
-        alignment: Alignment.center,
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
+      alignment: Alignment.center,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
                 width: MediaQuery.of(context).size.width, //screen width
                 height: 100.0,
                 child:
-                  RaisedButton(
-                    color: startStopBtnColor,
-                    onPressed: () {startStopButtonClicked();},
-                    child: Text(
-                        '$startStopBtnText',
-                        style: TextStyle(fontSize: 40)
-                    ),
+                RaisedButton(
+                  color: startStopBtnColor,
+                  onPressed: () {startStopButtonClicked();},
+                  child: Text(
+                      '$startStopBtnText',
+                      style: TextStyle(fontSize: 40)
+                  ),
+                )
+            ),
+
+            RaisedButton(
+              onPressed: () {resetButtonClicked();},
+              child: Text(
+                  '$resetBtnText',
+                  style: TextStyle(fontSize: 20)
+              ),
+            ),
+
+            Container(
+              // color: Colors.blue,
+              width: MediaQuery.of(context).size.width, //screen width
+              height: 200.0,
+              child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(
+                    "$actTimeMinutesSeconds",
+                    textScaleFactor: 0.8,
+                    style: TextStyle(fontSize: 20.0, letterSpacing: 2.0, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   )
               ),
-
-              RaisedButton(
-                onPressed: () {resetButtonClicked();},
-                child: Text(
-                    '$resetBtnText',
-                    style: TextStyle(fontSize: 20)
-                ),
-              ),
-
-               Container(
-               // color: Colors.blue,
-                width: MediaQuery.of(context).size.width, //screen width
-                height: 200.0,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                    child: Text(
-                      "$actTimeMinutesSeconds",
-                      textScaleFactor: 0.8,
-                      style: TextStyle(fontSize: 20.0, letterSpacing: 2.0, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    )
-                ),
-              ),
-              Expanded(child: Text(
-                "$actStatusText",
-                textScaleFactor: 0.8,
-                style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
-                textAlign: TextAlign.center,
-              )),
-            ],
-         ),
+            ),
+            Expanded(child: Text(
+              "$actStatusText",
+              textScaleFactor: 0.8,
+              style: TextStyle(fontSize: 20.0, letterSpacing: 2.0),
+              textAlign: TextAlign.center,
+            )),
+          ],
         ),
+      ),
     );
   }
 
   void startStopButtonClicked(){
-      this.setState((){
+    this.setState((){
       if(startStopBtnText=="Start"){
         start();
         return; //jut to leave this function
@@ -326,7 +327,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
     //if(isRunning){
-    if(mounted){
+    if (mounted) {
       setState(() {
         startStopBtnText = "Start";
         startStopBtnColor = Colors.green;
@@ -336,13 +337,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       startStopBtnText = "Start";
       startStopBtnColor = Colors.green;
     }
+
     if (_timer != null) {
       _timer.cancel(); //stop timer if exist
     }
     // }
     isRunning=false;
-
-
 
     //for background
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -361,24 +361,30 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
   void start() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (mounted){
-        setState(() {
-          startStopBtnText = "Stop";
-          startStopBtnColor = Colors.red;
-        });
+      setState(() {
+        startStopBtnText = "Stop";
+        startStopBtnColor = Colors.red;
+      });
     }
     else{
       startStopBtnText = "Stop";
       startStopBtnColor = Colors.red;
     }
     isRunning=true;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     int actTime = new DateTime.now().millisecondsSinceEpoch;
     actTime = (actTime / 1000).toInt();
-    startTime=actTime-actTimerSeconds;
+    startTime=actTime-(statuslist[actStatus.index].time-actTimerSeconds);
 
     prefs.setInt(StartTime_KEY, startTime);
     prefs.setBool(IsRunning_KEY, isRunning);
+
+    if(actStatus==Status.nothing){
+      actStatus=Status.learning;
+      prefs.setInt(ActStatus_KEY, actStatus.index);
+    }
 
     if (mounted) {
       startTimer(); //start a new timer
@@ -392,7 +398,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
-          return resetAlertDiaglog();
+        return resetAlertDiaglog();
       },
     );
   }
@@ -496,19 +502,19 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
-        oneSec,
-            (Timer timer) => setState(() {
-              actTimerSeconds--;
-              prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+      oneSec,
+          (Timer timer) => setState(() {
+        actTimerSeconds--;
+        prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
 
-              if (actTimerSeconds < 1) {
-            timer.cancel();
+        if (actTimerSeconds < 1) {
+          timer.cancel();
 
-            changeStatus();
-          } else {
-            setActTimeMinutesSeconds();
-          }
-        }),
+          changeStatus();
+        } else {
+          setActTimeMinutesSeconds();
+        }
+      }),
     );
   }
 
@@ -553,4 +559,3 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
 }
-
