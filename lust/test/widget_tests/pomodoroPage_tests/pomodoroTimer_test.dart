@@ -22,6 +22,9 @@ const StartTime_KEY = "startTime";
 const IsRunning_KEY = "isRunning";
 const ActStatus_KEY="actStatus";
 
+const ActPeriod_KEY="actPeriod";
+const OldTimerSeconds_KEY="oldTimerSeconds";
+
 
 //see https://github.com/flutter/flutter/issues/28837
 Future setupSomePreferences(int startTime) async {
@@ -53,6 +56,11 @@ void main() {
   testWidgets('pomodoroTimer check shared preferences', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
     checkSharedPreferences(tester);
+  });
+
+  testWidgets('pomodoroTimer check shared preferences Status calculation', (WidgetTester tester) async {
+    await tester.pumpWidget(Lust());
+    checkStatusCalculation(tester);
   });
 
   testWidgets('pomodoroTimer Initial Timer', (WidgetTester tester) async {
@@ -116,13 +124,110 @@ void checkSharedPreferences(WidgetTester tester) async{
 
   pomTimerState.initPlatformState();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool(IsRunning_KEY, true);
-  prefs.setInt(ActStatus_KEY, 1);
-  pomTimerState.initPlatformState();
+
+
   expect(((oldTime-difTime)<=sT &&sT<=oldTime), true);
-  prefs.setInt(ActStatus_KEY, 0);
+  //prefs.setInt(ActStatus_KEY, 0);
 
 }
+
+//call initPlatfom state with different times to go through the whole loop where the act status calculating
+void checkStatusCalculation(WidgetTester tester) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  int actTime, startTime;
+  int dif=5; //always adding 5 sec to time (because the time runs, and maybe it wuld be the next case)
+
+  prefs.setInt(ActStatus_KEY, 0);
+  pomTimerState.start();
+
+  pomTimerState.initPlatformState();
+  prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
+  prefs.setInt(ActStatus_KEY, 0);//nothing
+  prefs.setInt(OldTimerSeconds_KEY,0);
+  prefs.setInt(ActPeriod_KEY, 0);
+
+  String aS;
+
+  actTime = new DateTime.now().millisecondsSinceEpoch;
+  actTime = (actTime / 1000).toInt();
+
+  aS=pomTimerState.actStatus.toString();
+  print("$aS");
+
+  for(int i=1; i<pomTimerState.countPeriods; i++) {
+    pomTimerState.changeStatus();
+    pomTimerState.initPlatformState();
+
+    aS = pomTimerState.actStatus.toString();
+    print("$aS");
+
+    pomTimerState.changeStatus();
+    pomTimerState.initPlatformState();
+
+    aS = pomTimerState.actStatus.toString();
+    print("$aS");
+  }
+  pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();
+
+  pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();
+
+  expect(pomTimerState.actStatus, Status.longBreak);
+
+
+  /*SharedPreferences prefs = await SharedPreferences.getInstance();
+  int actTime, startTime;
+  int dif=5; //always adding 5 sec to time (because the time runs, and maybe it wuld be the next case)
+
+  pomTimerState.changeStatus();
+  pomTimerState.start();
+
+  pomTimerState.initPlatformState();
+  prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
+  prefs.setInt(ActStatus_KEY, 0);//nothing
+  prefs.setInt(OldTimerSeconds_KEY,0);
+  prefs.setInt(ActPeriod_KEY, 0);
+
+  String aS;
+
+  actTime = new DateTime.now().millisecondsSinceEpoch;
+  actTime = (actTime / 1000).toInt();
+  startTime=actTime;//
+
+  //paheses always -1, 25, 9, 15 (default for tests)
+
+  for(int i=0; i<pomTimerState.countPeriods; i++){
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    startTime = startTime-pomTimerState.statuslist[1].time+5;
+    prefs.setInt(StartTime_KEY, startTime);//nothing
+    int difTime=pomTimerState.statuslist[1].time;
+    int difAct=actTime-startTime;
+    print("def Time $difTime    difAct $difAct");
+    pomTimerState.initPlatformState();
+    aS=pomTimerState.actStatus.toString();
+    print("$aS");
+
+/*
+    //short break
+    startTime = startTime-pomTimerState.statuslist[2].time;
+    prefs.setInt(StartTime_KEY, startTime);//nothing
+    difTime=pomTimerState.statuslist[2].time;
+    difAct=actTime-startTime;
+    print("def Time $difTime    difAct $difAct");
+
+    pomTimerState.initPlatformState();
+    aS=pomTimerState.actStatus.toString();
+    print("$aS"); */
+  }
+
+  //now check long break
+*/
+
+}
+
+
 
 void checkInitalTimerStart(WidgetTester tester) {
   pomTimerState.start();
@@ -162,7 +267,6 @@ void findTextInButton(String btnText){
 
 void findTextInResetButton(String btnText){
   expect(pomTimerState.resetBtnText, btnText);
-
 }
 
 
