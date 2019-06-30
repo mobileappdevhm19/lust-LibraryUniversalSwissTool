@@ -37,9 +37,8 @@ Future setupSomePreferences(int startTime) async {
 
 
 void main() {
-  pomTimer= new PomodoroTimer(null);
+  pomTimer= new PomodoroTimer();
   pomTimer.updateValues(1, 1, 1, 1); //default values
-  pomTimer.initPomTimerState();
   pomTimerState=new PomodoroTimerState();
 
 
@@ -78,10 +77,10 @@ void main() {
     await tester.pumpWidget(Lust());
     checkChangeStatus(tester);
   });
-  /*testWidgets('pomodoroTimer start Timer', (WidgetTester tester) async {
+  testWidgets('pomodoroTimer start Timer', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
     startTimer(tester);
-  });*/
+  });
 
   testWidgets('reset Button', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
@@ -91,7 +90,6 @@ void main() {
 
 //
 void checkInitialValues(){
-  pomTimerState.resetValues();
   findTextInButton("Start");
   findTextInResetButton("reset");
   pomTimerState.actTimerSeconds=null;
@@ -106,22 +104,15 @@ void checkInitialValues(){
 void checkSharedPreferences(WidgetTester tester) async{
   int actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
-  int difTime=2; //aloowed difTime between startTime and actual Time
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setInt(StartTime_KEY,null);
   pomTimerState.initPlatformState();
   int sT=pomTimerState.startTime;
-  expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 
-
-  prefs.setInt(StartTime_KEY,actTime);
-
-  sT=pomTimerState.startTime;
+  int difTime=2; //aloowed difTime between startTime and actual Time
 
   expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 
-  //print("now check SharedPreferences when restart");
+  print("now check SharedPreferences when restart");
   const int waitSec=5000;
   sleep(const Duration(milliseconds: waitSec));
   pomTimerState.initPlatformState();
@@ -138,6 +129,7 @@ void checkSharedPreferences(WidgetTester tester) async{
   pomTimerState.start();
 
   pomTimerState.initPlatformState();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
 
 
   expect(((oldTime-difTime)<=sT &&sT<=oldTime), true);
@@ -145,12 +137,10 @@ void checkSharedPreferences(WidgetTester tester) async{
 
 }
 
-
 //call initPlatfom state with different times to go through the whole loop where the act status calculating
 void checkStatusCalculation(WidgetTester tester) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  print("in checkStatusCalculation");
   int actTime, startTime;
   int dif=5; //always adding 5 sec to time (because the time runs, and maybe it wuld be the next case)
 
@@ -168,29 +158,22 @@ void checkStatusCalculation(WidgetTester tester) async {
   actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
 
-
   aS=pomTimerState.actStatus.toString();
-  //print("$aS");
+  print("$aS");
 
   for(int i=0; i<pomTimerState.countPeriods; i++) {
-    prefs.setInt(ActStatus_KEY, 1);//learning
-    prefs.setInt(ActPeriod_KEY, i);
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
-    //print("$aS");
+    print("$aS");
 
-    prefs.setInt(ActStatus_KEY, 2);//learning
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
-    //print("$aS");
+    print("$aS");
   }
-  /*pomTimerState.changeStatus();
-  pomTimerState.initPlatformState();*/
-
   pomTimerState.changeStatus();
   pomTimerState.initPlatformState();
 
@@ -206,32 +189,30 @@ void checkInitalTimerStart(WidgetTester tester) {
 
 void checkInitalTimerStop(WidgetTester tester) {
   pomTimerState.stop();
-  expect(pomTimerState.isRunning, false);
   findTextInButton("Start");
-
+  expect(pomTimerState.isRunning, false);
 }
 
 void checkChangeStatus(WidgetTester tester) {
-  pomTimerState.resetValues();
-  //pomTimerState.changeStatus();
+  pomTimerState.changeStatus();
   String aS;
   for(int i=1; i<pomTimerState.countPeriods;i++){
     pomTimerState.changeStatus();
     aS=pomTimerState.actStatus.toString();
-    //print("$aS");
+    print("$aS");
     expect(pomTimerState.actStatus, Status.learning);
     pomTimerState.changeStatus();
     aS=pomTimerState.actStatus.toString();
-    //print("$aS");
+    print("$aS");
     expect(pomTimerState.actStatus, Status.shortBreak);
   }
   pomTimerState.changeStatus();
   aS=pomTimerState.actStatus.toString();
-  //print("$aS");
+  print("$aS");
 
   pomTimerState.changeStatus();
   aS=pomTimerState.actStatus.toString();
-  //print("$aS");
+  print("$aS");
   expect(pomTimerState.actStatus, Status.longBreak);
 }
 
