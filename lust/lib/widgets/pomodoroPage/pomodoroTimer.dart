@@ -91,6 +91,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   String resetBtnText="reset";
   ColorSwatch startStopBtnColor=Colors.green;
 
+  //String actErrors="";
+
 
   @override
   void initState() {
@@ -326,7 +328,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
   void stop() async{
     //if(isRunning){
-    if (mounted) {
+    if(mounted){
       setState(() {
         startStopBtnText = "Start";
         startStopBtnColor = Colors.green;
@@ -336,12 +338,13 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       startStopBtnText = "Start";
       startStopBtnColor = Colors.green;
     }
-
     if (_timer != null) {
       _timer.cancel(); //stop timer if exist
     }
     // }
     isRunning=false;
+
+
 
     //for background
     int actTime = new DateTime.now().millisecondsSinceEpoch;
