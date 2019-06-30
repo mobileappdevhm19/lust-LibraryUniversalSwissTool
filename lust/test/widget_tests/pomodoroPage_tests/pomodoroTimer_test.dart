@@ -155,7 +155,7 @@ void checkStatusCalculation(WidgetTester tester) async {
   aS=pomTimerState.actStatus.toString();
   print("$aS");
 
-  for(int i=1; i<pomTimerState.countPeriods; i++) {
+  for(int i=0; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
@@ -168,65 +168,11 @@ void checkStatusCalculation(WidgetTester tester) async {
     aS = pomTimerState.actStatus.toString();
     print("$aS");
   }
-  pomTimerState.changeStatus();
-  pomTimerState.initPlatformState();
-
   pomTimerState.changeStatus();
   pomTimerState.initPlatformState();
 
   expect(pomTimerState.actStatus, Status.longBreak);
-
-
-  /*SharedPreferences prefs = await SharedPreferences.getInstance();
-  int actTime, startTime;
-  int dif=5; //always adding 5 sec to time (because the time runs, and maybe it wuld be the next case)
-
-  pomTimerState.changeStatus();
-  pomTimerState.start();
-
-  pomTimerState.initPlatformState();
-  prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
-  prefs.setInt(ActStatus_KEY, 0);//nothing
-  prefs.setInt(OldTimerSeconds_KEY,0);
-  prefs.setInt(ActPeriod_KEY, 0);
-
-  String aS;
-
-  actTime = new DateTime.now().millisecondsSinceEpoch;
-  actTime = (actTime / 1000).toInt();
-  startTime=actTime;//
-
-  //paheses always -1, 25, 9, 15 (default for tests)
-
-  for(int i=0; i<pomTimerState.countPeriods; i++){
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    startTime = startTime-pomTimerState.statuslist[1].time+5;
-    prefs.setInt(StartTime_KEY, startTime);//nothing
-    int difTime=pomTimerState.statuslist[1].time;
-    int difAct=actTime-startTime;
-    print("def Time $difTime    difAct $difAct");
-    pomTimerState.initPlatformState();
-    aS=pomTimerState.actStatus.toString();
-    print("$aS");
-
-/*
-    //short break
-    startTime = startTime-pomTimerState.statuslist[2].time;
-    prefs.setInt(StartTime_KEY, startTime);//nothing
-    difTime=pomTimerState.statuslist[2].time;
-    difAct=actTime-startTime;
-    print("def Time $difTime    difAct $difAct");
-
-    pomTimerState.initPlatformState();
-    aS=pomTimerState.actStatus.toString();
-    print("$aS"); */
-  }
-
-  //now check long break
-*/
-
 }
-
 
 
 void checkInitalTimerStart(WidgetTester tester) {
@@ -237,15 +183,16 @@ void checkInitalTimerStart(WidgetTester tester) {
 
 void checkInitalTimerStop(WidgetTester tester) {
   pomTimerState.stop();
-  expect(pomTimerState.isRunning, false);
   findTextInButton("Start");
-
+  expect(pomTimerState.isRunning, false);
 }
 
 void checkChangeStatus(WidgetTester tester) {
+  pomTimerState.changeStatus();
+  String aS;
   for(int i=1; i<pomTimerState.countPeriods;i++){
     pomTimerState.changeStatus();
-    String aS=pomTimerState.actStatus.toString();
+    aS=pomTimerState.actStatus.toString();
     print("$aS");
     expect(pomTimerState.actStatus, Status.learning);
     pomTimerState.changeStatus();
@@ -253,9 +200,10 @@ void checkChangeStatus(WidgetTester tester) {
     print("$aS");
     expect(pomTimerState.actStatus, Status.shortBreak);
   }
-  pomTimerState.changeStatus(); //learining
-  String aS=pomTimerState.actStatus.toString();
+  pomTimerState.changeStatus();
+  aS=pomTimerState.actStatus.toString();
   print("$aS");
+
   pomTimerState.changeStatus();
   aS=pomTimerState.actStatus.toString();
   print("$aS");
