@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/models/library.dart';
 import 'package:lust/models/library.dart';
@@ -8,12 +9,11 @@ import 'package:lust/widgets/utils/getAppBar.dart';
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
 class CapacityPage extends StatefulWidget {
-  CapacityPage({this.auth, this.onSignedOut});
+  CapacityPage({this.onSignedOut});
   VoidCallback onSignedOut;
 
   static String title = "Capacity";
   static IconData icon = Icons.equalizer;
-  final BaseAuth auth;
 
   @override
   _CapacityPageState createState() => new _CapacityPageState(title, icon);
@@ -54,10 +54,11 @@ class _CapacityPageState extends State<CapacityPage> {
             ]));
   } // build
 
-  void _signOut() {
+  void _signOut() async{
     print("CURRENT USER: mateo mateo");
     try {
-      widget.auth.signOut();
+      var auth = AuthProvider.of(context).auth;
+      auth.signOut();
       widget.onSignedOut();       //callback
     } catch (e) {
       print(e);

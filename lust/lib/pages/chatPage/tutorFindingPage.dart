@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:lust/widgets/tutorfinder/tutorOfferings.dart';
 import 'package:lust/widgets/tutorfinder/tutorRequests.dart';
-import 'package:lust/pages/addTutorEntryPage.dart';
+import 'package:lust/pages/chatPage/addTutorEntryPage.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 

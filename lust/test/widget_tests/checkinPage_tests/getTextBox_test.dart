@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lust/pages/checkinPage.dart';
+import 'package:lust/pages/checkinPage/checkinPage.dart';
 import 'package:lust/widgets/utils/getTextBox.dart';
 
 import '../../testHelper.dart';

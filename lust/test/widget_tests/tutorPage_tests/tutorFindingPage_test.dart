@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lust/pages/tutorFindingPage.dart';
+import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 import '../../testHelper.dart';
 
 void main() {

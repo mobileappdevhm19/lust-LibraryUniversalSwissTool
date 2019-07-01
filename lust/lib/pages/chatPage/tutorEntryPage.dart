@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lust/models/tutorEntry.dart';
-import 'package:lust/pages/chatPage.dart';
+import 'package:lust/pages/chatPage/chatPage.dart';
 
 class TutorEntryPage extends StatefulWidget {
   static String title = "Tutor Entry";

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
-import 'package:lust/pages/capacityPage.dart';
+import 'package:lust/pages/capacityPage/capacityPage.dart';
 
 import '../../testHelper.dart';
 

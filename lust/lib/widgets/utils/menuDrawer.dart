@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lust/pages/pageContainer.dart';
+import 'package:lust/pages/utils/pageContainer.dart';
 
-import 'package:lust/pages/capacityPage.dart';
-import 'package:lust/pages/checkinPage.dart';
-import 'package:lust/pages/pomodoroPage.dart';
-import 'package:lust/pages/tutorFindingPage.dart';
+import 'package:lust/pages/capacityPage/capacityPage.dart';
+import 'package:lust/pages/checkinPage/checkinPage.dart';
+import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
+import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 
 class MenuDrawer {
   static const MockUserInfo userInfo = const MockUserInfo(name: "Herbert", email: "123@abc.com");

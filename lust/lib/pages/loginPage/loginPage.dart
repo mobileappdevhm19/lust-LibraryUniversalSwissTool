@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/widgets/utils/appLogo.dart';
 import 'package:lust/widgets/loginPage/buttonLogIn.dart';
-import 'capacityPage.dart';
+import 'package:lust/pages/capacityPage/capacityPage.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({this.auth, this.onSignIn});
+  LoginPage({this.onSignIn});
 
-  final BaseAuth auth;
   final VoidCallback onSignIn;
 
   @override
@@ -116,10 +116,12 @@ class _LoginPageState extends State<LoginPage> {
 
   Future accountValidation() async {
     String _userID;
+
     if (checkTextFields()) {
       try {
+        var auth = AuthProvider.of(context).auth;
         if (_formRegister == FormType.LOGIN) {
-          _userID = await widget.auth.signIn(_email.toString().trim(),
+          _userID = await auth.signIn(_email.toString().trim(),
               _password); //trim(): avoid problems of format w/email
           print('Email verified: $_userID');
           _textSnackBar = "Signed in: $_email";
@@ -142,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           //FormType.REGISTER
           _userID =
-              await widget.auth.signUp(_email.toString().trim(), _password);
+              await auth.signUp(_email.toString().trim(), _password);
           //await widget.auth.sendEmailVerification();
 
           print('Registered in: $_userID');
@@ -158,7 +160,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<bool> _isEmailVerified() async {
-    _emailChecked = await widget.auth.isEmailVerified();
+    var auth = AuthProvider.of(context).auth;
+    _emailChecked = await auth.isEmailVerified();
     print("EMAIL VERIFIED: $_emailChecked");
     return _emailChecked;
   }

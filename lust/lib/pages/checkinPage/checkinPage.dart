@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lust/pages/loginPage/loginPage.dart';
+import 'package:lust/pages/rootPage.dart';
+import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/widgets/checkinPage/buttonCheck.dart';
+import 'package:lust/widgets/utils/getAppBar.dart';
 import 'package:lust/widgets/utils/getTextBox.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
 class CheckinPage extends StatefulWidget {
+  CheckinPage({this.auth, this.onSignedOut});
+  VoidCallback onSignedOut;
+
   static String title = "Check In/Out";
   static IconData icon = Icons.check_circle_outline;
+  final BaseAuth auth;
 
   @override
   _CheckinPageState createState() => _CheckinPageState(title, icon);
@@ -22,12 +30,16 @@ class _CheckinPageState extends State<CheckinPage> {
 
   @override
   Widget build(BuildContext context) {
-    var _height = MediaQuery.of(context).size.height;
+    var _height = MediaQuery
+        .of(context)
+        .size
+        .height;
     _height -= 85;
 
     return Scaffold(
         key: _scaffState,
-        appBar: AppBar(title: Text(title)),
+        appBar: PreferredSize(child: GetAppBar(title, _signOut),
+            preferredSize: Size.fromHeight(55)),
         drawer: MenuDrawer.getDrawer(context),
         body: ListView(children: [
           Container(
@@ -51,5 +63,14 @@ class _CheckinPageState extends State<CheckinPage> {
             child: ButtonCheck(scaffState: _scaffState),
           ),
         ]));
+  }
+
+  void _signOut() {
+    print("CURRENT USER: mateo mateo");
+    try {
+      widget.auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 }
