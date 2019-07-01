@@ -11,13 +11,17 @@ class pomodoroDescription extends StatelessWidget {
 
 
   TextEditingController  periodTimeController = new TextEditingController();
+  TextEditingController  periodCountController = new TextEditingController();
+
+  TextEditingController  shortBreakController = new TextEditingController();
+  TextEditingController  longBreakController = new TextEditingController();
 
   pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods, PomodoroState pomPage){
     this.periodTime=periodTime;
     this.shortBreakTime=shortBreakTime;
     this.longBreakTime=longBreakTime;
     this.countPeriods=countPeriods;
-    setPeriodTime();
+    setValuesToTextFields();
     this.pomPage=pomPage;
   }
 
@@ -48,7 +52,12 @@ class pomodoroDescription extends StatelessWidget {
                Expanded(child: new Column(
                 children: <Widget>[
                   TextField(
-                    decoration: new InputDecoration(labelText: "time"),
+                    decoration: new InputDecoration(labelText: "time [min]", ),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.number,
                     controller: periodTimeController,
                     onChanged: (text) {
@@ -60,10 +69,19 @@ class pomodoroDescription extends StatelessWidget {
                ),
                 Expanded(child: new Column(
                     children: <Widget>[
-                      new TextField(
-                        decoration: new InputDecoration(labelText: "count"),
+                      TextField(
+                        decoration: new InputDecoration(labelText: "count", ),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
-
+                        controller: periodCountController,
+                        onChanged: (text) {
+                          countPeriods=int.parse(text);
+                          updateValues();
+                        },
                       ),
                     ]),
                 ),
@@ -91,17 +109,37 @@ class pomodoroDescription extends StatelessWidget {
               children: <Widget>[
                 Expanded(child: new Column(
                     children: <Widget>[
-                      new TextField(
-                        decoration: new InputDecoration(labelText: "short"),
+                      TextField(
+                        decoration: new InputDecoration(labelText: "short [min]", ),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
+                        controller: shortBreakController,
+                        onChanged: (text) {
+                          shortBreakTime=int.parse(text);
+                          updateValues();
+                        },
                       ),
                     ]),
                 ),
                 Expanded(child: new Column(
                     children: <Widget>[
-                      new TextField(
-                        decoration: new InputDecoration(labelText: "long"),
+                      TextField(
+                        decoration: new InputDecoration(labelText: "long [min]", ),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black45,
+                            fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
+                        controller: longBreakController,
+                        onChanged: (text) {
+                          longBreakTime=int.parse(text);
+                          updateValues();
+                        },
                       ),
                     ]),
                 ),
@@ -123,8 +161,12 @@ class pomodoroDescription extends StatelessWidget {
   }
 
   //setter for the text fields
-  void setPeriodTime(){
+  void setValuesToTextFields(){
     periodTimeController.text=periodTime.toString();
+    periodCountController.text=countPeriods.toString();
+
+    shortBreakController.text=shortBreakTime.toString();
+    longBreakController.text=longBreakTime.toString();
   }
 
 
