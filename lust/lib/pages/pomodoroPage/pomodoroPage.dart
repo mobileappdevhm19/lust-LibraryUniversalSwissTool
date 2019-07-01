@@ -10,10 +10,10 @@ class PomodoroPage extends StatefulWidget {
   static IconData icon = Icons.watch;
 
   @override
-  _PomodoroState createState() => new _PomodoroState(title, icon);
+  PomodoroState createState() => new PomodoroState(title, icon);
 }
 
-class _PomodoroState extends State<PomodoroPage> {
+class PomodoroState extends State<PomodoroPage> {
   final String title;
   final icon;
 
@@ -27,9 +27,9 @@ class _PomodoroState extends State<PomodoroPage> {
   PomodoroTimer pomTimer;
 
 
-  _PomodoroState(this.title, this.icon){
+  PomodoroState(this.title, this.icon){
     pomodoroDefaultValues();
-    pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods);
+    pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods, this);
     pomTimer= new PomodoroTimer();
     updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
@@ -50,6 +50,7 @@ class _PomodoroState extends State<PomodoroPage> {
 
     return Scaffold(
         appBar: AppBar(title: Text(title)),
+        resizeToAvoidBottomPadding:false, //important, otherwise overlay, when keyboard
         drawer: MenuDrawer.getDrawer(context),
         body: Center(
           child: Column(
