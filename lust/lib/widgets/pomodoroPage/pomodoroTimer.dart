@@ -55,9 +55,9 @@ class PomodoroTimer extends StatefulWidget {
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     statuslist.clear();
     statuslist.add(statusClass(-1, ""));
-    statuslist.add(statusClass(periodTime*60, "actual you have to learn!"));
-    statuslist.add(statusClass(shortBreakTime*60, "make a short break"));
-    statuslist.add(statusClass(longBreakTime*60, "make a long break"));
+    statuslist.add(statusClass(periodTime, "actual you have to learn!"));
+    statuslist.add(statusClass(shortBreakTime, "make a short break"));
+    statuslist.add(statusClass(longBreakTime, "make a long break"));
 
     this.countPeriods = countPeriods;
 
@@ -234,6 +234,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       this.statuslist.clear();
       this.countPeriods = widget.countPeriods;
       this.statuslist = widget.statuslist;
+
+      int pT=statuslist[1].time;
+      print("in pts update values. Period time is $pT");
+
+
       //actStatusText=descriptionText();//update desc text
     }else{ //only for testing
       print("in test Constructor in PomodoroTimerState");
@@ -384,8 +389,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     if(actStatus==Status.nothing){
       actStatus=Status.learning;
       prefs.setInt(ActStatus_KEY, actStatus.index);
+      actTimerSeconds=statuslist[actStatus.index].time;
+      actStatusText=descriptionText();
     }
 
+    print("in start(), status= $actStatus");
     if (mounted) {
       startTimer(); //start a new timer
     }
