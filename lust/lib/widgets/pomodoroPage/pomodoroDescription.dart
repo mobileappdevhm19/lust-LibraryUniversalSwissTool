@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:lust/pages/pomodoroPage.dart';
+
 
 class pomodoroDescription extends StatelessWidget {
   int periodTime;
   int shortBreakTime;
   int longBreakTime;
   int countPeriods;
+  PomodoroState pomPage;
 
-  pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
+
+  TextEditingController  periodTimeController = new TextEditingController();
+
+  pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods, PomodoroState pomPage){
     this.periodTime=periodTime;
     this.shortBreakTime=shortBreakTime;
     this.longBreakTime=longBreakTime;
     this.countPeriods=countPeriods;
+    setPeriodTime();
+    this.pomPage=pomPage;
   }
 
 
@@ -39,10 +47,14 @@ class pomodoroDescription extends StatelessWidget {
               children: <Widget>[
                Expanded(child: new Column(
                 children: <Widget>[
-                  new TextField(
+                  TextField(
                     decoration: new InputDecoration(labelText: "time"),
                     keyboardType: TextInputType.number,
-
+                    controller: periodTimeController,
+                    onChanged: (text) {
+                      periodTime=int.parse(text);
+                      updateValues();
+                    },
                   ),
                 ]),
                ),
@@ -108,6 +120,16 @@ class pomodoroDescription extends StatelessWidget {
           ]),
     );
 
+  }
+
+  //setter for the text fields
+  void setPeriodTime(){
+    periodTimeController.text=periodTime.toString();
+  }
+
+
+  void updateValues(){
+    pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
 
 }
