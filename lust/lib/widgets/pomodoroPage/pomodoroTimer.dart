@@ -25,7 +25,6 @@ const OldTimerSeconds_KEY="oldTimerSeconds";
 
 
 
-
 //like struct in c++
 class statusClass {
   final int time;
@@ -459,7 +458,10 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void changeStatus() async{
 
     //necessary, otherwise multiple timer instances interfere each other
-    updateValues(); //updatw the values (when user changes inputs in pomodoro desc)
+    if(mounted) {
+      updateValues(); //updatw the values (when user changes inputs in pomodoro desc)
+    }
+
     actTimerSeconds=0;
     if(_timer !=null){
       _timer.cancel();

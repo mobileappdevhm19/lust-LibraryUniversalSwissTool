@@ -39,7 +39,7 @@ Future setupSomePreferences(int startTime) async {
 void main() {
   pomTimer= new PomodoroTimer();
   pomTimer.updateValues(1, 1, 1, 1); //default values
-  pomTimerState=new PomodoroTimerState();
+  pomTimerState=pomTimer.ptS;
 
 
   setupSomePreferences(null);
@@ -160,6 +160,12 @@ void checkStatusCalculation(WidgetTester tester) async {
 
   aS=pomTimerState.actStatus.toString();
   print("$aS");
+  pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();
+
+  bool iR = prefs.getBool(IsRunning_KEY);
+  print("iR $iR");
+
 
   for(int i=0; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
@@ -174,7 +180,7 @@ void checkStatusCalculation(WidgetTester tester) async {
     aS = pomTimerState.actStatus.toString();
     print("$aS");
   }
-  pomTimerState.changeStatus();
+
   pomTimerState.initPlatformState();
 
   expect(pomTimerState.actStatus, Status.longBreak);

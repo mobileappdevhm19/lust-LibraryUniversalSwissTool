@@ -10,11 +10,26 @@ class pomodoroDescription extends StatelessWidget {
   PomodoroState pomPage;
 
 
+  String periodString="period";
+  String breakString="break";
+
+  String periodTimeString="time [min]";
   TextEditingController  periodTimeController = new TextEditingController();
+  String periodCountString="count";
   TextEditingController  periodCountController = new TextEditingController();
 
+  String shortBreakString="short [min]";
   TextEditingController  shortBreakController = new TextEditingController();
+  String longBreakString="long [min]";
   TextEditingController  longBreakController = new TextEditingController();
+
+
+
+
+  TextStyle textFieldStyle=TextStyle(
+      fontSize: 20,
+      color: Colors.blue,
+      fontWeight: FontWeight.bold);
 
   pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods, PomodoroState pomPage){
     this.periodTime=periodTime;
@@ -37,7 +52,7 @@ class pomodoroDescription extends StatelessWidget {
                 Expanded(child: new Column(
                     children: <Widget>[
                       Text(
-                        "Period",
+                        "$periodString",
                         textScaleFactor: 0.8,
                         style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
                         textAlign: TextAlign.center,
@@ -52,12 +67,9 @@ class pomodoroDescription extends StatelessWidget {
                Expanded(child: new Column(
                 children: <Widget>[
                   TextField(
-                    decoration: new InputDecoration(labelText: "time [min]", ),
+                    decoration: new InputDecoration(labelText: "$periodTimeString", ),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold),
+                    style: textFieldStyle,
                     keyboardType: TextInputType.number,
                     controller: periodTimeController,
                     onChanged: (text) {
@@ -70,12 +82,9 @@ class pomodoroDescription extends StatelessWidget {
                 Expanded(child: new Column(
                     children: <Widget>[
                       TextField(
-                        decoration: new InputDecoration(labelText: "count", ),
+                        decoration: new InputDecoration(labelText: "$periodCountString", ),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold),
+                        style: textFieldStyle,
                         keyboardType: TextInputType.number,
                         controller: periodCountController,
                         onChanged: (text) {
@@ -95,7 +104,7 @@ class pomodoroDescription extends StatelessWidget {
                 Expanded(child: new Column(
                     children: <Widget>[
                       Text(
-                        "Break",
+                        "$breakString",
                         textScaleFactor: 0.8,
                         style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
                         textAlign: TextAlign.center,
@@ -110,12 +119,9 @@ class pomodoroDescription extends StatelessWidget {
                 Expanded(child: new Column(
                     children: <Widget>[
                       TextField(
-                        decoration: new InputDecoration(labelText: "short [min]", ),
+                        decoration: new InputDecoration(labelText: "$shortBreakString", ),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold),
+                        style: textFieldStyle,
                         keyboardType: TextInputType.number,
                         controller: shortBreakController,
                         onChanged: (text) {
@@ -128,12 +134,9 @@ class pomodoroDescription extends StatelessWidget {
                 Expanded(child: new Column(
                     children: <Widget>[
                       TextField(
-                        decoration: new InputDecoration(labelText: "long [min]", ),
+                        decoration: new InputDecoration(labelText: "$longBreakString", ),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black45,
-                            fontWeight: FontWeight.bold),
+                        style: textFieldStyle,
                         keyboardType: TextInputType.number,
                         controller: longBreakController,
                         onChanged: (text) {
@@ -171,7 +174,9 @@ class pomodoroDescription extends StatelessWidget {
 
 
   void updateValues(){
-    pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
-  }
+    if(pomPage != null){
+      pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
 
+    }
+  }
 }

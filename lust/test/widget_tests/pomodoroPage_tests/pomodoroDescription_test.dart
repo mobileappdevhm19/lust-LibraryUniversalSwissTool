@@ -5,18 +5,27 @@ import '../../testHelper.dart';
 import 'package:lust/pages/pomodoroPage.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 
+pomodoroDescription pomDesc;
+
+int periodTime=10;
+int shortBreakTime=4;
+int longBreakTime=3;
+int countPeriods=9;
 
 
 
 void main() {
+
+  pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods, null);
+
   testWidgets('pomodoroDesc headline tests', (WidgetTester tester) async {
-    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(Lust()));
     checkHeadlines(tester);
   });
 
 
   testWidgets('pomodoroDesc TextField', (WidgetTester tester) async {
-    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(Lust()));
     checkTextFieldTexts(tester);
   });
 }
@@ -24,22 +33,13 @@ void main() {
 
 void checkHeadlines(WidgetTester tester){
   // Create our Finders
-  final periodTimeFinder = find.text("Period");
-  final breakFinder = find.text("Break");
-  expect(periodTimeFinder, findsOneWidget);
-  expect(breakFinder, findsOneWidget);
+  expect(pomDesc.periodString, "period");
+  expect(pomDesc.breakString, "break");
 }
 
 void checkTextFieldTexts(WidgetTester tester){
-  final periodTimeFinder = find.text("time [min]");
-  expect(periodTimeFinder, findsOneWidget);
-
-  final periodCountFinder = find.text("count");
-  expect(periodCountFinder, findsOneWidget);
-
-  final shortBreakFinder = find.text("short [min]");
-  expect(shortBreakFinder, findsOneWidget);
-
-  final longBreakFinder = find.text("long [min]");
-  expect(longBreakFinder, findsOneWidget);
+  expect(pomDesc.periodTimeString, "time [min]");
+  expect(pomDesc.periodCountString, "count");
+  expect(pomDesc.shortBreakString, "short [min]");
+  expect(pomDesc.longBreakString, "long [min]");
 }
