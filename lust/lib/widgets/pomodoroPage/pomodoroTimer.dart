@@ -49,7 +49,7 @@ class PomodoroTimer extends StatefulWidget {
   PomodoroTimer() {
     updateValues(0,  0,  0, 0); //only default values
     ptS=new PomodoroTimerState();
-    ptS.updateValues();
+    ptS.updateValues(); //update the values in PomodoroTimerState
   }
 
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
@@ -61,9 +61,11 @@ class PomodoroTimer extends StatefulWidget {
 
     this.countPeriods = countPeriods;
 
-    if(ptS !=null){ //for case before condtructor
+    /*if(ptS !=null){ //for case before condtructor
       ptS.updateValues(); //update the values in PomodoroTimerState
-    }
+    }*/
+
+    print("in timer updatet");
   }
 
 
@@ -96,7 +98,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   @override
   void initState() {
     super.initState();
-    updateValues();
+    //updateValues();
     if(widget==null) return; //only for test
     //actTimerSeconds=0;
     setActTimeMinutesSeconds(); //for 00:00 at first
@@ -231,7 +233,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   //in the actual timer, the time will not change
   void updateValues(){
     if (widget != null){
-      this.statuslist.clear();
       this.countPeriods = widget.countPeriods;
       this.statuslist = widget.statuslist;
 
@@ -458,7 +459,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void changeStatus() async{
 
     //necessary, otherwise multiple timer instances interfere each other
-
+    updateValues(); //updatw the values (when user changes inputs in pomodoro desc)
     actTimerSeconds=0;
     if(_timer !=null){
       _timer.cancel();
