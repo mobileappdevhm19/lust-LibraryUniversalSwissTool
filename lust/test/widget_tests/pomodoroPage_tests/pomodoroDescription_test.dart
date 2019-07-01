@@ -31,15 +31,15 @@ void checkHeadlines(WidgetTester tester){
 }
 
 void checkTextFieldTexts(WidgetTester tester){
-  final periodTimeFinder = find.text("time");
+  final periodTimeFinder = find.text("time [min]");
   expect(periodTimeFinder, findsOneWidget);
 
   final periodCountFinder = find.text("count");
   expect(periodCountFinder, findsOneWidget);
 
-  final shortBreakFinder = find.text("short");
+  final shortBreakFinder = find.text("short [min]");
   expect(shortBreakFinder, findsOneWidget);
 
-  final longBreakFinder = find.text("long");
+  final longBreakFinder = find.text("long [min]");
   expect(longBreakFinder, findsOneWidget);
 }
