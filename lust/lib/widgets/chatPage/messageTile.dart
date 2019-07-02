@@ -10,11 +10,8 @@ class MessageTile extends StatelessWidget {
 
   MessageTile(this._idFrom, this._messageContent, this._userID);
 
-
   @override
   Widget build(BuildContext context) {
-
-
     return new Column(
       children: <Widget>[
         Row(
