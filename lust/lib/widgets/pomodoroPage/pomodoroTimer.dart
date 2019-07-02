@@ -49,7 +49,6 @@ class PomodoroTimer extends StatefulWidget {
   PomodoroTimer() {
     updateValues(0,  0,  0, 0); //only default values
     ptS=new PomodoroTimerState();
-    ptS.updateValues(); //update the values in PomodoroTimerState
   }
 
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
@@ -65,9 +64,16 @@ class PomodoroTimer extends StatefulWidget {
       ptS.updateValues(); //update the values in PomodoroTimerState
     }*/
 
-    print("in timer updatet");
+    //print("in timer updatet");
   }
 
+  //update the values in PomodoroTimerState
+  void initPomTimerState(){
+    print("updatePomTimerState $countPeriods");
+   // ptS.initState();
+    ptS.statuslist=this.statuslist;
+    ptS.countPeriods=this.countPeriods;
+  }
 
   @override
   PomodoroTimerState createState() => ptS;
@@ -139,8 +145,14 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
 
       isRunning = prefs.getBool(IsRunning_KEY);
-      print("is Running: $isRunning");
+      //print("is Running: $isRunning");
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
+      print("akt Status $actStatus");
+      if(actStatus==Status.nothing){
+        resetValues(true);
+        return;
+      }
+
       actPeriod=prefs.getInt(ActPeriod_KEY);
       if(isRunning){
         if (_timer != null) {
@@ -204,7 +216,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       else{ //actual stopped
 
         actTimerSeconds =oldTimerSeconds; //subtrac the time beetween last stop click and now
-        print("act Status $actStatus");
+        //print("act Status $actStatus");
         actStatusText=descriptionText();
       }
     } else { //startTime =null
@@ -240,7 +252,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       print("in pts update values. Period time is $pT");
 
 
-      //actStatusText=descriptionText();//update desc text
+      actStatusText=descriptionText();//update desc text
     }else{ //only for testing
       print("in test Constructor in PomodoroTimerState");
       statuslist.add(statusClass(-1, ""));
@@ -330,8 +342,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     });
   }
   void stop() async{
-
-
     //if(isRunning){
     if (mounted) {
       setState(() {
@@ -431,25 +441,39 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         new FlatButton(
           child: new Text("reset"),
           onPressed: () {
-            actStatus=Status.nothing;
-            actTimerSeconds=0;
-            actPeriod=0;
-            if(mounted) {
-              setState(() {
-                setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
-                actStatusText = initialStatusText;
-              });
-            }
-
-            stop();
-
-            if(mounted) {
-              Navigator.of(context).pop();
-            }
+            resetValues();
           },
         ),
       ],
     );
+  }
+
+  void resetValues([bool initial=false]){
+    bool init=initial;
+    actStatus=Status.nothing;
+    actTimerSeconds=0;
+    actPeriod=0;
+    setVarsToShared();
+    updateValues();
+    if(mounted) {
+      setState(() {
+        setActTimeMinutesSeconds(); //so there stand 00:00 when start this page
+        actStatusText = initialStatusText;
+      });
+    }
+
+    stop();
+
+    if(mounted && !init) {
+      Navigator.of(context).pop();
+    }
+  }
+  //help function for reset
+  void setVarsToShared() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(ActPeriod_KEY, actPeriod);
+    prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+    prefs.setInt(ActStatus_KEY, actStatus.index);
   }
 
 
@@ -459,7 +483,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   void changeStatus() async{
 
     //necessary, otherwise multiple timer instances interfere each other
-    updateValues(); //updatw the values (when user changes inputs in pomodoro desc)
+    if(mounted){
+      updateValues(); //updatw the values (when user changes inputs in pomodoro desc)
+    }
     actTimerSeconds=0;
     if(_timer !=null){
       _timer.cancel();
