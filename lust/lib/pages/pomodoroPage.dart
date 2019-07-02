@@ -3,36 +3,19 @@ import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-
-
-const PeriodTime_KEY = "periodTime";
-const ShortBreakTime_KEY = "shortBreakTime";
-const LongBreakTime_KEY = "longBreakTime";
-const CountPeriods_KEY = "countPeriods";
 
 
 class PomodoroPage extends StatefulWidget {
   static String title = "Pomodoro";
   static IconData icon = Icons.watch;
 
-  PomodoroState pomState;
-
-  PomodoroPage(){
-    pomState=new PomodoroState();
-    pomState.title=title;
-    pomState.icon=icon;
-    pomState.initState();
-  }
-
   @override
-  PomodoroState createState() => pomState;
+  PomodoroState createState() => new PomodoroState(title, icon);
 }
 
 class PomodoroState extends State<PomodoroPage> {
-   String title=""; //default
-   IconData icon=Icons.watch; //default
+  final String title;
+  final icon;
 
   //all in minutes
   int periodTime;
@@ -43,51 +26,26 @@ class PomodoroState extends State<PomodoroPage> {
   pomodoroDescription pomDesc;
   PomodoroTimer pomTimer;
 
-  PomodoroState(){
+  PomodoroState(this.title, this.icon){
     pomodoroDefaultValues();
-    pomDesc=new pomodoroDescription();
-    pomTimer= new PomodoroTimer(this);
-
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    //updateValues();
-    if(widget==null) {
-      pomodoroDefaultValues();
-      return; //only for test
-    }
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    periodTime = prefs.getInt(PeriodTime_KEY);
-    shortBreakTime=prefs.getInt(ShortBreakTime_KEY);
-    longBreakTime= prefs.getInt(LongBreakTime_KEY);
-    countPeriods=prefs.getInt(CountPeriods_KEY);
-
-    if(periodTime==null || shortBreakTime ==null || longBreakTime==null || countPeriods==null){
-      pomodoroDefaultValues();
-    }
-    pomDesc.setValues(periodTime, shortBreakTime, longBreakTime, countPeriods, this);
+    pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods, this);
+    pomTimer= new PomodoroTimer();
     updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
-
     pomTimer.initPomTimerState();
   }
 
   //set the default values for pomodoro
   void pomodoroDefaultValues(){
-    periodTime=25;
-    shortBreakTime=5;
-    longBreakTime=15;
-    countPeriods=4;
+    periodTime=10;
+    shortBreakTime=4;
+    longBreakTime=3;
+    countPeriods=9;
   }
 
   @override
   Widget build(BuildContext context) {
+
+    var _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
         appBar: AppBar(title: Text(title)),
@@ -98,6 +56,7 @@ class PomodoroState extends State<PomodoroPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Align(
+                  //height: _height*0.40,
                   child: pomDesc,
                 ),
                 Expanded(
@@ -107,19 +66,8 @@ class PomodoroState extends State<PomodoroPage> {
         ));
   } // build
 
-  void updateVales(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods)async {
-    if(!mounted)return;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.setInt(PeriodTime_KEY, periodTime);
-    prefs.setInt(ShortBreakTime_KEY, shortBreakTime);
-    prefs.setInt(LongBreakTime_KEY, longBreakTime);
-    prefs.setInt(CountPeriods_KEY, countPeriods);
-
-
-    if(pomTimer != null){
-      pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
-    }
+  void updateVales(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
+    pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
 }
 
