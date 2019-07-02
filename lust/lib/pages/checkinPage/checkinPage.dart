@@ -26,10 +26,10 @@ class _CheckinPageState extends State<CheckinPage> {
   final icon;
 
   String _subjectInput;
-  double _lockerNumber, _timeGoal;
+  String _lockerNumber, _timeGoal;
 
   final GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
-  final GlobalKey<FormState>_formKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   final double _appBarHeight = 55;
 
@@ -76,7 +76,7 @@ class _CheckinPageState extends State<CheckinPage> {
                       /*validator: (input) =>
                       input.isEmpty ? "Please write your email" : null,*/
                       keyboardType: TextInputType.number,
-                      onSaved: (input) => _timeGoal = double.parse(input),
+                      onSaved: (input) => _timeGoal = input,
                     )),
                 ListTile(
                     leading: Icon(Icons.lock, size: 35),
@@ -89,18 +89,20 @@ class _CheckinPageState extends State<CheckinPage> {
                       ),
                       validator: (input) => null,
                       keyboardType: TextInputType.number,
-                      onSaved: (input) => _lockerNumber = double.parse(input),
+                      onSaved: (input) => _lockerNumber = input,
                     )),
                 Container(
                   alignment: Alignment.center,
                   height: _height * 0.6,
                   margin: const EdgeInsets.only(left: 10, right: 10),
-                  child: ButtonCheck(scaffState: _scaffState, lockerNumber: _lockerNumber),
+                  child: ButtonCheck(
+                      scaffState: _scaffState,
+                      formKey: _formKey,
+                      lockerNumber: _lockerNumber),
                 ),
               ],
             )));
   }
-
 
   void _signOut() {
     var auth = AuthProvider.of(context).auth;

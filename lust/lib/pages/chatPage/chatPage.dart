@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 
 import 'package:lust/widgets/chatPage/messageTile.dart';
 
@@ -37,6 +39,9 @@ class _ChatPageState extends State<ChatPage> {
   final messageReference = Firestore.instance.collection('messages');
 
   _ChatPageState(this.title, this.icon, this._userID, this._topicID);
+
+
+
 
   @override
   Widget build(BuildContext context) {

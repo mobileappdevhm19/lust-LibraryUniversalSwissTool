@@ -10,8 +10,8 @@ class LocationAPI {
     final double _maxRadius = 300;
     double _distance;
     bool _onRange;
-    Library libHM =
-        new Library(longitude: _point.longitude, latitude: _point.latitude);
+
+    Library libHM = new Library.withLocation(_point);
 
     Position currentLocation = await Geolocator().getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -19,7 +19,7 @@ class LocationAPI {
         'USER coordinates: (${currentLocation.latitude}, ${currentLocation.longitude})');
 
     _distance = await Geolocator().distanceBetween(currentLocation.latitude,
-        currentLocation.longitude, libHM.latitude, libHM.longitude);
+        currentLocation.longitude, libHM.location.latitude, libHM.location.longitude);
 
     if (_distance < _maxRadius) {
       _onRange = true;

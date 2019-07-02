@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/pages/loginPage/loginPage.dart';
 import 'package:lust/pages/utils/authProvider.dart';
+import 'package:lust/models/library.dart';
 import 'package:lust/utils/autenthicationAPI.dart';
-import 'package:lust/models/library.dart';
-import 'package:lust/models/library.dart';
 import 'package:lust/widgets/capacityPage/capacityGraph.dart';
 import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 import 'package:lust/widgets/utils/getAppBar.dart';
@@ -27,7 +26,6 @@ class _CapacityPageState extends State<CapacityPage> {
 
   _CapacityPageState(this.title, this.icon);
 
-  final Library library = new Library.withSampleData();
   final double _appBarHeight = 55;
 
   @override
@@ -46,13 +44,13 @@ class _CapacityPageState extends State<CapacityPage> {
               Container(
                 margin: const EdgeInsets.only(left: 10),
                 height: _height * 0.60,
-                child: CapacityGraph.fromLibrary(library),
+                child: CapacityGraph(),
               ),
               Container(
                 alignment: Alignment.center,
                 height: _height * 0.4,
                 margin: const EdgeInsets.only(left: 10, right: 10),
-                child: CapacityInfo(library),
+                child: CapacityInfo(),
               ),
             ]));
   } // build

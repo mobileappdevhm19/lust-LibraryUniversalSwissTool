@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/models/tutorEntry.dart';
 import 'package:lust/pages/chatPage/chatPage.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 
 class TutorEntryPage extends StatefulWidget {
   static String title = "Tutor Entry";
@@ -18,14 +20,27 @@ class TutorEntryPage extends StatefulWidget {
 class _TutorEntryPageState extends State<TutorEntryPage> {
   String title;
   TutorEntry tutorEntry;
+  String _userID;
+
+
 
   _TutorEntryPageState(this.title, this.tutorEntry);
+
+  Future<void> setUserID() async {
+    var auth = AuthProvider.of(context).auth;
+
+    FirebaseUser _firebaseUser = await auth.getCurrentUser();
+    _userID = _firebaseUser.uid;
+
+  }
 
   @override
   Widget build(BuildContext context) {
     TextStyle topicStyle = TextStyle(
       fontSize: 30,
     );
+
+    setUserID();
 
     var _height = MediaQuery.of(context).size.height;
     _height -= 85;
@@ -58,7 +73,7 @@ class _TutorEntryPageState extends State<TutorEntryPage> {
           RaisedButton(
             child: Text("Chat"),
             onPressed: () => _switchPage(
-                context, ChatPage("testUser", tutorEntry.offeringId)),
+                context, ChatPage(_userID, tutorEntry.offeringId)),
           )
         ],
       ), //ListView
