@@ -82,4 +82,6 @@ void checkInitialTextFieldsValues(WidgetTester tester){
   expect(pomDesc.shortBreakController.text, pomDesc.shortBreakTime.toString());
   expect(pomDesc.longBreakController.text, pomDesc.longBreakTime.toString());
   expect(pomDesc.periodCountController.text, pomDesc.countPeriods.toString());
+
+  pomDesc.updateValues();
 }
