@@ -105,11 +105,18 @@ void checkInitialValues(){
 void checkSharedPreferences(WidgetTester tester) async{
   int actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
+  int difTime=2; //aloowed difTime between startTime and actual Time
 
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setInt(StartTime_KEY,null);
   pomTimerState.initPlatformState();
   int sT=pomTimerState.startTime;
+  expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 
-  int difTime=2; //aloowed difTime between startTime and actual Time
+
+  prefs.setInt(StartTime_KEY,actTime);
+
+  sT=pomTimerState.startTime;
 
   expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 
@@ -130,7 +137,6 @@ void checkSharedPreferences(WidgetTester tester) async{
   pomTimerState.start();
 
   pomTimerState.initPlatformState();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
 
 
   expect(((oldTime-difTime)<=sT &&sT<=oldTime), true);
@@ -158,11 +164,14 @@ void checkStatusCalculation(WidgetTester tester) async {
 
   actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
+  pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();
+
 
   aS=pomTimerState.actStatus.toString();
   print("$aS");
 
-  for(int i=1; i<pomTimerState.countPeriods; i++) {
+  for(int i=0; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
@@ -175,8 +184,8 @@ void checkStatusCalculation(WidgetTester tester) async {
     aS = pomTimerState.actStatus.toString();
     print("$aS");
   }
-  pomTimerState.changeStatus();
-  pomTimerState.initPlatformState();
+  /*pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();*/
 
   expect(pomTimerState.actStatus, Status.longBreak);
 }
