@@ -30,7 +30,7 @@ class MenuDrawer {
   }
 
   // method to switch between the pages
-  static void _switchPage(BuildContext context, Widget widget) {
+  static void switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
       //replace the top view(widget) from the stack with the new one
@@ -54,7 +54,7 @@ class MenuDrawer {
     ));
     pages.forEach((page) => children.add(
         ListTile(
-          onTap: () => _switchPage(context, page.pageObject),
+          onTap: () => switchPage(context, page.pageObject),
           leading: Icon(page.icon),
           title: Text(page.title),
         )));
