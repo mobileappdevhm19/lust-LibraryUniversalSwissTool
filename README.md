@@ -2,8 +2,14 @@
 [![Coverage Status](https://coveralls.io/repos/github/mobileappdevhm19/lust-LibraryUniversalSwissTool/badge.svg?branch=develop)](https://coveralls.io/github/mobileappdevhm19/lust-LibraryUniversalSwissTool?branch=develop)
 
 
-# lust-LibraryUniversalSwissTool
+### lust-LibraryUniversalSwissTool
 apps4students-team-5 created by GitHub Classroom
+why it was created
+purpose
+who created it
+idea
+
+
 
 # Android Studio Project
 
