@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
-
+import 'package:lust/widgets/utils/getAppBar.dart';
 import 'package:lust/widgets/utils/menuDrawer.dart';
+import '../rootPage.dart';
 
 
 class PomodoroPage extends StatefulWidget {
@@ -16,6 +18,8 @@ class PomodoroPage extends StatefulWidget {
 class _PomodoroState extends State<PomodoroPage> {
   final String title;
   final icon;
+
+  final double _appBarHeight = 55;
 
   //all in minutes
   int periodTime;
@@ -36,7 +40,7 @@ class _PomodoroState extends State<PomodoroPage> {
     var _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
         drawer: MenuDrawer.getDrawer(context),
         body: Center(
           child: Column(
@@ -52,5 +56,16 @@ class _PomodoroState extends State<PomodoroPage> {
            ]),
         ));
   } // build
+
+  void _signOut() {
+    var auth = AuthProvider.of(context).auth;
+    print("CURRENT USER: mateo mateo");
+    try {
+      auth.signOut();
+      MenuDrawer.switchPage(context, RootPage());
+    } catch (e) {
+      print(e);
+    }
+  }
 }
 

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lust/pages/loginPage/loginPage.dart';
-import 'package:lust/pages/rootPage.dart';
-import 'package:lust/utils/autenthicationAPI.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/widgets/checkinPage/buttonCheck.dart';
 import 'package:lust/widgets/utils/getAppBar.dart';
 import 'package:lust/widgets/utils/getTextBox.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
+import '../rootPage.dart';
+
 class CheckinPage extends StatefulWidget {
-  CheckinPage({this.auth, this.onSignedOut});
+  CheckinPage({this.onSignedOut});
   VoidCallback onSignedOut;
 
   static String title = "Check In/Out";
   static IconData icon = Icons.check_circle_outline;
-  final BaseAuth auth;
 
   @override
   _CheckinPageState createState() => _CheckinPageState(title, icon);
@@ -25,6 +24,8 @@ class _CheckinPageState extends State<CheckinPage> {
   final String title;
   final icon;
   final GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
+
+  final double _appBarHeight = 55;
 
   _CheckinPageState(this.title, this.icon);
 
@@ -36,10 +37,11 @@ class _CheckinPageState extends State<CheckinPage> {
         .height;
     _height -= 85;
 
+
     return Scaffold(
         key: _scaffState,
         appBar: PreferredSize(child: GetAppBar(title, _signOut),
-            preferredSize: Size.fromHeight(55)),
+            preferredSize: Size.fromHeight(_appBarHeight)),
         drawer: MenuDrawer.getDrawer(context),
         body: ListView(children: [
           Container(
@@ -66,9 +68,11 @@ class _CheckinPageState extends State<CheckinPage> {
   }
 
   void _signOut() {
+    var auth = AuthProvider.of(context).auth;
     print("CURRENT USER: mateo mateo");
     try {
-      widget.auth.signOut();
+      auth.signOut();
+      MenuDrawer.switchPage(context, RootPage());
     } catch (e) {
       print(e);
     }
