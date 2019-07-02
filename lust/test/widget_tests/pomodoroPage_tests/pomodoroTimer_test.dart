@@ -202,6 +202,12 @@ void checkInitalTimerStart(WidgetTester tester) {
   pomTimerState.start();
   findTextInButton("Stop");
   expect(pomTimerState.isRunning, true);
+
+  int s=pomTimerState.actTimerSeconds;
+  print("acttiemrsec $s");
+  pomTimerState.timerFunc(null);
+  expect(pomTimerState.actTimerSeconds, s-1);
+
 }
 
 void checkInitalTimerStop(WidgetTester tester) {
