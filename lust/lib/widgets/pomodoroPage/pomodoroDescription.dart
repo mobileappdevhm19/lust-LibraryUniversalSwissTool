@@ -63,7 +63,7 @@ class pomodoroDescription extends StatelessWidget {
                     decoration: new InputDecoration(labelText: "time [min]", ),
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         color: Colors.black45,
                         fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.number,
@@ -81,7 +81,7 @@ class pomodoroDescription extends StatelessWidget {
                         decoration: new InputDecoration(labelText: "count", ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black45,
                             fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
@@ -121,7 +121,7 @@ class pomodoroDescription extends StatelessWidget {
                         decoration: new InputDecoration(labelText: "short [min]", ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black45,
                             fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
@@ -139,7 +139,7 @@ class pomodoroDescription extends StatelessWidget {
                         decoration: new InputDecoration(labelText: "long [min]", ),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black45,
                             fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,

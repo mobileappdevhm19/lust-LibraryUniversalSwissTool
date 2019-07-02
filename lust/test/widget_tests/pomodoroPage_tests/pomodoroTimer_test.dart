@@ -37,7 +37,7 @@ Future setupSomePreferences(int startTime) async {
 
 
 void main() {
-  pomTimer= new PomodoroTimer();
+  pomTimer= new PomodoroTimer(null);
   pomTimer.updateValues(1, 1, 1, 1); //default values
   pomTimerState=new PomodoroTimerState();
 
