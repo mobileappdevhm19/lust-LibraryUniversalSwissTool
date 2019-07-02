@@ -7,7 +7,7 @@ class LocationAPI {
   static Future<bool> getLocation(GeoPoint _point) async {
     final double _maxRadius = 150;
     double _distance;
-    Library libHM = new Library(longitude: _point.longitude, latitude: _point.latitude);
+    Library libHM = new Library.withLocation(_point);
 
     Position currentLocation = await Geolocator().getLastKnownPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -16,8 +16,8 @@ class LocationAPI {
     _distance = await Geolocator().distanceBetween(
         currentLocation.latitude,
         currentLocation.longitude,
-        libHM.latitude,
-        libHM.longitude);
+        libHM.location.latitude,
+        libHM.location.longitude);
     print('DISTANCE: $_distance');
 
    if (_distance < _maxRadius) {
