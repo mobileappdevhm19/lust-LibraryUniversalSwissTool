@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 
 class MessageTile extends StatelessWidget {
   final DocumentSnapshot _document;
@@ -8,8 +9,11 @@ class MessageTile extends StatelessWidget {
 
   MessageTile(this._document, this._userID);
 
+
   @override
   Widget build(BuildContext context) {
+
+
     return new Column(
       children: <Widget>[
         Row(
