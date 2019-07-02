@@ -12,7 +12,7 @@ class LocationAPI {
     bool _onRange;
     print("step 1 xxxx");
     Library libHM =
-        new Library(longitude: _point.longitude, latitude: _point.latitude);
+    new Library.withLocation(_point);
     print("step 2 xxxx");
 
     Position currentLocation = await Geolocator().getCurrentPosition(
@@ -21,7 +21,7 @@ class LocationAPI {
         'USER coordinates: (${currentLocation.latitude}, ${currentLocation.longitude})');
 
     _distance = await Geolocator().distanceBetween(currentLocation.latitude,
-        currentLocation.longitude, libHM.latitude, libHM.longitude);
+        currentLocation.longitude, libHM.location.latitude, libHM.location.longitude);
 
     if (_distance < _maxRadius) {
       _onRange = true;
