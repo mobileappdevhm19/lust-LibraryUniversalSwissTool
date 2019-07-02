@@ -145,6 +145,7 @@ void checkSharedPreferences(WidgetTester tester) async{
 
 }
 
+
 //call initPlatfom state with different times to go through the whole loop where the act status calculating
 void checkStatusCalculation(WidgetTester tester) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -165,40 +166,27 @@ void checkStatusCalculation(WidgetTester tester) async {
 
   actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
-  pomTimerState.initPlatformState();
-  pomTimerState.changeStatus();
-  pomTimerState.start();
-  pomTimerState.initPlatformState();
-
 
   aS=pomTimerState.actStatus.toString();
   print("$aS");
 
-  prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
-
-  int loopT=actTime;
-  prefs.setInt(ActStatus_KEY, Status.learning.index);//nothing
-  aS = pomTimerState.actStatus.toString();
-  print("inital Status: $aS");
-  for(int i=0; i<pomTimerState.countPeriods; i++) {
-    //print("in loop");
+  for(int i=1; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
-    loopT=loopT-(pomTimerState.statuslist[Status.learning.index].time-dif);
-    pomTimerState.setSharedStartTime(loopT);
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
     print("$aS");
 
     pomTimerState.changeStatus();
-    loopT=loopT-(pomTimerState.statuslist[Status.shortBreak.index].time-dif);
-    pomTimerState.setSharedStartTime(loopT);
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
     print("$aS");
   }
-  //pomTimerState.changeStatus();
+  pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();
+
+  pomTimerState.changeStatus();
   pomTimerState.initPlatformState();
 
   expect(pomTimerState.actStatus, Status.longBreak);
