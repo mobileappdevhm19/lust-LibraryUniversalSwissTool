@@ -3,20 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/utils/oneLineText.dart';
 import 'package:lust/models/library.dart';
-import 'package:lust/models/trend.dart';
-import 'package:after_layout/after_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CapacityInfo extends StatefulWidget {
   CapacityInfo();
 
   _CapacityInfoState createState() => _CapacityInfoState();
+
 }
 
 
-
-
-class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<CapacityInfo> {
+class _CapacityInfoState extends State<CapacityInfo> {
 
   String occupancyLib;
   String totalSeatsLib;
@@ -44,11 +41,12 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
             .now()
             .day)).snapshots();
 
-
+    streamSub?.cancel();
     streamSub =
         dbLibraryCollectionReference.document('centralHM').snapshots().listen((
             DocumentSnapshot ds) => fillLib(ds));
 
+    eventSub?.cancel();
     eventSub = eventSnapshots.listen((QuerySnapshot snapshot) =>
         calculateOccupancy(snapshot, lib));
   }
@@ -87,6 +85,14 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
     return openingTime + " - " + closingTime;
   }
 
+
+  @override
+  void dispose() {
+    streamSub?.cancel();
+    eventSub?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double dividerHeight = 1.0;
@@ -122,8 +128,12 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
             children: <Widget>[
               OneLineText(text: "Estimated trend:"),
               new Icon(
-                _icons[Trend.leveling.index], // TODO is that good?
-                color: _colors[Trend.leveling.index],
+                _icons[lib
+                    .calculateTrend()
+                    .index],
+                color: _colors[lib
+                    .calculateTrend()
+                    .index],
               ),
             ],
           ),
@@ -153,6 +163,8 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
     if (libraryData.isNotEmpty) {
       lib.setDataFromMap(libraryData);
     }
+    if (mounted) return
+      setState(() {});
   }
 
   void calculateOccupancy(QuerySnapshot qs, Library lib) {
@@ -161,10 +173,9 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
           Event.fromMap(ds.data)).toList();
 
       int usersIn = 0;
-
       Map<String, int> occupancyMap = Map();
 
-      int currentKey = 0; // TODO opening time
+      int currentKey = 0;
 
       for (var event in events) {
         if (currentKey != event.getEvenHour())
@@ -178,31 +189,12 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
         occupancyMap[currentKey.toString()] = usersIn;
       }
 
-      setState(() {
-        lib.occupancyMap = occupancyMap;
-      });
+      if (mounted) return
+        setState(() {
+          lib.occupancyMap = occupancyMap;
+        });
     }
   }
-
-
-//  void setData(DocumentSnapshot ds) {
-//    String occupancy;
-//    String totalSeats;
-//    // use ds as a snapshot
-//    if (ds.data.isEmpty) {
-//      occupancyLib = "...";
-//      totalSeatsLib = "...";
-//    }
-//    occupancy = occupancyLib = ds.data['occupancy'].toString();
-//    totalSeats = totalSeatsLib = ds.data['totalseats'].toString();
-//    if (context != null) {
-//      setState(() {
-//        //occupancyLib = widget;
-//        occupancyLib = occupancy;
-//        totalSeatsLib = totalSeats;
-//      });
-//    }
-//  }
 }
 
 

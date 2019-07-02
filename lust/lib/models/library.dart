@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/models/trend.dart';
 
 class Library {
 // interface
@@ -7,7 +8,6 @@ class Library {
   DateTime _openingTimeToday;
   DateTime _closingTimeToday;
   String _address;
-  int _currentFilling;
   Map<String, int> _occupancyMap = Map();
   String _name;
   int _totalSeats;
@@ -61,6 +61,8 @@ class Library {
         .month, DateTime
         .now()
         .day, 23, 59);
+    _totalSeats = 0;
+
   }
 
   Library.withLocation(this._location);
@@ -75,5 +77,39 @@ class Library {
     this._name = map["name"];
     this._totalSeats = map["totalseats"];
   }
+
+  Trend calculateTrend() {
+    int currentEvenHour = DateTime
+        .now()
+        .hour
+        .isEven ? DateTime
+        .now()
+        .hour : DateTime
+        .now()
+        .hour - 1;
+
+    Trend currentTrend;
+
+
+    if (!_occupancyMap.containsKey(currentEvenHour.toString())) {
+      currentTrend = Trend.leveling;
+    } else if (!_occupancyMap.containsKey((currentEvenHour - 2).toString())) {
+      currentTrend = Trend.rising;
+    } else {
+      int deltaOccupancy = _occupancyMap[(currentEvenHour - 2).toString()] -
+          occupancyMap[currentEvenHour.toString()];
+
+      if (deltaOccupancy == 0) {
+        currentTrend = Trend.leveling;
+      } else if (deltaOccupancy < 0) {
+        currentTrend = Trend.rising;
+      } else {
+        currentTrend = Trend.falling;
+      }
+    }
+
+    return currentTrend;
+  }
+
 
 }

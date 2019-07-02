@@ -40,11 +40,11 @@ class _CapacityGraphState extends State<CapacityGraph> {
             .now()
             .day)).snapshots();
 
-
+    streamSub?.cancel();
     streamSub =
         dbLibraryCollectionReference.document('centralHM').snapshots().listen((
             DocumentSnapshot ds) => fillLib(ds));
-
+    eventSub?.cancel();
     eventSub = eventSnapshots.listen((QuerySnapshot snapshot) =>
         calculateOccupancy(snapshot, lib));
   }
