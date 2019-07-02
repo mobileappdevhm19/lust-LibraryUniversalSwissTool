@@ -154,6 +154,11 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
 
       actPeriod=prefs.getInt(ActPeriod_KEY);
+      updateValues();
+
+      print("period count $countPeriods");
+      print("actPEriod $actPeriod");
+
       if(isRunning){
         if (_timer != null) {
           _timer.cancel(); //stop timer if exist
