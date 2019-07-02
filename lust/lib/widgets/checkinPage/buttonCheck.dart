@@ -8,11 +8,10 @@ import 'package:lust/widgets/utils/snackBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ButtonCheck extends StatefulWidget {
-  ButtonCheck({this.scaffState, this.lockerNumber, this.formKey});
+  ButtonCheck({this.scaffState, this.function});
 
   final GlobalKey<ScaffoldState> scaffState;
-  final GlobalKey<FormState>formKey;
-  String lockerNumber;
+  final Function function;
 
   @override
   _ButtonCheckState createState() {
@@ -23,7 +22,7 @@ class ButtonCheck extends StatefulWidget {
 enum ButtonEnable { ENABLE, DISABLED }
 
 class _ButtonCheckState extends State<ButtonCheck> {
-  GeoPoint _libHM;   //solves the problem but it is not a good solution
+  GeoPoint _libHM; //solves the problem but it is not a good solution
   //GeoPoint _libHM = new GeoPoint(0, 0);
   ButtonEnable status;
   Location _location;
@@ -37,10 +36,9 @@ class _ButtonCheckState extends State<ButtonCheck> {
   bool _buttonState;
 
   final DocumentReference libReference =
-  Firestore.instance.collection('lib_test').document('centralHM');
+      Firestore.instance.collection('lib_test').document('centralHM');
   final CollectionReference colRefLogin =
-  Firestore.instance.collection('events');
-
+      Firestore.instance.collection('events');
 
   @override
   void initState() {
@@ -84,6 +82,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   void _onButtonPressed() async {
+    widget.function();
     await getLibPosition();
     await _locationAPI();
 
@@ -113,24 +112,11 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
       case ButtonEnable.DISABLED:
         _textSnackBar =
-        "You are too far from the lib!: ${_location.distance.round()} metres";  //PENDING: show distance!
+            "You are too far from the lib!: ${_location.distance.round()} metres"; //PENDING: show distance!
         break;
     }
     _showSnackBar();
     saveButtonState();
-    print("FORM KEY: ${widget.formKey.toString()}");
-    bool mateo = checkTextFields();
-  }
-
-  bool checkTextFields() {
-    if (widget.formKey.currentState.validate()) {
-      widget.formKey.currentState.save();
-      print("FORM OK: ${widget.lockerNumber}");
-      return true;
-    } else {
-      print("FORM WRONG: the fields cannot be empty");
-      return false;
-    }
   }
 
   Future sendValueToDB(bool increment) {

@@ -97,11 +97,22 @@ class _CheckinPageState extends State<CheckinPage> {
                   margin: const EdgeInsets.only(left: 10, right: 10),
                   child: ButtonCheck(
                       scaffState: _scaffState,
-                      formKey: _formKey,
-                      lockerNumber: _lockerNumber),
+                      function: _checkTextFields),
                 ),
               ],
             )));
+  }
+
+  bool _checkTextFields() {
+    print("CHECK TEXT FIELDS");
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      print("FORM OK: ${_lockerNumber}");
+      return true;
+    } else {
+      print("FORM WRONG: the fields cannot be empty");
+      return false;
+    }
   }
 
   void _signOut() {
