@@ -145,7 +145,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
 
       isRunning = prefs.getBool(IsRunning_KEY);
-      //print("is Running: $isRunning");
+      print("is Running: $isRunning");
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
       print("akt Status $actStatus");
       if(actStatus==Status.nothing){
@@ -164,7 +164,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
         int difTime=(actTime - startTime);
         if(difTime<statuslist[actStatus.index].time){
-          print("L153, $difTime");
+          print("L153, $difTime $actStatus");
           actTimerSeconds = statuslist[actStatus.index].time-difTime;
         }
         else{
@@ -254,7 +254,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
       actStatusText=descriptionText();//update desc text
     }else{ //only for testing
-      print("in test Constructor in PomodoroTimerState");
+      //print("in test Constructor in PomodoroTimerState");
       statuslist.add(statusClass(-1, ""));
       statuslist.add(statusClass(25, "actual you have to learn!"));
       statuslist.add(statusClass(9, "make a short break"));
@@ -594,6 +594,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return ret;
   }
 
+  //help function for testing
+  void setSharedStartTime(int sT) async{
+    print("setSharedStartTime $sT");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(StartTime_KEY, sT);
+  }
   void dispose() {
     super.dispose();
     if(_timer !=null){
