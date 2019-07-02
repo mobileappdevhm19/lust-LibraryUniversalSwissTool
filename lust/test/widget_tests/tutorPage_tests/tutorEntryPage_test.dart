@@ -8,7 +8,7 @@ void main() {
   TutorEntry tutorEntry = TutorEntry("offeringID", "subject", "topic",
       "description", "creatorUserID", DateTime.now());
 
-  testWidgets('Login and register buttons', (WidgetTester tester) async {
+  testWidgets('tutorEntry', (WidgetTester tester) async {
     await tester.pumpWidget(TestHelper.buildWidget(TutorEntryPage(tutorEntry)));
 
 //    final buttonFinder = await find.widgetWithText(RawMaterialButton, "Log in");

@@ -27,10 +27,11 @@ class _TutorEntryPageState extends State<TutorEntryPage> {
   _TutorEntryPageState(this.title, this.tutorEntry);
 
   Future<void> setUserID() async {
-    var auth = AuthProvider.of(context).auth;
 
-    FirebaseUser _firebaseUser = await auth.getCurrentUser();
-    _userID = _firebaseUser.uid;
+    var auth = AuthProvider.of(context)?.auth;
+
+    FirebaseUser _firebaseUser = await auth?.getCurrentUser();
+    _userID = _firebaseUser?.uid;
 
   }
 
