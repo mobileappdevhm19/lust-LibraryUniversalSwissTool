@@ -30,20 +30,9 @@ class Library {
   String get address => _address;
 
   int get currentFilling {
-    int hour = DateTime
-        .now()
-        .hour
-        .isEven ? DateTime
-        .now()
-        .hour : DateTime
-        .now()
-        .hour - 1;
-
-    int filling = 0;
-
-    _occupancyMap.forEach((key, value) {
-      // TODO get the correct number of users in the library from events
-    });
+    return occupancyMap[_occupancyMap.keys
+        .toList()
+        .last];
   }
 
   int get totalSeats => _totalSeats;
