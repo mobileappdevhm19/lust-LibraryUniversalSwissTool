@@ -21,12 +21,12 @@ class _LoginPageState extends State<LoginPage> {
   String _title = "LUST - LibUniversalSwissTool";
 
   String _email, _password;
-  final _formKey = new GlobalKey<FormState>();
   FormType _formRegister = FormType.LOGIN;
   bool _emailChecked;
 
   String _textSnackBar;
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState>_formKey = new GlobalKey<FormState>();
 
   _LoginPageState();
 

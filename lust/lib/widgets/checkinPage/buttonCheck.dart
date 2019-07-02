@@ -8,9 +8,11 @@ import 'package:lust/widgets/utils/snackBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ButtonCheck extends StatefulWidget {
-  ButtonCheck({this.scaffState});
+  ButtonCheck({this.scaffState, this.lockerNumber, this.formKey});
 
-  GlobalKey<ScaffoldState> scaffState;
+  final GlobalKey<ScaffoldState> scaffState;
+  final GlobalKey<FormState>formKey;
+  double lockerNumber;
 
   @override
   _ButtonCheckState createState() {
@@ -63,7 +65,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
               style: TextStyle(fontSize: 25, color: Colors.white),
             ),
             alignment: Alignment.center,
-            height: 120,
+            height: 140,
           ),
           padding: EdgeInsets.all(20),
           fillColor: _colorButton,
@@ -90,7 +92,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
     switch (status) {
       case ButtonEnable.ENABLE:
         setState(() {
-          if (_buttonState == true) {
+          if (_buttonState) {
             _buttonState = false;
             _colorButton = Colors.green;
             _splashButton = Colors.red;
@@ -116,6 +118,20 @@ class _ButtonCheckState extends State<ButtonCheck> {
     }
     _showSnackBar();
     saveButtonState();
+    print("FORM KEY: ${widget.formKey}");
+    bool mateo = checkTextFields();
+    print("TEXT FIELDS: $mateo");
+  }
+
+  bool checkTextFields() {
+    if (widget.formKey.currentState.validate()) {
+      widget.formKey.currentState.save();
+      print("FORM OK: ${widget.lockerNumber}");
+      return true;
+    } else {
+      print("FORM WRONG: the fields cannot be empty");
+      return false;
+    }
   }
 
   Future sendValueToDB(bool increment) {

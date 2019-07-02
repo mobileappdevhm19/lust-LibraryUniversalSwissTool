@@ -11,6 +11,7 @@ import '../rootPage.dart';
 
 class CheckinPage extends StatefulWidget {
   CheckinPage({this.onSignedOut});
+
   VoidCallback onSignedOut;
 
   static String title = "Check In/Out";
@@ -23,7 +24,12 @@ class CheckinPage extends StatefulWidget {
 class _CheckinPageState extends State<CheckinPage> {
   final String title;
   final icon;
+
+  String _subjectInput;
+  double _lockerNumber, _timeGoal;
+
   final GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState>_formKey = new GlobalKey<FormState>();
 
   final double _appBarHeight = 55;
 
@@ -31,41 +37,70 @@ class _CheckinPageState extends State<CheckinPage> {
 
   @override
   Widget build(BuildContext context) {
-    var _height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    var _height = MediaQuery.of(context).size.height;
     _height -= 85;
-
 
     return Scaffold(
         key: _scaffState,
-        appBar: PreferredSize(child: GetAppBar(title, _signOut),
+        appBar: PreferredSize(
+            child: GetAppBar(title, _signOut),
             preferredSize: Size.fromHeight(_appBarHeight)),
         drawer: MenuDrawer.getDrawer(context),
-        body: ListView(children: [
-          Container(
-            margin: const EdgeInsets.only(left: 10),
-            height: _height * 0.4,
-            child: Column(
+        body: Form(
+            key: _formKey,
+            child: ListView(
               children: <Widget>[
-                TextBox.getTextBox(context, "Subject", "Good luck with that!",
-                    Icons.local_library),
-                TextBox.getTextBox(
-                    context, "Time goal", "Be realistic!", Icons.timer),
-                TextBox.getTextBox(context, "Locker number",
-                    "I know that is difficult to remember", Icons.lock),
+                ListTile(
+                    leading: Icon(Icons.local_library, size: 35),
+                    title: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Subject",
+                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                        hintText: "Good luck with that!",
+                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                      ),
+                      /*validator: (input) =>
+                      input.isEmpty ? "Please write your email" : null,*/
+                      keyboardType: TextInputType.text,
+                      onSaved: (input) => _subjectInput = input,
+                    )),
+                ListTile(
+                    leading: Icon(Icons.timer, size: 35),
+                    title: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Time goal",
+                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                        hintText: "Be realistic!",
+                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                      ),
+                      /*validator: (input) =>
+                      input.isEmpty ? "Please write your email" : null,*/
+                      keyboardType: TextInputType.number,
+                      onSaved: (input) => _timeGoal = double.parse(input),
+                    )),
+                ListTile(
+                    leading: Icon(Icons.lock, size: 35),
+                    title: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Locker number",
+                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                        hintText: "I know it's difficult to remember",
+                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                      ),
+                      validator: (input) => null,
+                      keyboardType: TextInputType.number,
+                      onSaved: (input) => _lockerNumber = double.parse(input),
+                    )),
+                Container(
+                  alignment: Alignment.center,
+                  height: _height * 0.6,
+                  margin: const EdgeInsets.only(left: 10, right: 10),
+                  child: ButtonCheck(scaffState: _scaffState, lockerNumber: _lockerNumber),
+                ),
               ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: _height * 0.6,
-            margin: const EdgeInsets.only(left: 10, right: 10),
-            child: ButtonCheck(scaffState: _scaffState),
-          ),
-        ]));
+            )));
   }
+
 
   void _signOut() {
     var auth = AuthProvider.of(context).auth;

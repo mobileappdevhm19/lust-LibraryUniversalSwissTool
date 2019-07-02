@@ -10,10 +10,8 @@ class LocationAPI {
     final double _maxRadius = 300;
     double _distance;
     bool _onRange;
-    print("step 1 xxxx");
     Library libHM =
         new Library(longitude: _point.longitude, latitude: _point.latitude);
-    print("step 2 xxxx");
 
     Position currentLocation = await Geolocator().getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);

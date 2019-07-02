@@ -16,7 +16,8 @@ class Lust extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AuthProvider(
-        auth: Auth(),
+        auth: new Auth(),
+
         child: MaterialApp(
             title: 'Flutter Code Sample for material.AppBar.actions',
             theme: ThemeData(
