@@ -556,8 +556,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     prefs.setInt(ActStatus_KEY, actStatus.index);
 
 
-
-
     //showNormalNoti()
     if(mounted) {
       startTimer();
@@ -565,29 +563,42 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
 
 
-  void startTimer() async{
+  void startTimer() {
     //for background
     const oneSec = const Duration(seconds: 1);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-
-    if(!mounted){return;} //only for test
     _timer = new Timer.periodic(
       oneSec,
-          (Timer timer) => setState(() {
-        actTimerSeconds--;
-        prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
-
-        if (actTimerSeconds < 1) {
-          timer.cancel();
-
-          changeStatus();
-        } else {
-          setActTimeMinutesSeconds();
-        }
-      }),
+          (Timer timer) => timerFunc(timer),
     );
+
+    print("fertig mit $_timer");
+  }
+
+  void timerFunc(Timer timer) async{
+    actTimerSeconds--;
+    print("in timerFunc");
+    if(mounted){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
+    }
+
+    if (actTimerSeconds < 1) {
+      timer.cancel();
+      if(!mounted){
+        return; //return in test to check actTimerSeconds
+      }
+
+      changeStatus();
+    } else {
+
+      if(mounted){
+        setState(() {
+          setActTimeMinutesSeconds();
+        });
+      }
+
+    }
   }
 
 
