@@ -26,14 +26,13 @@ class PomodoroState extends State<PomodoroPage> {
   pomodoroDescription pomDesc;
   PomodoroTimer pomTimer;
 
-
   PomodoroState(this.title, this.icon){
     pomodoroDefaultValues();
     pomDesc=new pomodoroDescription(periodTime, shortBreakTime, longBreakTime, countPeriods, this);
     pomTimer= new PomodoroTimer();
     updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
+    pomTimer.initPomTimerState();
   }
-
 
   //set the default values for pomodoro
   void pomodoroDefaultValues(){
@@ -70,7 +69,5 @@ class PomodoroState extends State<PomodoroPage> {
   void updateVales(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
-
-
 }
 
