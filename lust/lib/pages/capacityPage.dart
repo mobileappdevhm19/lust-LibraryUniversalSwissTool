@@ -46,7 +46,7 @@ class _CapacityPageState extends State<CapacityPage> {
                 alignment: Alignment.center,
                 height: _height * 0.4,
                 margin: const EdgeInsets.only(left: 10, right: 10),
-                child: CapacityInfo(new Library()),
+                child: CapacityInfo(),
               ),
             ]));
   } // build
