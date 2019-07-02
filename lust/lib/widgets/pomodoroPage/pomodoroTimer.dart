@@ -377,8 +377,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
   void start() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs;// = await SharedPreferences.getInstance();
     if (mounted){
+      prefs=await SharedPreferences.getInstance();
       setState(() {
         startStopBtnText = "Stop";
         startStopBtnColor = Colors.red;
@@ -394,15 +395,21 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     actTime = (actTime / 1000).toInt();
     startTime=actTime-(statuslist[actStatus.index].time-actTimerSeconds);
 
-    prefs.setInt(StartTime_KEY, startTime);
-    prefs.setBool(IsRunning_KEY, isRunning);
-
     if(actStatus==Status.nothing){
       actStatus=Status.learning;
-      prefs.setInt(ActStatus_KEY, actStatus.index);
+      if(mounted){
+        prefs.setInt(ActStatus_KEY, actStatus.index);
+      }
       actTimerSeconds=statuslist[actStatus.index].time;
       actStatusText=descriptionText();
     }
+
+    if(!mounted){return;}
+
+    prefs.setInt(StartTime_KEY, startTime);
+    prefs.setBool(IsRunning_KEY, isRunning);
+
+
 
     print("in start(), status= $actStatus");
     if (mounted) {

@@ -90,6 +90,7 @@ void main() {
 
 //
 void checkInitialValues(){
+  pomTimerState.resetValues();
   findTextInButton("Start");
   findTextInResetButton("reset");
   pomTimerState.actTimerSeconds=null;
@@ -161,7 +162,7 @@ void checkStatusCalculation(WidgetTester tester) async {
   aS=pomTimerState.actStatus.toString();
   print("$aS");
 
-  for(int i=0; i<pomTimerState.countPeriods; i++) {
+  for(int i=1; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
