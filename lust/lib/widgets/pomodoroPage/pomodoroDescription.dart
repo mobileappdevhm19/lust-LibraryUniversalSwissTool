@@ -10,21 +10,19 @@ class pomodoroDescription extends StatelessWidget {
   PomodoroState pomPage;
 
 
-  TextEditingController  periodTimeController = new TextEditingController();
-  TextEditingController  periodCountController = new TextEditingController();
+  TextEditingController  periodTimeController;
+  TextEditingController  periodCountController;
 
-  TextEditingController  shortBreakController = new TextEditingController();
-  TextEditingController  longBreakController = new TextEditingController();
+  TextEditingController  shortBreakController;
+  TextEditingController  longBreakController;
 
+  pomodoroDescription(){
+    periodTimeController = new TextEditingController();
+    periodCountController = new TextEditingController();
 
-  /*pomodoroDescription(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods, PomodoroState pomPage){
-    this.periodTime=periodTime;
-    this.shortBreakTime=shortBreakTime;
-    this.longBreakTime=longBreakTime;
-    this.countPeriods=countPeriods;
-    setValuesToTextFields();
-    this.pomPage=pomPage;
-  }*/
+    shortBreakController = new TextEditingController();
+    longBreakController = new TextEditingController();
+  }
 
   void setValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods, PomodoroState pomPage){
     this.periodTime=periodTime;
