@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lust/widgets/utils/oneLineText.dart';
 import 'package:lust/models/library.dart';
-
+import 'package:lust/models/trend.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -13,7 +13,7 @@ class CapacityInfo extends StatefulWidget {
   CapacityInfo(this.widgetLibrary);
 
   factory CapacityInfo.withSampleData() {
-    Library lib = Library.withSampleData();
+    Library lib = Library();
     return CapacityInfo(lib);
   }
 
@@ -43,8 +43,8 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
 
   String _buildOpeningClosingHour(Library lib) {
     String openingTime = "";
-    int openingHour = lib.getOpeningTimeToday().hour;
-    int openingMin = lib.getOpeningTimeToday().minute;
+    int openingHour = stateLibrary.openingTimeToday.hour;
+    int openingMin = stateLibrary.openingTimeToday.minute;
 
     openingHour < 10
         ? openingTime = openingTime + "0" + openingHour.toString()
@@ -55,8 +55,8 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
         : openingTime = openingTime + openingMin.toString();
 
     String closingTime = "";
-    int closingHour = lib.getClosingTimeToday().hour;
-    int closingMin = lib.getClosingTimeToday().minute;
+    int closingHour = stateLibrary.closingTimeToday.hour;
+    int closingMin = stateLibrary.closingTimeToday.minute;
 
     closingHour < 10
         ? closingTime = closingTime + "0" + closingHour.toString()
@@ -96,8 +96,8 @@ class _CapacityInfoState extends State<CapacityInfo> {//with AfterLayoutMixin<Ca
             children: <Widget>[
               OneLineText(text: "Estimated trend:"),
               new Icon(
-                _icons[stateLibrary.getEstimatedTrend().index], // TODO is that good?
-                color: _colors[stateLibrary.getEstimatedTrend().index],
+                _icons[Trend.leveling.index], // TODO is that good?
+                color: _colors[Trend.leveling.index],
               ),
             ],
           ),

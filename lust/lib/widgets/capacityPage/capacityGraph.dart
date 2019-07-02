@@ -1,39 +1,64 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:lust/models/percentPerHour.dart';
-import 'package:lust/widgets/utils/timeHandler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:lust/models/library.dart';
+import 'package:lust/models/occupancyPerHour.dart';
+import 'package:lust/widgets/utils/timeHandler.dart';
 
-class CapacityGraph extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
-  final Library widgetLibrary;
 
-  CapacityGraph(this.seriesList, this.widgetLibrary, {this.animate});
+class CapacityGraph extends StatefulWidget {
+  CapacityGraph();
 
-  factory CapacityGraph.fromLibrary(lib) {
-    return new CapacityGraph(
-      _createChartData(lib.getOccupancyPercentPerHour()),
-      lib,
-      // Disable animations for image tests.
-      animate: false,
-    );
+  _CapacityGraphState createState() => _CapacityGraphState();
+}
+
+
+class _CapacityGraphState extends State<CapacityGraph> {
+
+  List<charts.Series<OccupancyPerHour, String>> chartSeries;
+  Library lib;
+  StreamSubscription<DocumentSnapshot> streamSub;
+  StreamSubscription<QuerySnapshot> eventSub;
+  Map<String, int> occupancy = Map();
+
+  var dbLibraryCollectionReference = Firestore.instance.collection('lib_test');
+  var eventList = Firestore.instance.collection("events");
+
+  _CapacityGraphState() {
+    lib = Library();
+
+    var eventSnapshots = eventList.orderBy("time", descending: false).where(
+        "time",
+        isGreaterThan: DateTime.utc(
+            DateTime
+                .now()
+                .year, DateTime
+            .now()
+            .month, DateTime
+            .now()
+            .day)).snapshots();
+
+
+    streamSub =
+        dbLibraryCollectionReference.document('centralHM').snapshots().listen((
+            DocumentSnapshot ds) => fillLib(ds));
+
+    eventSub = eventSnapshots.listen((QuerySnapshot snapshot) =>
+        calculateOccupancy(snapshot, lib));
   }
 
-  factory CapacityGraph.withSampleData() {
-    var lib = Library.withSampleData();
-    return new CapacityGraph(
-      _createChartData(lib.getOccupancyPercentPerHour()),
-      lib,
-      // Disable animations for image tests.
-      animate: true,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    return new charts.BarChart(seriesList,
-        animate: animate,
+    chartSeries = occupancyMapToChartValues(lib.occupancyMap);
+
+//      return new Text(
+//        chartSeries.toList().toString()
+//      );
+    return new charts.BarChart(chartSeries,
+        animate: true,
         // Configure the default renderer as a bar renderer.
         defaultRenderer: new charts.BarRendererConfig(
             groupingType: charts.BarGroupingType.grouped, strokeWidthPx: 2.0),
@@ -46,24 +71,110 @@ class CapacityGraph extends StatelessWidget {
         ]);
   }
 
-  /// Helper class to create the list of chart.Series out of an array of percentPerHour
-  static List<charts.Series<PercentPerHour, String>> _createChartData(
-      occupancyPercentPerHour) {
-    final data = occupancyPercentPerHour;
+
+  void fillLib(DocumentSnapshot ds) {
+    Map<String, dynamic> libraryData = ds.data;
+
+    if (libraryData.isNotEmpty) {
+      lib.setDataFromMap(libraryData);
+    }
+  }
+
+  void calculateOccupancy(QuerySnapshot qs, Library lib) {
+    if (qs.documents.isNotEmpty) {
+      List<Event> events = qs.documents.map((DocumentSnapshot ds) =>
+          Event.fromMap(ds.data)).toList();
+
+      int usersIn = 0;
+
+      Map<String, int> occupancyMap = Map();
+
+      int currentKey = 0; // TODO opening time
+
+      for (var event in events) {
+        if (currentKey != event.getEvenHour())
+          currentKey = event.getEvenHour();
+
+        if (event.type == "login") {
+          usersIn += 1;
+        } else {
+          usersIn -= 1;
+        }
+        occupancyMap[currentKey.toString()] = usersIn;
+      }
+
+      setState(() {
+        lib.occupancyMap = occupancyMap;
+      });
+    }
+  }
+
+  /// Helper method to create the list of chart.Series out of an array of percentPerHour
+  static List<
+      charts.Series<OccupancyPerHour, String>> occupancyMapToChartValues(
+      Map<String, int> map) {
+    int lastOccupancy = 0;
+
+    List<OccupancyPerHour> occupancyPerHourList = [];
+
+    occupancyPerHourList = [
+      OccupancyPerHour(0, "8"),
+      OccupancyPerHour(0, "10"),
+      OccupancyPerHour(0, "12"),
+      OccupancyPerHour(0, "14"),
+      OccupancyPerHour(0, "16"),
+      OccupancyPerHour(0, "18"),
+      OccupancyPerHour(0, "20"),
+      OccupancyPerHour(0, "22"),
+    ];
+
+    occupancyPerHourList.forEach((occupancyPerHour) {
+      if (map.containsKey(occupancyPerHour.hour)) {
+        lastOccupancy = map[occupancyPerHour.hour];
+        occupancyPerHour.percent = lastOccupancy;
+      }
+    });
+
+
+    final data = occupancyPerHourList;
 
     var hour = TimeHandler.makeHourEven(DateTime
         .now()
         .hour);
+
     return [
-      new charts.Series<PercentPerHour, String>(
+      new charts.Series<OccupancyPerHour, String>(
         id: 'Other',
-        colorFn: (PercentPerHour percent, __) => percent.hour == hour.toString()
+        colorFn: (OccupancyPerHour percent, __) =>
+        percent.hour == hour.toString()
             ? charts.MaterialPalette.red.shadeDefault
             : charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (PercentPerHour percent, _) => percent.hour,
-        measureFn: (PercentPerHour percent, _) => percent.percent,
+        domainFn: (OccupancyPerHour percent, _) => percent.hour,
+        measureFn: (OccupancyPerHour percent, _) => percent.percent,
         data: data,
       ),
     ];
   }
+}
+
+
+class Event {
+  DateTime time;
+  String type;
+
+  Event();
+
+  Event.fromMap(Map<String, dynamic> map){
+    time = DateTime.fromMillisecondsSinceEpoch(map["time"].seconds * 1000);
+    type = map["eventType"];
+  }
+
+  int getEvenHour() {
+    num hour = time.hour;
+    if (hour % 2 != 0)
+      hour -= 1;
+
+    return hour;
+  }
+
 }
