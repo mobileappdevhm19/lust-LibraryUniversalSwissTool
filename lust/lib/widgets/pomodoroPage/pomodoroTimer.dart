@@ -39,6 +39,8 @@ class PomodoroTimer extends StatefulWidget {
   int countPeriods;
   List<statusClass> statuslist=new List();
 
+  PomodoroState pomPage;
+
 
   /*PomodoroTimer(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods) {
     this.countPeriods=countPeriods;
@@ -46,17 +48,19 @@ class PomodoroTimer extends StatefulWidget {
     ptS=new PomodoroTimerState(periodTime, shortBreakTime, longBreakTime, countPeriods);
   } */
 
-  PomodoroTimer() {
+  PomodoroTimer(PomodoroState pomPage) {
+    this.pomPage=pomPage;
     updateValues(0,  0,  0, 0); //only default values
     ptS=new PomodoroTimerState();
   }
 
+  //*60 because it should be minutes
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     statuslist.clear();
     statuslist.add(statusClass(-1, ""));
-    statuslist.add(statusClass(periodTime, "actual you have to learn!"));
-    statuslist.add(statusClass(shortBreakTime, "make a short break"));
-    statuslist.add(statusClass(longBreakTime, "make a long break"));
+    statuslist.add(statusClass(periodTime*60, "actual you have to learn!"));
+    statuslist.add(statusClass(shortBreakTime*60, "make a short break"));
+    statuslist.add(statusClass(longBreakTime*60, "make a long break"));
 
     this.countPeriods = countPeriods;
 
@@ -65,6 +69,12 @@ class PomodoroTimer extends StatefulWidget {
     }*/
 
     //print("in timer updatet");
+  }
+
+  void updateFromPomPage(){
+    if(pomPage !=null){
+      updateValues(pomPage.periodTime, pomPage.shortBreakTime, pomPage.longBreakTime, pomPage.countPeriods);
+    }
   }
 
   //update the values in PomodoroTimerState
@@ -194,7 +204,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
                 }
                 break;
               }
-              default: {
+              default: { //after every break comes a learning period
                 hereStatus=Status.learning;
                 herePeriod++;
               }
@@ -225,12 +235,15 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         actStatusText=descriptionText();
       }
     } else { //startTime =null
-      startTime = actTime;
+      /*startTime = actTime;
       actTimerSeconds = 0;
       prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
       isRunning=false; //when no seconds count, the timer cannot be started
       actStatus=Status.nothing; //initial
-      actStatusText=initialStatusText;
+      actStatusText=initialStatusText;*/
+
+      print("inital, make reset");
+      resetValues(true);
     }
     if(mounted){
       setState(() {
@@ -256,6 +269,15 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       int pT=statuslist[1].time;
       print("in pts update values. Period time is $pT");
 
+      if(countPeriods<=0){
+        widget.updateFromPomPage();
+      }
+
+      this.countPeriods = widget.countPeriods;
+      this.statuslist = widget.statuslist;
+
+      pT=statuslist[1].time;
+      print("in pts update values. Period time is $pT");
 
       actStatusText=descriptionText();//update desc text
     }else{ //only for testing
@@ -289,7 +311,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
           children: <Widget>[
             SizedBox(
                 width: MediaQuery.of(context).size.width, //screen width
-                height: 100.0,
+                //height: 100.0,
                 child:
                 RaisedButton(
                   color: startStopBtnColor,
@@ -413,8 +435,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
     prefs.setInt(StartTime_KEY, startTime);
     prefs.setBool(IsRunning_KEY, isRunning);
-
-
 
     print("in start(), status= $actStatus");
     if (mounted) {

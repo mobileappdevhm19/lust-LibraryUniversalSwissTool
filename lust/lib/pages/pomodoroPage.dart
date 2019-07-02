@@ -46,7 +46,7 @@ class PomodoroState extends State<PomodoroPage> {
   PomodoroState(){
     pomodoroDefaultValues();
     pomDesc=new pomodoroDescription();
-    pomTimer= new PomodoroTimer();
+    pomTimer= new PomodoroTimer(this);
 
   }
 
