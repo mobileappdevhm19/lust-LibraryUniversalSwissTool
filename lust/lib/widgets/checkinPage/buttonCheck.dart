@@ -21,7 +21,7 @@ class ButtonCheck extends StatefulWidget {
 enum ButtonEnable { ENABLE, DISABLED }
 
 class _ButtonCheckState extends State<ButtonCheck> {
-  GeoPoint _libHM = new GeoPoint(0, 0);   //solves the problem but it is not a good solution
+  GeoPoint _libHM;   //solves the problem but it is not a good solution
   //GeoPoint _libHM = new GeoPoint(0, 0);
   ButtonEnable status;
   Location _location;
@@ -43,8 +43,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
   @override
   void initState() {
     _getButtonState();
-    //getLibPosition();
-    _locationAPI();
+    getLibPosition();
+    //_locationAPI();
 
     print("INITIAL STATE");
     super.initState();
@@ -140,8 +140,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
     //await tx.update(postRef, <String, dynamic>{'occupancy': postSnapshot.data['occupancy'] + val});
   }
 
-  Future getLibPosition() {
-    libReference.get().then((DocumentSnapshot document) {
+  Future getLibPosition() async {
+    await libReference.get().then((DocumentSnapshot document) {
       _libHM = document['location'];
     });
     print('HM coordinates: (${_libHM.latitude}, ${_libHM.longitude})');

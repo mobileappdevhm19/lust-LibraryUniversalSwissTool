@@ -11,8 +11,7 @@ class LocationAPI {
     double _distance;
     bool _onRange;
     print("step 1 xxxx");
-    Library libHM =
-    new Library.withLocation(_point);
+    Library libHM = new Library.withLocation(_point);
     print("step 2 xxxx");
 
     Position currentLocation = await Geolocator().getCurrentPosition(
