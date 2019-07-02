@@ -49,6 +49,12 @@ class _CapacityGraphState extends State<CapacityGraph> {
         calculateOccupancy(snapshot, lib));
   }
 
+  @override
+  void dispose() {
+    streamSub?.cancel();
+    eventSub?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +135,19 @@ class _CapacityGraphState extends State<CapacityGraph> {
     ];
 
     occupancyPerHourList.forEach((occupancyPerHour) {
-      if (map.containsKey(occupancyPerHour.hour)) {
-        lastOccupancy = map[occupancyPerHour.hour];
+      int currentEvenHour = DateTime
+          .now()
+          .hour
+          .isEven ? DateTime
+          .now()
+          .hour : DateTime
+          .now()
+          .hour - 1;
+
+
+      if (int.parse(occupancyPerHour.hour) <= currentEvenHour) {
+        if (map.containsKey(occupancyPerHour.hour))
+          lastOccupancy = map[occupancyPerHour.hour];
         occupancyPerHour.percent = lastOccupancy;
       }
     });
