@@ -205,7 +205,6 @@ void checkInitalTimerStart(WidgetTester tester) {
 
   int s=pomTimerState.actTimerSeconds;
   print("acttiemrsec $s");
-  pomTimerState.timerFunc(null);
   expect(pomTimerState.actTimerSeconds, s-1);
 
 }
