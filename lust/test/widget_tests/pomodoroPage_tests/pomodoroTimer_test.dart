@@ -121,7 +121,7 @@ void checkSharedPreferences(WidgetTester tester) async{
 
   expect(((actTime-difTime)<=sT &&sT<=actTime), true);
 
-  print("now check SharedPreferences when restart");
+  //print("now check SharedPreferences when restart");
   const int waitSec=5000;
   sleep(const Duration(milliseconds: waitSec));
   pomTimerState.initPlatformState();
@@ -168,20 +168,20 @@ void checkStatusCalculation(WidgetTester tester) async {
   actTime = (actTime / 1000).toInt();
 
   aS=pomTimerState.actStatus.toString();
-  print("$aS");
+  //print("$aS");
 
   for(int i=1; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
-    print("$aS");
+    //print("$aS");
 
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
-    print("$aS");
+    //print("$aS");
   }
   pomTimerState.changeStatus();
   pomTimerState.initPlatformState();
@@ -212,20 +212,20 @@ void checkChangeStatus(WidgetTester tester) {
   for(int i=1; i<pomTimerState.countPeriods;i++){
     pomTimerState.changeStatus();
     aS=pomTimerState.actStatus.toString();
-    print("$aS");
+    //print("$aS");
     expect(pomTimerState.actStatus, Status.learning);
     pomTimerState.changeStatus();
     aS=pomTimerState.actStatus.toString();
-    print("$aS");
+    //print("$aS");
     expect(pomTimerState.actStatus, Status.shortBreak);
   }
   pomTimerState.changeStatus();
   aS=pomTimerState.actStatus.toString();
-  print("$aS");
+  //print("$aS");
 
   pomTimerState.changeStatus();
   aS=pomTimerState.actStatus.toString();
-  print("$aS");
+  //print("$aS");
   expect(pomTimerState.actStatus, Status.longBreak);
 }
 
