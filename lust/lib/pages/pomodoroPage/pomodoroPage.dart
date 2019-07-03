@@ -41,7 +41,7 @@ class _PomodoroState extends State<PomodoroPage> {
 
     return Scaffold(
         appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
-        drawer: MenuDrawer.getDrawer(context),
+        drawer: MenuDrawer(),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

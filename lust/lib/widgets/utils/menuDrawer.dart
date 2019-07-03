@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lust/pages/pageContainer.dart';
-
-import 'package:lust/pages/capacityPage.dart';
-import 'package:lust/pages/checkinPage.dart';
-import 'package:lust/pages/pomodoroPage.dart';
-import 'package:lust/pages/tutorFindingPage.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lust/pages/capacityPage/capacityPage.dart';
+import 'package:lust/pages/chatPage/tutorFindingPage.dart';
+import 'package:lust/pages/checkinPage/checkinPage.dart';
+import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
+import 'package:lust/pages/utils/pageContainer.dart';
 
 class MenuDrawer extends Drawer {
 
@@ -45,7 +43,7 @@ class MenuDrawer extends Drawer {
   }
 
   // method to switch between the pages
-  void _switchPage(BuildContext context, Widget widget) {
+  static switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
       //replace the top view(widget) from the stack with the new one
@@ -69,7 +67,7 @@ class MenuDrawer extends Drawer {
     ));
     pages.forEach((page) => children.add(
         ListTile(
-          onTap: () => _switchPage(context, page.pageObject),
+          onTap: () => switchPage(context, page.pageObject),
           leading: Icon(page.icon),
           title: Text(page.title),
         )));

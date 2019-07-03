@@ -39,7 +39,7 @@ class _CapacityPageState extends State<CapacityPage> {
           title: Text(title),
         ),*/
         appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
-        drawer: MenuDrawer.getDrawer(context),
+        drawer: MenuDrawer(),
         body: ListView(
             reverse: false,
             children: [
