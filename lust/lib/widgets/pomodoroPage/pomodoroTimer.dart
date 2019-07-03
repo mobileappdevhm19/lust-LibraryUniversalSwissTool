@@ -265,7 +265,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         child: Column(
           children: <Widget>[
             SizedBox(
-                //width: MediaQuery.of(context).size.width, //screen width
+                width: MediaQuery.of(context).size.width, //screen width
                 //height: 100.0,
                 child:
                 RaisedButton(
