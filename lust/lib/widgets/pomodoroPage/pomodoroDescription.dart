@@ -8,6 +8,11 @@ class pomodoroDescription extends StatelessWidget {
   int longBreakTime;
   int countPeriods;
   PomodoroState pomPage;
+
+
+  String breakSnackText="Here you can change the time of short and long breaks";
+  String periodSnackText="Here you can choose the duration of a learning period. \n"
+                          "You can also choose how many periods till a long break you want to learn";
   
 
   TextEditingController  periodTimeController;
@@ -44,22 +49,8 @@ class pomodoroDescription extends StatelessWidget {
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            new Row(
-              children: <Widget>[
-                Expanded(child: new Column(
-                    children: <Widget>[
-                      Text(
-                        "Period",
-                        textScaleFactor: 0.8,
-                        style: TextStyle(fontSize: 30.0,
-                            letterSpacing: 2.0,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                    ]),
-                ),
-              ],
-            ),
+
+            headlineWithWidget("Period",  Icons.help, periodSnackText, context),
 
             new Row(
               children: <Widget>[
@@ -107,25 +98,7 @@ class pomodoroDescription extends StatelessWidget {
 
             new HorizontalDivider(),
 
-            new Row(
-              children: <Widget>[
-                Expanded(
-                  child: new Column(
-                    children: <Widget>[
-                    Padding(
-                    padding:EdgeInsets.only(top: margin),
-                      child:Text(
-                          "Break",
-                          textScaleFactor: 0.8,
-                          style: TextStyle(fontSize: 30.0,
-                              letterSpacing: 2.0,
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        )),
-                    ]),
-                ),
-              ],
-            ),
+            headlineWithWidget("Break",  Icons.help, breakSnackText, context),
 
             new Row(
               children: <Widget>[
@@ -183,10 +156,61 @@ class pomodoroDescription extends StatelessWidget {
   }
 
 
+  Row headlineWithWidget(String text, IconData icon, String snackText, BuildContext context){
+
+    return new Row(
+      children: <Widget>[
+        Expanded(child: Container(
+          alignment: Alignment.topRight,
+          child: Text(
+            "$text",
+            textScaleFactor: 0.8,
+            style: TextStyle(fontSize: 30.0,
+                letterSpacing: 2.0,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        ),
+        Expanded(child: Container(
+          alignment: Alignment.topLeft,
+          child: IconButton(
+            iconSize: 30.0,
+            icon: Icon(icon),
+            //color: theme.iconTheme.color,
+            tooltip: 'Tooltip for $text',
+            onPressed: () {
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('$snackText'),
+              ));
+            },
+          ),
+        ),
+        ),
+      ],
+    );
+  }
+
+
   void updateValues(){
     pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
 
+}
+
+
+class emptyColumn extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context){
+    return new Column(
+      children: <Widget>[
+      Expanded(child: new Row(
+      children: <Widget>[
+        Text("hi"),
+      ])),
+    ]);
+  }
 }
 
 
@@ -217,3 +241,4 @@ class HorizontalDivider extends StatelessWidget {
     ));
   }
 }
+
