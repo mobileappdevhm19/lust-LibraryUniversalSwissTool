@@ -17,7 +17,7 @@ class MenuDrawer extends Drawer {
     userID = "...";
     userEmail = "...";
 
-    AuthProvider.of(context).auth.getCurrentUser().then((user){
+    AuthProvider.of(context).auth.getCurrentUser().then((user) {
       userID = user == null ? "..." : user.uid;
       userEmail = user == null ? "..." : user.email;
     });
