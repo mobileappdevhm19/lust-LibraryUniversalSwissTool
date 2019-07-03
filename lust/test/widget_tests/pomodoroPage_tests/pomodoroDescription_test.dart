@@ -19,6 +19,8 @@ void main() {
   pomPage=new PomodoroState();
   pomDesc=new pomodoroDescription();
 
+  pomDesc.setValues(periodTime, shortBreakTime, longBreakTime, countPeriods, pomPage);
+
   testWidgets('pomodoroDesc headline tests', (WidgetTester tester) async {
     await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
     checkHeadlines(tester);
