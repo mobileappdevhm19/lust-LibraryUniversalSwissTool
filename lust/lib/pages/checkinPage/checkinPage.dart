@@ -104,10 +104,12 @@ class _CheckinPageState extends State<CheckinPage> {
   }
 
   bool _checkTextFields() {
-    print("CHECK TEXT FIELDS");
+    var _storeNumber = AuthProvider.of(context).lockerNumber;
+    _storeNumber.changeNumber(_lockerNumber);
+
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print("FORM OK: ${_lockerNumber}");
+      print("FORM OK: ${_storeNumber.lockerNumber}");
       return true;
     } else {
       print("FORM WRONG: the fields cannot be empty");

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lust/models/lockerNumber.dart';
 import 'package:lust/pages/capacityPage/capacityPage.dart';
 import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 import 'package:lust/pages/checkinPage/checkinPage.dart';
@@ -9,11 +10,15 @@ import 'package:lust/pages/utils/pageContainer.dart';
 class MenuDrawer extends Drawer {
   String userID;
   String userEmail;
+  LockerNumber lockerNum;
 
   List<PageContainer> pages;
 
   // Create a menu drawer
   MenuDrawer(BuildContext context) {
+    lockerNum = AuthProvider.of(context).lockerNumber;
+    print("DRAWER OPENED: ${lockerNum.lockerNumber}");
+
     userID = "...";
     userEmail = "...";
 
@@ -65,7 +70,7 @@ class MenuDrawer extends Drawer {
         radius: 10,
       ),
       //accountName: Text(userID),
-      accountName: Text("Locker number: "),
+      accountName: Text("Locker number: ${lockerNum.lockerNumber}"),
       accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(ListTile(

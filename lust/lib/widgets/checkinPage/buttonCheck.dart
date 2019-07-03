@@ -82,7 +82,6 @@ class _ButtonCheckState extends State<ButtonCheck> {
   }
 
   void _onButtonPressed() async {
-    widget.function();
     await getLibPosition();
     await _locationAPI();
 
@@ -116,7 +115,8 @@ class _ButtonCheckState extends State<ButtonCheck> {
         break;
     }
     _showSnackBar();
-    saveButtonState();
+    _saveButtonState();
+    widget.function();
   }
 
   Future sendValueToDB(bool increment) {
@@ -180,7 +180,7 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
   // Saves the current button state to the device
   // so that it can be fetched again
-  void saveButtonState() async {
+  void _saveButtonState() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.setBool(BUTTONSTATE, _buttonState);
   }

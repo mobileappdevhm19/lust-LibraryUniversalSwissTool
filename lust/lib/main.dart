@@ -9,6 +9,8 @@ import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
 
+import 'models/lockerNumber.dart';
+
 void main() async => runApp(Lust());
 
 class Lust extends StatelessWidget {
@@ -17,6 +19,7 @@ class Lust extends StatelessWidget {
   Widget build(BuildContext context) {
     return AuthProvider(
         auth: new Auth(),
+        lockerNumber: new LockerNumber(lockerNumber: "not specified"),
         child: MaterialApp(
             title: 'Flutter Code Sample for material.AppBar.actions',
             theme: ThemeData(
