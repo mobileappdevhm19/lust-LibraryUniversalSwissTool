@@ -44,9 +44,7 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
         ),
 //        drawer: MenuDrawer.getDrawer(context),
         body: ListView(
-
           padding: EdgeInsets.all(10.0),
-
           children: <Widget>[
             DropdownButton(
               isExpanded: true,
@@ -58,7 +56,6 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                   child: Text(value),
                 );
               }).toList(),
-
               onChanged: (String newValue) {
                 setState(() {
                   dropdownValue = newValue;
@@ -126,8 +123,7 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                 )),
             ConstrainedBox(
               constraints: BoxConstraints(maxHeight: 50, minHeight: 40),
-              child:
-              RaisedButton(
+              child: RaisedButton(
                   padding: EdgeInsets.all(5),
                   child: Text("Submit"),
                   onPressed: () {
@@ -150,7 +146,6 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                       dataMap['timeStamp'] = DateTime.now();
 
                       collection.add(dataMap);
-
 
                       Navigator.pop(context);
                     }

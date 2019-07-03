@@ -96,8 +96,7 @@ class _CheckinPageState extends State<CheckinPage> {
                   height: _height * 0.6,
                   margin: const EdgeInsets.only(left: 10, right: 10),
                   child: ButtonCheck(
-                      scaffState: _scaffState,
-                      function: _checkTextFields),
+                      scaffState: _scaffState, function: _checkTextFields),
                 ),
               ],
             )));

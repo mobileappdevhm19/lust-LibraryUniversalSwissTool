@@ -16,7 +16,7 @@ class _RootPageState extends State<RootPage> {
   _RootPageState();
 
   @override
-  void didChangeDependencies(){
+  void didChangeDependencies() {
     var auth = AuthProvider.of(context).auth;
     auth.getCurrentUser().then((userID) {
       setState(() {
@@ -52,8 +52,7 @@ class _RootPageState extends State<RootPage> {
 
       case LogInOut.NOTSIGNEDIN:
         print("CASE 2: notSignedIn");
-        return new LoginPage(
-            onSignIn: _onSignedIn);
+        return new LoginPage(onSignIn: _onSignedIn);
     }
   }
 }
