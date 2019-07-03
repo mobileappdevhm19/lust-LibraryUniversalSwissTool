@@ -108,6 +108,7 @@ class PomodoroState extends State<PomodoroPage> {
   } // build
 
   void updateVales(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods)async {
+    if(!mounted)return;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setInt(PeriodTime_KEY, periodTime);
