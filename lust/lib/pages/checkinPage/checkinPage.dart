@@ -45,7 +45,7 @@ class _CheckinPageState extends State<CheckinPage> {
         appBar: PreferredSize(
             child: GetAppBar(title, _signOut),
             preferredSize: Size.fromHeight(_appBarHeight)),
-        drawer: MenuDrawer(),
+        drawer: MenuDrawer(context),
         body: Form(
             key: _formKey,
             child: ListView(

@@ -39,7 +39,7 @@ class _CapacityPageState extends State<CapacityPage> {
           title: Text(title),
         ),*/
         appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
-        drawer: MenuDrawer(),
+        drawer: MenuDrawer(context),
         body: ListView(
             reverse: false,
             children: [
@@ -58,7 +58,6 @@ class _CapacityPageState extends State<CapacityPage> {
   } // build
 
   void _signOut() async{
-    print("CURRENT USER: mateo mateo");
     try {
       var auth = AuthProvider.of(context).auth;
       FirebaseUser _userID = await auth.getCurrentUser();
