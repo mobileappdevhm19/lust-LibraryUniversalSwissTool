@@ -10,14 +10,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MenuDrawer extends Drawer {
 
-  FirebaseUser user;
+  String userID;
+  String userEmail;
 
   List<PageContainer> pages;
 
   // Create a menu drawer
   MenuDrawer() {
-    FirebaseAuth.instance.currentUser().then((val){
-      user = val;
+    userID = "...";
+    userEmail = "...";
+
+    FirebaseAuth.instance.currentUser().then((user){
+      userID = user == null ? "..." : user.uid;
+      userEmail = user == null ? "..." : user.email;
     });
 
     pages = new List<PageContainer>();
@@ -59,8 +64,8 @@ class MenuDrawer extends Drawer {
         ),
         backgroundColor: Colors.green,
       ),
-      accountName: Text("ID: " + (user.uid != null ? user.uid : "...")),
-      accountEmail: Text(user.email != null ? user.email : "..."),
+      accountName: Text(userID),
+      accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(
         ListTile(
