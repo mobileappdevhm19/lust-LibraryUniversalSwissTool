@@ -80,10 +80,10 @@ class PomodoroState extends State<PomodoroPage> {
 
   //set the default values for pomodoro
   void pomodoroDefaultValues(){
-    periodTime=10;
-    shortBreakTime=4;
-    longBreakTime=3;
-    countPeriods=9;
+    periodTime=25;
+    shortBreakTime=5;
+    longBreakTime=15;
+    countPeriods=4;
   }
 
   @override
