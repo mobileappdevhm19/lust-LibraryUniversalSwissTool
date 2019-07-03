@@ -89,14 +89,6 @@ class PomodoroState extends State<PomodoroPage> {
   @override
   Widget build(BuildContext context) {
 
-    print("pomDesc $pomDesc");
-    print("pomTimer $pomTimer");
-    print("title $title");
-    print("icon $icon");
-
-
-    var _height = MediaQuery.of(context).size.height;
-
     return Scaffold(
         appBar: AppBar(title: Text(title)),
         resizeToAvoidBottomPadding:false, //important, otherwise overlay, when keyboard
@@ -106,7 +98,6 @@ class PomodoroState extends State<PomodoroPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Align(
-                  //height: _height*0.40,
                   child: pomDesc,
                 ),
                 Expanded(
@@ -125,7 +116,9 @@ class PomodoroState extends State<PomodoroPage> {
     prefs.setInt(CountPeriods_KEY, countPeriods);
 
 
-    pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
+    if(pomTimer != null){
+      pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
+    }
   }
 }
 
