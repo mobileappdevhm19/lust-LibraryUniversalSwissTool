@@ -52,7 +52,7 @@ class pomodoroDescription extends StatelessWidget {
     this.countPeriods=countPeriods;
     setValuesToTextFields();
     this.pomPage=pomPage;
-    updateValues(); //to set old values
+    updateValues(true); //to set old values
   }
   @override
   Widget build(BuildContext context) {
@@ -210,9 +210,9 @@ class pomodoroDescription extends StatelessWidget {
   }
 
 
-  void updateValues(){
+  void updateValues([bool init=false]){
     bool ret=testInputs();
-    if(ret==false){ //set all to old values
+    if(ret==false && init==false){ //set all to old values
       setOldValues();
     }
     else{ //set new values
@@ -291,6 +291,8 @@ class pomodoroDescription extends StatelessWidget {
       printSnackBoc(snackText, infoCol);
     }
 
+    return true;
+
   }
 
   void printSnackBoc(String text, Color color){
@@ -302,9 +304,6 @@ class pomodoroDescription extends StatelessWidget {
       duration: dur,
     ));
   }
-
-
-
 }
 
 
