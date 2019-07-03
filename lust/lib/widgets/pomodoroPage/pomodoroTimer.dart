@@ -254,16 +254,19 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   @override
   Widget build(BuildContext context) {
+    const double margin=10;
     return new Align(
       alignment: Alignment.center,
       child: Container(
+        margin: const EdgeInsets.only(left: margin, right: margin),
         child: Column(
           children: <Widget>[
             SizedBox(
-                //width: MediaQuery.of(context).size.width, //screen width
+                width: MediaQuery.of(context).size.width, //screen width
                 //height: 100.0,
                 child:
                 RaisedButton(
+                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   color: startStopBtnColor,
                   onPressed: () {startStopButtonClicked();},
                   child: Text(
@@ -274,6 +277,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
             ),
 
             RaisedButton(
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0),
+                  side: BorderSide(color: Colors.red)),
               onPressed: () {resetButtonClicked();},
               child: Text(
                   '$resetBtnText',
