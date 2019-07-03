@@ -1,20 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lust/models/lockerNumber.dart';
 import 'package:lust/pages/capacityPage/capacityPage.dart';
 import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 import 'package:lust/pages/checkinPage/checkinPage.dart';
 import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/pages/utils/pageContainer.dart';
 
 class MenuDrawer extends Drawer {
   String userID;
   String userEmail;
-  var lockerNumber;
+  LockerNumber lockNumber;
 
   List<PageContainer> pages;
 
   // Create a menu drawer
   MenuDrawer(BuildContext context) {
+    //lockNumber = AuthProvider.of(context).lockerNumber;
+
     userID = "...";
     userEmail = "...";
 
@@ -25,10 +29,14 @@ class MenuDrawer extends Drawer {
 
     pages = new List<PageContainer>();
 
-    pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
-    pages.add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
-    pages.add(PageContainer(TutorFindingPage.title, TutorFindingPage.icon, TutorFindingPage()));
-    pages.add(PageContainer(PomodoroPage.title, PomodoroPage.icon, PomodoroPage()));
+    pages.add(
+        PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
+    pages
+        .add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
+    pages.add(PageContainer(
+        TutorFindingPage.title, TutorFindingPage.icon, TutorFindingPage()));
+    pages.add(
+        PageContainer(PomodoroPage.title, PomodoroPage.icon, PomodoroPage()));
     // TODO: add your new page here.
   }
 
@@ -62,7 +70,8 @@ class MenuDrawer extends Drawer {
         radius: 10,
       ),
       //accountName: Text(userID),
-      accountName: Text("Locker number: whatever"),
+      //accountName: Text("Locker number: ${lockNumber.lockerNumber}"),
+      accountName: Text("Locker number: eoe"),
       accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(ListTile(
