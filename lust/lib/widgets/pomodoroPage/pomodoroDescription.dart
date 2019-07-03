@@ -4,19 +4,31 @@ import 'package:lust/pages/pomodoroPage.dart';
 
 class pomodoroDescription extends StatelessWidget {
   int periodTime;
+  int oldPeriodTime;
+
   int shortBreakTime;
+  int oldShortBreakTime;
+
   int longBreakTime;
+  int oldLongBreakTime;
+
   int countPeriods;
+  int oldCountPeriods;
+
   PomodoroState pomPage;
 
   BuildContext context;
 
 
   //Text for the tooltip-snackboxes
-  String breakSnackText="Here you can change the time of short and long breaks";
+  Color errorCol=Colors.red;
+  Color infoCol=Colors.black;
+
+  static String haveToClickOK="\n \n You have to click e.g. 'OK' on your keyboard to use your inputs.";
+  String breakSnackText="Here you can change the duration of short and long breaks."+haveToClickOK;
 
   String periodSnackText="Here you can choose the duration of a learning period. \n\n"
-                          "You can also choose how many periods till a long break you want to learn";
+                          "You can also choose how many periods till a long break you want to learn"+haveToClickOK;
   
 
   TextEditingController  periodTimeController;
@@ -40,6 +52,7 @@ class pomodoroDescription extends StatelessWidget {
     this.countPeriods=countPeriods;
     setValuesToTextFields();
     this.pomPage=pomPage;
+    updateValues(); //to set old values
   }
   @override
   Widget build(BuildContext context) {
@@ -70,7 +83,7 @@ class pomodoroDescription extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                     keyboardType: TextInputType.number,
                     controller: periodTimeController,
-                    onEditingComplete: () {
+                    onSubmitted: (text) {
                       periodTime=int.parse(periodTimeController.text);
                       updateValues();
                     },
@@ -89,14 +102,13 @@ class pomodoroDescription extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
                         controller: periodCountController,
-                        onEditingComplete: () {
+                        onSubmitted: (text) {
                           countPeriods=int.parse(periodCountController.text);
                           updateValues();
                         },
                       ),
                     ]),
                 ),
-
 
               ],
             ),
@@ -118,7 +130,7 @@ class pomodoroDescription extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
                         controller: shortBreakController,
-                        onEditingComplete: () {
+                        onSubmitted: (text) {
                           shortBreakTime=int.parse(shortBreakController.text);
                           updateValues();
                         },
@@ -137,7 +149,7 @@ class pomodoroDescription extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         keyboardType: TextInputType.number,
                         controller: longBreakController,
-                        onEditingComplete: () {
+                        onSubmitted: (text) {
                           longBreakTime=int.parse(longBreakController.text);
                           updateValues();
                         },
@@ -153,7 +165,7 @@ class pomodoroDescription extends StatelessWidget {
 
   //setter for the text fields
   void setValuesToTextFields(){
-    periodTimeController.clear();
+    print("in setValuesToTextFields $periodTime");
     periodTimeController.text=periodTime.toString();
     periodCountController.text=countPeriods.toString();
 
@@ -188,9 +200,7 @@ class pomodoroDescription extends StatelessWidget {
             //color: theme.iconTheme.color,
             tooltip: 'Tooltip for $text',
             onPressed: () {
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('$snackText'),
-              ));
+              printSnackBoc(snackText, infoCol);
             },
           ),
         ),
@@ -202,19 +212,27 @@ class pomodoroDescription extends StatelessWidget {
 
   void updateValues(){
     bool ret=testInputs();
-    if(ret=false){ //set all to old values
+    if(ret==false){ //set all to old values
       setOldValues();
     }
     else{ //set new values
-      pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
+      if(pomPage !=null){
+        pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
+      }
     }
+
+    //set values to old value
+    oldPeriodTime=periodTime;
+    oldShortBreakTime=shortBreakTime;
+    oldLongBreakTime=longBreakTime;
+    oldCountPeriods=countPeriods;
   }
 
   void setOldValues(){
-    periodTime=pomPage.periodTime;
-    shortBreakTime= pomPage.shortBreakTime;
-    longBreakTime=pomPage.longBreakTime;
-    countPeriods=pomPage.countPeriods;
+    periodTime=oldPeriodTime;
+    shortBreakTime= oldShortBreakTime;
+    longBreakTime=oldLongBreakTime;
+    countPeriods=oldCountPeriods;
 
     setValuesToTextFields();//set the values to the textFields
   }
@@ -225,8 +243,6 @@ class pomodoroDescription extends StatelessWidget {
   bool testInputs(){
     String snackText;
 
-    Color errorCol=Colors.red;
-    Color infoCol=Colors.black;
 
     //all error things
 
@@ -234,57 +250,56 @@ class pomodoroDescription extends StatelessWidget {
       String varName="";
       String oldVal="";
 
-    if(periodTime<0){
-      varName="Period time";
+    if(periodTime<=0){
+      varName="period time";
       oldVal=pomPage.periodTime.toString();
     }
 
-    if(countPeriods<0){
-      varName="Count of periods";
+    if(countPeriods<=0){
+      varName="count of periods";
       oldVal=pomPage.countPeriods.toString();
     }
 
-    if(shortBreakTime<0){
-      varName="Short break time";
+    if(shortBreakTime<=0){
+      varName="short break time";
       oldVal=pomPage.shortBreakTime.toString();
     }
 
-    if(longBreakTime<0){
-      varName="Long break time";
+    if(longBreakTime<=0){
+      varName="long break time";
       oldVal=pomPage.longBreakTime.toString();
     }
 
 
       if(varName !=""){
-        snackText=varName+" is <=0. \m"
+        snackText="Your Input for '"+varName+"' is <=0. \n"
             "Pomodoro Timer will still use the old value: "+oldVal;
         printSnackBoc(snackText, errorCol);
         return false;
       }
 
+      //info messages (multiple messages after another possible)
     if(shortBreakTime>=periodTime || longBreakTime>=periodTime){
       snackText="Breaktime is longer than your learning time! \n"
           "You are so lazy";
+      printSnackBoc(snackText, infoCol);
     }
 
     if(shortBreakTime> longBreakTime){
       snackText="short break time longer than long break Time \n"
           "That is useless";
-    }
-
-
-    if(snackText !=""){
       printSnackBoc(snackText, infoCol);
-      return true;
     }
+
   }
 
   void printSnackBoc(String text, Color color){
-    const dur = const Duration(seconds: 10);
+    const dur = const Duration(seconds: 5);
+  if(this.context==null)return;
     Scaffold.of(this.context).showSnackBar(SnackBar(
         content: Text("$text"),
       backgroundColor: color,
-      //duration: dur,
+      duration: dur,
     ));
   }
 
