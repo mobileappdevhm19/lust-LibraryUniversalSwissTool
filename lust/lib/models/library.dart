@@ -12,7 +12,6 @@ class Library {
   String _name;
   int _totalSeats;
 
-
   set occupancyMap(Map<String, int> value) {
     _occupancyMap = value;
   }
@@ -30,9 +29,7 @@ class Library {
   String get address => _address;
 
   int get currentFilling {
-    return occupancyMap[_occupancyMap.keys
-        .toList()
-        .last];
+    return occupancyMap[_occupancyMap.keys.toList().last];
   }
 
   int get totalSeats => _totalSeats;
@@ -47,22 +44,11 @@ class Library {
     _occupancyMap["20"] = 0;
     _occupancyMap["22"] = 0;
 
-    _openingTimeToday = DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day, 0, 1);
-    _closingTimeToday = DateTime(DateTime
-        .now()
-        .year, DateTime
-        .now()
-        .month, DateTime
-        .now()
-        .day, 23, 59);
+    _openingTimeToday = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 1);
+    _closingTimeToday = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59);
     _totalSeats = 0;
-
   }
 
   Library.withLocation(this._location);
@@ -79,17 +65,11 @@ class Library {
   }
 
   Trend calculateTrend() {
-    int currentEvenHour = DateTime
-        .now()
-        .hour
-        .isEven ? DateTime
-        .now()
-        .hour : DateTime
-        .now()
-        .hour - 1;
+    int currentEvenHour = DateTime.now().hour.isEven
+        ? DateTime.now().hour
+        : DateTime.now().hour - 1;
 
     Trend currentTrend;
-
 
     if (!_occupancyMap.containsKey(currentEvenHour.toString())) {
       currentTrend = Trend.leveling;
@@ -110,6 +90,4 @@ class Library {
 
     return currentTrend;
   }
-
-
 }

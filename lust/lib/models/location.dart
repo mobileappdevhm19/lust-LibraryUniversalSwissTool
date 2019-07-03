@@ -1,4 +1,4 @@
-class Location{
+class Location {
   double distance;
   bool onRange;
 

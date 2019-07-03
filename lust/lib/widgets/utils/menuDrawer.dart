@@ -9,6 +9,7 @@ import 'package:lust/pages/utils/pageContainer.dart';
 class MenuDrawer extends Drawer {
   String userID;
   String userEmail;
+  var lockerNumber;
 
   List<PageContainer> pages;
 
@@ -17,21 +18,17 @@ class MenuDrawer extends Drawer {
     userID = "...";
     userEmail = "...";
 
-    FirebaseAuth.instance.currentUser().then((user){
+    FirebaseAuth.instance.currentUser().then((user) {
       userID = user == null ? "..." : user.uid;
       userEmail = user == null ? "..." : user.email;
     });
 
     pages = new List<PageContainer>();
 
-    pages.add(
-        PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
-    pages
-        .add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
-    pages.add(PageContainer(
-        TutorFindingPage.title, TutorFindingPage.icon, TutorFindingPage()));
-    pages.add(
-        PageContainer(PomodoroPage.title, PomodoroPage.icon, PomodoroPage()));
+    pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
+    pages.add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
+    pages.add(PageContainer(TutorFindingPage.title, TutorFindingPage.icon, TutorFindingPage()));
+    pages.add(PageContainer(PomodoroPage.title, PomodoroPage.icon, PomodoroPage()));
     // TODO: add your new page here.
   }
 
@@ -49,7 +46,7 @@ class MenuDrawer extends Drawer {
   static switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
-      //replace the top view(widget) from the stack with the new one
+        //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
   }
@@ -69,10 +66,10 @@ class MenuDrawer extends Drawer {
       accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(ListTile(
-      onTap: () => switchPage(context, page.pageObject),
-      leading: Icon(page.icon),
-      title: Text(page.title),
-    )));
+          onTap: () => switchPage(context, page.pageObject),
+          leading: Icon(page.icon),
+          title: Text(page.title),
+        )));
     return children;
   }
 }

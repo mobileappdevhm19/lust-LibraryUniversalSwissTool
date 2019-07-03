@@ -16,12 +16,10 @@ class _SnackBarWidgetState extends State<SnackBarWidget> {
   }
 }*/
 
-
 class SnackBarWidget extends StatelessWidget {
   @override
-
   Widget build(BuildContext context) {
-    return   SnackBar(
+    return SnackBar(
       action: SnackBarAction(label: "keloke", onPressed: null),
       content: Text("Hola buen dia"),
     );

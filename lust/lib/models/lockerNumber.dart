@@ -1,9 +1,9 @@
-class LockerNumber{
+class LockerNumber {
   String lockerNumber;
 
   LockerNumber({this.lockerNumber});
 
-  void changeNumber(String newNumber){
+  void changeNumber(String newNumber) {
     lockerNumber = newNumber;
   }
 }
