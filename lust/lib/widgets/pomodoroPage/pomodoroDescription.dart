@@ -8,7 +8,7 @@ class pomodoroDescription extends StatelessWidget {
   int longBreakTime;
   int countPeriods;
   PomodoroState pomPage;
-
+  
 
   TextEditingController  periodTimeController;
   TextEditingController  periodCountController;
@@ -34,7 +34,13 @@ class pomodoroDescription extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    const double margin=10;
+    double dividerHeight = 1.0;
+    double dividerIndent = 0.0;
+    Color dividerColor = Colors.black;
+
     return new Container(
+      margin: const EdgeInsets.only(left: margin, right: margin, top: margin, bottom: margin),
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -45,7 +51,9 @@ class pomodoroDescription extends StatelessWidget {
                       Text(
                         "Period",
                         textScaleFactor: 0.8,
-                        style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
+                        style: TextStyle(fontSize: 30.0,
+                            letterSpacing: 2.0,
+                            fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                     ]),
@@ -73,7 +81,8 @@ class pomodoroDescription extends StatelessWidget {
                   ),
                 ]),
                ),
-                Expanded(child: new Column(
+               VerticalDivider(),
+               Expanded(child: new Column(
                     children: <Widget>[
                       TextField(
                         decoration: new InputDecoration(labelText: "count", ),
@@ -96,16 +105,23 @@ class pomodoroDescription extends StatelessWidget {
               ],
             ),
 
+            new HorizontalDivider(),
+
             new Row(
               children: <Widget>[
-                Expanded(child: new Column(
+                Expanded(
+                  child: new Column(
                     children: <Widget>[
-                      Text(
-                        "Break",
-                        textScaleFactor: 0.8,
-                        style: TextStyle(fontSize: 30.0, letterSpacing: 2.0),
-                        textAlign: TextAlign.center,
-                      ),
+                    Padding(
+                    padding:EdgeInsets.only(top: margin),
+                      child:Text(
+                          "Break",
+                          textScaleFactor: 0.8,
+                          style: TextStyle(fontSize: 30.0,
+                              letterSpacing: 2.0,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )),
                     ]),
                 ),
               ],
@@ -131,6 +147,7 @@ class pomodoroDescription extends StatelessWidget {
                       ),
                     ]),
                 ),
+                VerticalDivider(),
                 Expanded(child: new Column(
                     children: <Widget>[
                       TextField(
@@ -151,16 +168,7 @@ class pomodoroDescription extends StatelessWidget {
                 ),
               ],
             ),
-            new SizedBox(
-              height: 10.0,
-              child: new Center(
-                child: new Container(
-                  margin: new EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
-                  height: 5.0,
-                  color: Colors.black,
-                ),
-              ),
-            )
+            new HorizontalDivider(),
           ]),
     );
   }
@@ -179,4 +187,33 @@ class pomodoroDescription extends StatelessWidget {
     pomPage.updateVales(periodTime, shortBreakTime, longBreakTime, countPeriods);
   }
 
+}
+
+
+class VerticalDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: 30.0,
+      width: 1.0,
+      color: Colors.black,
+      margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+    );
+  }
+}
+
+
+class HorizontalDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new SizedBox(
+        height: 10.0,
+        child: new Center(
+        child: new Container(
+        margin: new EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
+    height: 5.0,
+    color: Colors.black,
+    ),
+    ));
+  }
 }
