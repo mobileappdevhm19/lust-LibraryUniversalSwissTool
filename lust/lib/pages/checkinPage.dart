@@ -26,7 +26,8 @@ class _CheckinPageState extends State<CheckinPage> {
 
     return Scaffold(
         appBar: AppBar(title: Text(title)),
-        drawer: MenuDrawer.getDrawer(context),
+        //drawer: MenuDrawer.getDrawer(context),
+        drawer: MenuDrawer(),
         body: ListView(children: [
           Container(
             margin: const EdgeInsets.only(left: 10),

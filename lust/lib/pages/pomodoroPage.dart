@@ -37,7 +37,8 @@ class _PomodoroState extends State<PomodoroPage> {
 
     return Scaffold(
         appBar: AppBar(title: Text(title)),
-        drawer: MenuDrawer.getDrawer(context),
+        //drawer: MenuDrawer.getDrawer(context),
+        drawer: MenuDrawer(),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -36,7 +36,8 @@ class TutorFindingPage extends StatelessWidget {
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
           ),
-          drawer: MenuDrawer.getDrawer(context),
+          //drawer: MenuDrawer.getDrawer(context),
+          drawer: MenuDrawer(),
           body: TabBarView(
 //              reverse: false,
               children: [ // each children is one tab

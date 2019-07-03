@@ -6,22 +6,32 @@ import 'package:lust/pages/checkinPage.dart';
 import 'package:lust/pages/pomodoroPage.dart';
 import 'package:lust/pages/tutorFindingPage.dart';
 
-class MenuDrawer {
-  static const MockUserInfo userInfo = const MockUserInfo(name: "Herbert", email: "123@abc.com");
+import 'package:firebase_auth/firebase_auth.dart';
+
+class MenuDrawer extends Drawer {
+
+  FirebaseUser user;
+
+  List<PageContainer> pages;
 
   // Create a menu drawer
-  static Widget getDrawer(BuildContext context) {
-    List<PageContainer> pages = new List<PageContainer>();
+  MenuDrawer() {
+    FirebaseAuth.instance.currentUser().then((val){
+      user = val;
+    });
+
+    pages = new List<PageContainer>();
 
     pages.add(PageContainer(CapacityPage.title, CapacityPage.icon, CapacityPage()));
     pages.add(PageContainer(CheckinPage.title, CheckinPage.icon, CheckinPage()));
     pages.add(PageContainer(TutorFindingPage.title, TutorFindingPage.icon, TutorFindingPage()));
     pages.add(PageContainer(PomodoroPage.title, PomodoroPage.icon, PomodoroPage()));
     // TODO: add your new page here.
-    // your page must have a "static String title" and a "static IconData icon"
-    // use  the following template
-    //pages.add(PageContainer(YOURPAGENAME.title, YOURPAGENAME.icon, YOURPAGENAME()));
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
     return Drawer(
       child: ListView(
         children: _buildListItems(context, pages),
@@ -30,7 +40,7 @@ class MenuDrawer {
   }
 
   // method to switch between the pages
-  static void _switchPage(BuildContext context, Widget widget) {
+  void _switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
       //replace the top view(widget) from the stack with the new one
@@ -39,7 +49,7 @@ class MenuDrawer {
   }
 
   // method to create the list for the drawer
-  static List<Widget> _buildListItems(BuildContext context, List<PageContainer> pages) {
+  List<Widget> _buildListItems(BuildContext context, List<PageContainer> pages) {
     List<Widget> children = new List<Widget>();
     children.add(UserAccountsDrawerHeader(
       currentAccountPicture: CircleAvatar(
@@ -49,8 +59,8 @@ class MenuDrawer {
         ),
         backgroundColor: Colors.green,
       ),
-      accountName: Text(userInfo.name),
-      accountEmail: Text(userInfo.email),
+      accountName: Text("ID: " + (user.uid != null ? user.uid : "...")),
+      accountEmail: Text(user.email != null ? user.email : "..."),
     ));
     pages.forEach((page) => children.add(
         ListTile(
@@ -61,12 +71,3 @@ class MenuDrawer {
     return children;
   }
 }
-
-// For mocking user info
-class MockUserInfo {
-  final String name;
-  final String email;
-
-  const MockUserInfo({this.name, this.email});
-}
-
