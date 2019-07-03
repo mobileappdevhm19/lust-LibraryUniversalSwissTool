@@ -9,6 +9,8 @@ import 'package:lust/widgets/capacityPage/capacityInfo.dart';
 import 'package:lust/widgets/utils/getAppBar.dart';
 import 'package:lust/widgets/utils/menuDrawer.dart';
 
+import '../rootPage.dart';
+
 class CapacityPage extends StatefulWidget {
   CapacityPage({this.onSignedOut});
   VoidCallback onSignedOut;
@@ -63,7 +65,8 @@ class _CapacityPageState extends State<CapacityPage> {
       print("USER: $_userID.uid");
 
       auth.signOut();
-      widget.onSignedOut();       //callback
+      MenuDrawer.switchPage(context, RootPage());
+      //widget.onSignedOut();       //callback
     } catch (e) {
       print(e);
     }
