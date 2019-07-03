@@ -91,8 +91,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   String resetBtnText="reset";
   ColorSwatch startStopBtnColor=Colors.green;
 
-  //String actErrors="";
-
 
   @override
   void initState() {
@@ -130,7 +128,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
 
       isRunning = prefs.getBool(IsRunning_KEY);
-      print("is Running: $isRunning");
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
       if(actStatus==Status.nothing){
         resetValues(true);
@@ -257,11 +254,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   @override
   Widget build(BuildContext context) {
-    const double margin=10;
     return new Align(
       alignment: Alignment.center,
       child: Container(
-        margin: const EdgeInsets.only(left: margin, right: margin),
         child: Column(
           children: <Widget>[
             SizedBox(
@@ -269,7 +264,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
                 //height: 100.0,
                 child:
                 RaisedButton(
-                  shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
                   color: startStopBtnColor,
                   onPressed: () {startStopButtonClicked();},
                   child: Text(
@@ -280,9 +274,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
             ),
 
             RaisedButton(
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                  side: BorderSide(color: Colors.red)),
               onPressed: () {resetButtonClicked();},
               child: Text(
                   '$resetBtnText',
@@ -292,7 +283,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
             Container(
               width: MediaQuery.of(context).size.width, //screen width
-              //height: 200.0,
+              height: 200.0,
               child: FittedBox(
                   fit: BoxFit.contain,
                   child: Text(
@@ -328,7 +319,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
   void stop() async{
     //if(isRunning){
-    if(mounted){
+    if (mounted) {
       setState(() {
         startStopBtnText = "Start";
         startStopBtnColor = Colors.green;
@@ -338,13 +329,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       startStopBtnText = "Start";
       startStopBtnColor = Colors.green;
     }
+
     if (_timer != null) {
       _timer.cancel(); //stop timer if exist
     }
     // }
     isRunning=false;
-
-
 
     //for background
     int actTime = new DateTime.now().millisecondsSinceEpoch;
@@ -414,8 +404,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   AlertDialog resetAlertDiaglog(){
     return AlertDialog(
       title: new Text("Reset Pomodoro"),
-      content: new Text("All the progress will be lost!\n"
-          "Are you sure that you want to reset the pomodoro timer?"),
+      content: new Text("Do you really want to reset the pomodoro timer?\n"
+          "Are you sure that you can learn good without this feature of lust?"),
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
         new FlatButton(
@@ -565,12 +555,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   String descriptionText(){
     String ret=statuslist[actStatus.index].text;
-    String p=" period";
-    if((countPeriods-actPeriod)>1){
-      p+="s";
-    }
     ret +="\n";
-    ret +=(countPeriods-actPeriod).toString() +p+" till next long break";
+    ret +=(countPeriods-actPeriod).toString() +"periods till next long break";
     return ret;
   }
 
