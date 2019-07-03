@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lust/pages/utils/authProvider.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/pages/utils/pageContainer.dart';
 
 import 'package:lust/pages/capacityPage/capacityPage.dart';
@@ -40,6 +42,8 @@ class MenuDrawer {
 
   // method to create the list for the drawer
   static List<Widget> _buildListItems(BuildContext context, List<PageContainer> pages) {
+    //var auth = AuthProvider.of(context).auth;
+
     List<Widget> children = new List<Widget>();
     children.add(UserAccountsDrawerHeader(
       currentAccountPicture: CircleAvatar(
