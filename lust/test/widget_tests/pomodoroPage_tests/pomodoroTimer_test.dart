@@ -78,10 +78,10 @@ void main() {
     await tester.pumpWidget(Lust());
     checkChangeStatus(tester);
   });
-  testWidgets('pomodoroTimer start Timer', (WidgetTester tester) async {
+  /*testWidgets('pomodoroTimer start Timer', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
     startTimer(tester);
-  });
+  });*/
 
   testWidgets('reset Button', (WidgetTester tester) async {
     await tester.pumpWidget(Lust());
@@ -197,6 +197,12 @@ void checkInitalTimerStart(WidgetTester tester) {
   pomTimerState.start();
   findTextInButton("Stop");
   expect(pomTimerState.isRunning, true);
+
+  int s=pomTimerState.actTimerSeconds;
+  print("acttiemrsec $s");
+  pomTimerState.timerFunc(null);
+  expect(pomTimerState.actTimerSeconds, s-1);
+
 }
 
 void checkInitalTimerStop(WidgetTester tester) {

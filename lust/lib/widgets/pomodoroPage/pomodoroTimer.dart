@@ -562,7 +562,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   //help function for testing
   void setSharedStartTime(int sT) async{
-    print("setSharedStartTime $sT");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt(StartTime_KEY, sT);
   }
