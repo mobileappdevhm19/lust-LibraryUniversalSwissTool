@@ -6,7 +6,7 @@ import '../../testHelper.dart';
 
 void main() {
   testWidgets('Login and register buttons', (WidgetTester tester) async {
-    await tester.pumpWidget(TestHelper.buildWidget(AddTutorEntryPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(AddTutorEntryPage(tab: "Offer",)));
 
 //    final buttonFinder = await find.widgetWithText(RawMaterialButton, "Log in");
 //    final buttonFinder2 = await find.widgetWithText(RawMaterialButton, "Register");
