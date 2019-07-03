@@ -4,11 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lust/pages/utils/authProvider.dart';
 
 class MessageTile extends StatelessWidget {
-  final String _idFrom;
-  final String _messageContent;
+  final DocumentSnapshot _document;
   final String _userID;
 
-  MessageTile(this._idFrom, this._messageContent, this._userID);
+  MessageTile(this._document, this._userID);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class MessageTile extends StatelessWidget {
           children: <Widget>[
             Container(
                 child: Text(
-                  _idFrom,
+                  _document['idFrom'],
                   style: TextStyle(
                     color: Color(0xff203152),
                     fontStyle: FontStyle.italic,
@@ -33,7 +32,7 @@ class MessageTile extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Text(
-                _messageContent,
+                _document['content'],
                 style: TextStyle(color: Color(0xff203152)),
                 textAlign: TextAlign
                     .left, //_document['idFrom'] == _userID ? TextAlign.right : TextAlign.left,
@@ -44,8 +43,8 @@ class MessageTile extends StatelessWidget {
                   BoxDecoration(color: Color(0xffE8E8E8), borderRadius: BorderRadius.circular(8.0)),
               margin: EdgeInsets.only(
                 bottom: 5.0,
-                left: _idFrom == _userID ? 50.0 : 0.0,
-                right: _idFrom == _userID ? 0.0 : 50.0,
+                left: _document['idFrom'] == _userID ? 50.0 : 0.0,
+                right: _document['idFrom'] == _userID ? 0.0 : 50.0,
               ),
             ),
           ],
@@ -56,7 +55,7 @@ class MessageTile extends StatelessWidget {
   }
 
   bool isOwnMessage() {
-    return _idFrom == _userID;
+    return _document['idFrom'] == _userID;
   }
 }
 
