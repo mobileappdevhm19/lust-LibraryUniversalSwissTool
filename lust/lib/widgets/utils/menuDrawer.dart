@@ -1,28 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lust/models/lockerNumber.dart';
 import 'package:lust/pages/capacityPage/capacityPage.dart';
 import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 import 'package:lust/pages/checkinPage/checkinPage.dart';
 import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
-import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/pages/utils/pageContainer.dart';
 
 class MenuDrawer extends Drawer {
   String userID;
   String userEmail;
-  LockerNumber lockerNum;
 
   List<PageContainer> pages;
 
   // Create a menu drawer
   MenuDrawer(BuildContext context) {
-    lockerNum = AuthProvider.of(context).lockerNumber;
-    print("DRAWER OPENED: ${lockerNum.lockerNumber}");
-
     userID = "...";
     userEmail = "...";
 
-    AuthProvider.of(context).auth.getCurrentUser().then((user) {
+    FirebaseAuth.instance.currentUser().then((user){
       userID = user == null ? "..." : user.uid;
       userEmail = user == null ? "..." : user.email;
     });
@@ -54,7 +49,7 @@ class MenuDrawer extends Drawer {
   static switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
-        //replace the top view(widget) from the stack with the new one
+      //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
   }
@@ -70,14 +65,14 @@ class MenuDrawer extends Drawer {
         radius: 10,
       ),
       //accountName: Text(userID),
-      accountName: Text("Locker number: ${lockerNum.lockerNumber}"),
+      accountName: Text("Locker number: whatever"),
       accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(ListTile(
-          onTap: () => switchPage(context, page.pageObject),
-          leading: Icon(page.icon),
-          title: Text(page.title),
-        )));
+      onTap: () => switchPage(context, page.pageObject),
+      leading: Icon(page.icon),
+      title: Text(page.title),
+    )));
     return children;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:lust/pages/utils/authProvider.dart';
-import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/pages/capacityPage/capacityPage.dart';
 import 'package:lust/pages/loginPage/loginPage.dart';
 
