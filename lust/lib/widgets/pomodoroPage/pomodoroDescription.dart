@@ -157,13 +157,12 @@ class pomodoroDescription extends StatelessWidget {
                 child: new Container(
                   margin: new EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
                   height: 5.0,
-                  color: Colors.red,
+                  color: Colors.black,
                 ),
               ),
             )
           ]),
     );
-
   }
 
   //setter for the text fields
