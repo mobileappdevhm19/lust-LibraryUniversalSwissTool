@@ -555,8 +555,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   String descriptionText(){
     String ret=statuslist[actStatus.index].text;
+    String p=" period";
+    if((countPeriods-actPeriod)>1){
+      p+="s";
+    }
     ret +="\n";
-    ret +=(countPeriods-actPeriod).toString() +"periods till next long break";
+    ret +=(countPeriods-actPeriod).toString() +p+" till next long break";
     return ret;
   }
 
