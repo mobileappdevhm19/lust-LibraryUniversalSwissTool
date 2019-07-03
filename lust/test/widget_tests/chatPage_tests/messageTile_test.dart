@@ -35,6 +35,4 @@ void main() {
     // Check if the message content is there
     expect(contentFinder, findsOneWidget);
   });
-
-
 }

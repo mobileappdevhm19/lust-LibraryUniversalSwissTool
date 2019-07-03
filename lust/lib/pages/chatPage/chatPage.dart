@@ -78,7 +78,7 @@ class _ChatPageState extends State<ChatPage> {
         return new ListView(
           reverse: true,
           children: snapshot.data.documents.map((DocumentSnapshot document) {
-            return new MessageTile(document, _userID);
+            return new MessageTile(document['idFrom'], document['content'], _userID);
           }).toList(),
         );
       },
