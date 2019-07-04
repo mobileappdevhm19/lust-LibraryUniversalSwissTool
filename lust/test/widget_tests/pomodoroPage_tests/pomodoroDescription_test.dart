@@ -42,6 +42,16 @@ void main() {
     checkInitialTextFieldsValues(tester);
   });
 
+  testWidgets('pomodoroDesc check Old Values', (WidgetTester tester) async {
+    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
+    checkOldValues(tester);
+  });
+
+  testWidgets('pomodoroDesc test inputs', (WidgetTester tester) async {
+    await tester.pumpWidget(TestHelper.buildWidget(PomodoroPage()));
+    testInputs(tester);
+  });
+
 }
 
 
@@ -86,4 +96,46 @@ void checkInitialTextFieldsValues(WidgetTester tester){
   expect(pomDesc.periodCountController.text, pomDesc.countPeriods.toString());
 
   pomDesc.updateValues();
+}
+
+
+void checkOldValues(WidgetTester tester){
+  int oldPeriodTime=pomDesc.oldPeriodTime;
+  int oldShortBreakTime=pomDesc.oldShortBreakTime;
+  int oldLongBreakTime=pomDesc.oldLongBreakTime;
+  int oldCountPeriods=pomDesc.oldCountPeriods;
+
+  pomDesc.setOldValues();
+
+  expect(pomDesc.periodTime, oldPeriodTime);
+  expect(pomDesc.shortBreakTime, oldShortBreakTime);
+  expect(pomDesc.longBreakTime, oldLongBreakTime);
+  expect(pomDesc.countPeriods, oldCountPeriods);
+}
+
+void testInputs(WidgetTester tester){
+  pomDesc.periodTime=0;
+  expect(pomDesc.testInputs(), false);
+  pomDesc.periodTime=1;
+
+  pomDesc.shortBreakTime=0;
+  expect(pomDesc.testInputs(), false);
+  pomDesc.shortBreakTime=1;
+
+  pomDesc.longBreakTime=0;
+  expect(pomDesc.testInputs(), false);
+  pomDesc.longBreakTime=1;
+
+  pomDesc.countPeriods=0;
+  expect(pomDesc.testInputs(), false);
+  pomDesc.countPeriods=1;
+
+  //"Sily inputs
+  pomDesc.shortBreakTime=2;
+  pomDesc.longBreakTime=1;
+  expect(pomDesc.testInputs(), true);
+
+  pomDesc.shortBreakTime=2;
+  pomDesc.periodTime=1;
+  expect(pomDesc.testInputs(), true);
 }
