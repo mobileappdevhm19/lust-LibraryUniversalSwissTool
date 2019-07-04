@@ -165,7 +165,7 @@ class pomodoroDescription extends StatelessWidget {
 
   //setter for the text fields
   void setValuesToTextFields(){
-    print("in setValuesToTextFields $periodTime");
+    //print("in setValuesToTextFields $periodTime");
     periodTimeController.text=periodTime.toString();
     periodCountController.text=countPeriods.toString();
 
