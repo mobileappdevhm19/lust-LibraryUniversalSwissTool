@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lust/pages/pomodoroPage.dart';
+import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
 
 
 class pomodoroDescription extends StatelessWidget {
