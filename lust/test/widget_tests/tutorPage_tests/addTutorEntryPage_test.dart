@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/models/tutorEntry.dart';
-import 'package:lust/pages/addTutorEntryPage.dart';
+import 'package:lust/pages/chatPage/addTutorEntryPage.dart';
 import '../../testHelper.dart';
 
 void main() {

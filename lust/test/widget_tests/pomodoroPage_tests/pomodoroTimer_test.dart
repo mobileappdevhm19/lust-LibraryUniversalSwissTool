@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 import 'dart:io';
 import 'dart:async';
-import 'package:lust/pages/pomodoroPage.dart';
+import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

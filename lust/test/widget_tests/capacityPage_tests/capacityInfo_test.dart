@@ -12,7 +12,7 @@ void main() {
     // Create the Widget tell the tester to build it
     // Using the main Widget to get all the needed info for subwidgets
     await tester.pumpWidget(
-        TestHelper.buildWidget(CapacityInfo.withSampleData()));
+        TestHelper.buildWidget(CapacityInfo()));
 
     // Create our Finders
     final occupancyFinder = find.text("Occupancy current/total:");

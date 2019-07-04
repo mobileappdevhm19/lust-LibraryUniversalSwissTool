@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lust/utils/autenthicationAPI.dart';
-import 'capacityPage.dart';
-import 'loginPage.dart';
+import 'package:lust/pages/utils/authProvider.dart';
+import 'package:lust/pages/capacityPage/capacityPage.dart';
+import 'package:lust/pages/loginPage/loginPage.dart';
 
 class RootPage extends StatefulWidget {
-  RootPage({this.auth});
-
-  final BaseAuth auth;
-
   @override
   _RootPageState createState() => _RootPageState();
 }
@@ -20,9 +16,9 @@ class _RootPageState extends State<RootPage> {
   _RootPageState();
 
   @override
-  initState() {
-    super.initState();
-    widget.auth.getCurrentUser().then((userID) {
+  void didChangeDependencies(){
+    var auth = AuthProvider.of(context).auth;
+    auth.getCurrentUser().then((userID) {
       setState(() {
         print("USER ID: $userID");
         authStatus = userID == null ? LogInOut.NOTSIGNEDIN : LogInOut.SIGNEDIN;
@@ -51,14 +47,12 @@ class _RootPageState extends State<RootPage> {
       case LogInOut.SIGNEDIN:
         print("CASE 1: signedIn");
         return new CapacityPage(
-          auth: widget.auth,
           onSignedOut: _onSignedOut,
         );
 
       case LogInOut.NOTSIGNEDIN:
         print("CASE 2: notSignedIn");
         return new LoginPage(
-            auth: widget.auth,
             onSignIn: _onSignedIn);
     }
   }

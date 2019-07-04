@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/models/tutorEntry.dart';
-import 'package:lust/pages/tutorEntryPage.dart';
+import 'package:lust/pages/chatPage/tutorEntryPage.dart';
 
 class TutorRequests extends StatefulWidget {
   // a constructor for this class

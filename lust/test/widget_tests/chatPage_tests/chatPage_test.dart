@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
-import 'package:lust/pages/chatPage.dart';
+import 'package:lust/pages/chatPage/chatPage.dart';
 import 'package:lust/widgets/chatPage/messageTile.dart';
 import '../../testHelper.dart';
 
-import 'package:lust/pages/pageContainer.dart';
+import 'package:lust/pages/utils/pageContainer.dart';
 
 void main() {
   testWidgets('The chat page has a textfield at the bottom', (WidgetTester tester) async {
