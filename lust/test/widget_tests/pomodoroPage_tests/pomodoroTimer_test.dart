@@ -173,12 +173,15 @@ void checkStatusCalculation(WidgetTester tester) async {
   //print("$aS");
 
   for(int i=0; i<pomTimerState.countPeriods; i++) {
+    prefs.setInt(ActStatus_KEY, 1);//learning
+    prefs.setInt(ActPeriod_KEY, i);
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
     //print("$aS");
 
+    prefs.setInt(ActStatus_KEY, 2);//learning
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
