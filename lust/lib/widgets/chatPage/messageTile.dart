@@ -27,7 +27,8 @@ class MessageTile extends StatelessWidget {
                 //color: Colors.green,
                 margin: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 5.0)),
           ],
-          mainAxisAlignment: isOwnMessage() ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisAlignment:
+              isOwnMessage() ? MainAxisAlignment.end : MainAxisAlignment.start,
         ),
         Row(
           children: <Widget>[
@@ -40,8 +41,9 @@ class MessageTile extends StatelessWidget {
               ),
               padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
               width: 250.0,
-              decoration:
-                  BoxDecoration(color: Color(0xffE8E8E8), borderRadius: BorderRadius.circular(8.0)),
+              decoration: BoxDecoration(
+                  color: Color(0xffE8E8E8),
+                  borderRadius: BorderRadius.circular(8.0)),
               margin: EdgeInsets.only(
                 bottom: 5.0,
                 left: _idFrom == _userID ? 50.0 : 0.0,
@@ -49,7 +51,8 @@ class MessageTile extends StatelessWidget {
               ),
             ),
           ],
-          mainAxisAlignment: isOwnMessage() ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisAlignment:
+              isOwnMessage() ? MainAxisAlignment.end : MainAxisAlignment.start,
         ),
       ],
     );
