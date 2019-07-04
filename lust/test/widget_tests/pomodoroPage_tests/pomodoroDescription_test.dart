@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/main.dart';
 import 'package:flutter/material.dart';
 import '../../testHelper.dart';
-import 'package:lust/pages/pomodoroPage.dart';
+import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
 import 'package:lust/widgets/pomodoroPage/pomodoroDescription.dart';
 
 

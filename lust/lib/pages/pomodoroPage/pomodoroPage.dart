@@ -4,6 +4,9 @@ import 'package:lust/widgets/pomodoroPage/pomodoroTimer.dart';
 
 import 'package:lust/widgets/utils/menuDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lust/widgets/utils/getAppBar.dart';
+import '../rootPage.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 
 
 
@@ -33,6 +36,8 @@ class PomodoroPage extends StatefulWidget {
 class PomodoroState extends State<PomodoroPage> {
    String title=""; //default
    IconData icon=Icons.watch; //default
+
+   final double _appBarHeight = 55;
 
   //all in minutes
   int periodTime;
@@ -90,9 +95,9 @@ class PomodoroState extends State<PomodoroPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
+        appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
         resizeToAvoidBottomPadding:false, //important, otherwise overlay, when keyboard
-        drawer: MenuDrawer.getDrawer(context),
+        drawer: MenuDrawer(context),
         body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,5 +126,16 @@ class PomodoroState extends State<PomodoroPage> {
       pomTimer.updateValues(periodTime, shortBreakTime, longBreakTime, countPeriods);
     }
   }
+
+   void _signOut() {
+     var auth = AuthProvider.of(context).auth;
+     print("CURRENT USER: mateo mateo");
+     try {
+       auth.signOut();
+       MenuDrawer.switchPage(context, RootPage());
+     } catch (e) {
+       print(e);
+     }
+   }
 }
 
