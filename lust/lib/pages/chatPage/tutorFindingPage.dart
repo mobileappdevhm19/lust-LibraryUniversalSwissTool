@@ -15,6 +15,8 @@ class TutorFindingPage extends StatelessWidget {
   static String title = "TutorFinder";
   static IconData icon = Icons.help;
 
+  String currentTab = "Offer";
+
   TutorFindingPage();
 
   @override
@@ -31,18 +33,17 @@ class TutorFindingPage extends StatelessWidget {
                   onPressed: () => _signOut(context))
             ],
             bottom: TabBar(tabs: [
-              Tab(
-                text: "Offerings",
-              ),
-              Tab(
-                text: "Requests",
-              ),
-            ]),
+              Tab(text: "Offerings",),
+              Tab(text: "Requests",),
+
+            ],
+            onTap: (pos) => setTab(pos),),
+
             title: Text(title),
           ),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () => _switchPage(context, AddTutorEntryPage()),
+            onPressed: () => _switchPage(context, AddTutorEntryPage(tab: currentTab)),
             backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
           ),
@@ -63,6 +64,19 @@ class TutorFindingPage extends StatelessWidget {
         //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
+  }
+
+  void setTab(int pos) {
+    switch (pos) {
+      case 0: {
+        currentTab = "Offer";
+        break;
+      }
+      case 1: {
+        currentTab = "Request";
+        break;
+      }
+    }
   }
 
   void _signOut(BuildContext context) {

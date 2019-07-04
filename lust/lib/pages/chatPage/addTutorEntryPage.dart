@@ -5,17 +5,17 @@ class AddTutorEntryPage extends StatefulWidget {
   static String title = "AddTutor...";
   static IconData icon = Icons.add_comment;
 
-  static String tab;
+  String tab;
 
-  AddTutorEntryPage({tab = "Request"});
+  AddTutorEntryPage({this.tab});
 
   @override
   _AddTutorEntryPageState createState() =>
-      new _AddTutorEntryPageState(title, icon);
+      new _AddTutorEntryPageState(title, icon, tab);
 }
 
 class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
-  String dropdownValue = "Request";
+  String dropdownValue;
 
   String title;
   IconData icon;
@@ -29,7 +29,7 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
 
   Firestore db = Firestore.instance;
 
-  _AddTutorEntryPageState(this.title, this.icon);
+  _AddTutorEntryPageState(this.title, this.icon, this.dropdownValue);
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -50,6 +50,7 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
           children: <Widget>[
             DropdownButton(
               isExpanded: true,
+              //value: dropdownValue,
               value: dropdownValue,
               items: <String>['Request', 'Offer']
                   .map<DropdownMenuItem<String>>((String value) {
