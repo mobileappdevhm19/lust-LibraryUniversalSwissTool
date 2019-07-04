@@ -411,7 +411,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     return AlertDialog(
       title: new Text("Reset Pomodoro"),
       content: new Text("All the progress will be lost!\n"
-          "Are you sure that you want to reset the pomodoro timer"),
+          "Are you sure that you want to reset the pomodoro timer?"),
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
         new FlatButton(
