@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                             //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
                           ),
                           validator: (input) =>
-                              input.isEmpty ? "Please write your email" : null,
+                          input.isEmpty ? "Please write your email" : null,
                           keyboardType: TextInputType.emailAddress,
                           onSaved: (input) => _email = input,
                         )),
@@ -116,8 +116,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future accountValidation() async {
     String _userID;
-    widget.onSignIn();
-    
+
     if (checkTextFields()) {
       try {
         var auth = AuthProvider.of(context).auth;
@@ -137,7 +136,6 @@ class _LoginPageState extends State<LoginPage> {
           }
           else{
             await widget.auth.sendEmailVerification();
-
             print('Email not verified!!');
             _textSnackBar = "Email not verified! Please check your mailbox: $_email";
           }*/
@@ -145,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           //FormType.REGISTER
           _userID =
-              await auth.signUp(_email.toString().trim(), _password);
+          await auth.signUp(_email.toString().trim(), _password);
           //await widget.auth.sendEmailVerification();
 
           print('Registered in: $_userID');
