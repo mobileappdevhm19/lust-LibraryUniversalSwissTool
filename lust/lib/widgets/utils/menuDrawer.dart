@@ -17,8 +17,6 @@ class MenuDrawer extends Drawer {
 
   // Create a menu drawer
   MenuDrawer(BuildContext context) {
-    //lockNumber = AuthProvider.of(context).lockerNumber;
-
     userID = "...";
     userEmail = "...";
 
@@ -42,7 +40,10 @@ class MenuDrawer extends Drawer {
 
   @override
   Widget build(BuildContext context) {
+    lockNumber = AuthProvider.of(context).lockerNumber;
+
     super.build(context);
+
     return Drawer(
       child: ListView(
         children: _buildListItems(context, pages),
@@ -69,9 +70,8 @@ class MenuDrawer extends Drawer {
         child: Image(image: AssetImage('assets/popper.png')),
         radius: 10,
       ),
-      //accountName: Text(userID),
-      //accountName: Text("Locker number: ${lockNumber.lockerNumber}"),
-      accountName: Text("Locker number: eoe"),
+      accountName: Text("Locker number: ${lockNumber.lockerNumber}"),
+      //accountName: Text("Locker number: eoe"),
       accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(ListTile(
