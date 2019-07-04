@@ -116,7 +116,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Future accountValidation() async {
     String _userID;
-
+    widget.onSignIn();
+    
     if (checkTextFields()) {
       try {
         var auth = AuthProvider.of(context).auth;
