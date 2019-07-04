@@ -10,11 +10,8 @@ class MessageTile extends StatelessWidget {
 
   MessageTile(this._idFrom, this._messageContent, this._userID);
 
-
   @override
   Widget build(BuildContext context) {
-
-
     return new Column(
       children: <Widget>[
         Row(
@@ -62,26 +59,3 @@ class MessageTile extends StatelessWidget {
     return _idFrom == _userID;
   }
 }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      child: Text(
-        _document['content'],
-        style: TextStyle(color: Color(0xff203152)),
-        textAlign:
-            TextAlign.left, //_document['idFrom'] == _userID ? TextAlign.right : TextAlign.left,
-      ),
-      padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-      width: 20.0,
-      decoration: BoxDecoration(color: Color(0xffE8E8E8), borderRadius: BorderRadius.circular(8.0)),
-      margin: EdgeInsets.only(
-        bottom: 5.0,
-        left: _document['idFrom'] == _userID ? 50.0 : 0.0,
-        right: _document['idFrom'] == _userID ? 0.0 : 50.0,
-      ),
-    );
-  }
-}
-  */
