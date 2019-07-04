@@ -161,7 +161,7 @@ void checkStatusCalculation(WidgetTester tester) async {
   prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
   prefs.setInt(ActStatus_KEY, 0);//nothing
   prefs.setInt(OldTimerSeconds_KEY,0);
-  prefs.setInt(ActPeriod_KEY, 0);
+  prefs.setInt(ActPeriod_KEY, 1);
 
   String aS;
 
@@ -172,11 +172,12 @@ void checkStatusCalculation(WidgetTester tester) async {
   aS=pomTimerState.actStatus.toString();
   //print("$aS");
 
-  for(int i=0; i<pomTimerState.countPeriods; i++) {
+  for(int i=1; i<pomTimerState.countPeriods; i++) {
     prefs.setInt(ActStatus_KEY, 1);//learning
     prefs.setInt(ActPeriod_KEY, i);
     prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
     pomTimerState.changeStatus();
+    pomTimerState.setSharedStartTime(actTime-10*i);
     pomTimerState.initPlatformState();
 
     aS = pomTimerState.actStatus.toString();
@@ -209,7 +210,6 @@ void checkInitalTimerStop(WidgetTester tester) {
   pomTimerState.stop();
   expect(pomTimerState.isRunning, false);
   findTextInButton("Start");
-
 }
 
 void checkChangeStatus(WidgetTester tester) {

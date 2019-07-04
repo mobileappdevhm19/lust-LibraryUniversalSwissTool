@@ -130,15 +130,21 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       }
 
       isRunning = prefs.getBool(IsRunning_KEY);
+      if(!mounted){
+        isRunning=true;
+      }
       print("is Running: $isRunning");
       actStatus= Status.values[prefs.getInt(ActStatus_KEY)];
-      if(actStatus==Status.nothing){
+      if(actStatus==Status.nothing &&mounted){
+        print("vor reset");
         resetValues(true);
         return;
       }
 
-      actPeriod=prefs.getInt(ActPeriod_KEY);
-      updateValues();
+      if(mounted){
+        actPeriod=prefs.getInt(ActPeriod_KEY);
+        updateValues();
+      }
 
 
       if(isRunning){
@@ -150,10 +156,12 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
         int difTime=(actTime - startTime);
         if(difTime<statuslist[actStatus.index].time){
+          print("in if");
+
           actTimerSeconds = statuslist[actStatus.index].time-difTime;
         }
         else{
-
+          print("in else");
           //only varibles for this loop to find out which time in the actual status we have
           Status hereStatus=actStatus;
           String aS=hereStatus.toString();
