@@ -52,12 +52,12 @@ void main() {
 
     // Check for the closing time
     print("Closes at: " + lib.closingTimeToday.hour.toString()+ ":" + lib.closingTimeToday.minute.toString());
-    //expect(lib.closingTimeToday.hour, closingHour);
-    //expect(lib.closingTimeToday.minute, closingMinute);
+    //expect(lib.closingTimeToday.hour, closingHour); //TODO on travis this is 0
+    //expect(lib.closingTimeToday.minute, closingMinute);//TODO on travis this is 0
 
     // Check for the current filling
-    //print("Current filling: " + lib.currentFilling.toString());
-    //expect(lib.currentFilling, currentFilling);
+    //print("Current filling: " + lib.currentFilling.toString());//TODO on travis this is 0
+    //expect(lib.currentFilling, currentFilling);//TODO on travis this is 0
 
     // Check for the maximum capacity
     print("Max Cap: " + lib.totalSeats.toString());
