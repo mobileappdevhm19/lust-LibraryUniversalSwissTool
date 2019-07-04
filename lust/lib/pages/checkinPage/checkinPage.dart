@@ -103,9 +103,11 @@ class _CheckinPageState extends State<CheckinPage> {
     var _storeNumber = AuthProvider.of(context).lockerNumber;
 
     print("LOCAL LOCKER: $_lockerNumber");
-    if (_lockerNumber == "") {
+    if (_lockerNumber == "" || _lockerNumber == null) {
+      print("LOCKER NULL");
       _storeNumber.changeNumber("not specified");
     } else {
+      print ("LOCKER FINE");
       _storeNumber.changeNumber(_lockerNumber);
     }
 
