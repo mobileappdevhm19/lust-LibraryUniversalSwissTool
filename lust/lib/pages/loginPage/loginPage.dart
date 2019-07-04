@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   FormType _formRegister = FormType.LOGIN;
   bool _emailChecked;
 
-  String _textSnackBar;
+  String _textSnackBar = "Error";
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState>_formKey = new GlobalKey<FormState>();
 
