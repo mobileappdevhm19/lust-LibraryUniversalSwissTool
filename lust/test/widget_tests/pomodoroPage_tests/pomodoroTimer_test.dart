@@ -43,7 +43,7 @@ void main() {
   pomTimerState=new PomodoroTimerState();
 
 
-  //setupSomePreferences(null);
+  setupSomePreferences(null);
   // Define a test. The TestWidgets function will also provide a WidgetTester
   // for us to work with. The WidgetTester will allow us to build and interact
   // with Widgets in the test environment.
@@ -150,6 +150,7 @@ void checkSharedPreferences(WidgetTester tester) async{
 void checkStatusCalculation(WidgetTester tester) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
+  print("in checkStatusCalculation");
   int actTime, startTime;
   int dif=5; //always adding 5 sec to time (because the time runs, and maybe it wuld be the next case)
 
@@ -167,10 +168,11 @@ void checkStatusCalculation(WidgetTester tester) async {
   actTime = new DateTime.now().millisecondsSinceEpoch;
   actTime = (actTime / 1000).toInt();
 
+
   aS=pomTimerState.actStatus.toString();
   //print("$aS");
 
-  for(int i=1; i<pomTimerState.countPeriods; i++) {
+  for(int i=0; i<pomTimerState.countPeriods; i++) {
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
@@ -183,8 +185,8 @@ void checkStatusCalculation(WidgetTester tester) async {
     aS = pomTimerState.actStatus.toString();
     //print("$aS");
   }
-  pomTimerState.changeStatus();
-  pomTimerState.initPlatformState();
+  /*pomTimerState.changeStatus();
+  pomTimerState.initPlatformState();*/
 
   pomTimerState.changeStatus();
   pomTimerState.initPlatformState();
