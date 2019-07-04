@@ -41,7 +41,7 @@ class MenuDrawer extends Drawer {
   @override
   Widget build(BuildContext context) {
     lockNumber = AuthProvider.of(context).lockerNumber;
-
+    
     super.build(context);
 
     return Drawer(
