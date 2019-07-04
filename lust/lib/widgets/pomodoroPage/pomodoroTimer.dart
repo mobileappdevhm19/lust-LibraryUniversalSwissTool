@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:lust/pages/pomodoroPage.dart';
+import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

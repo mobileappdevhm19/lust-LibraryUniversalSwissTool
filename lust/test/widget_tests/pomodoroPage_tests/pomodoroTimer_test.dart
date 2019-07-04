@@ -175,6 +175,7 @@ void checkStatusCalculation(WidgetTester tester) async {
   for(int i=0; i<pomTimerState.countPeriods; i++) {
     prefs.setInt(ActStatus_KEY, 1);//learning
     prefs.setInt(ActPeriod_KEY, i);
+    prefs.setBool(IsRunning_KEY, true); //important, otherwise never go in the loop
     pomTimerState.changeStatus();
     pomTimerState.initPlatformState();
 
