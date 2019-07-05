@@ -89,15 +89,17 @@ class _ButtonCheckState extends State<ButtonCheck> {
 
     switch (status) {
       case ButtonEnable.ENABLE:
+        widget.function();      //SAVE lockerNumber
+
         setState(() {
-          if (_buttonState) {
+          if (_buttonState) {   //CHECK OUT -> CHECK IN
             _buttonState = false;
             _colorButton = Colors.green;
             _splashButton = Colors.red;
             _textButton = "Check In!";
             _textSnackBar = "Hope to see you soon again";
             sendEventToDB('logout');
-          } else {
+          } else {          //CHECK IN -> CHECK OUT
             _buttonState = true;
             _colorButton = Colors.red;
             _splashButton = Colors.green;
@@ -116,7 +118,6 @@ class _ButtonCheckState extends State<ButtonCheck> {
     }
     _showSnackBar();
     _saveButtonState();
-    widget.function();
   }
 
   Future sendValueToDB(bool increment) {

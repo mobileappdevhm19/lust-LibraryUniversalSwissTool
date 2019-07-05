@@ -7,16 +7,13 @@ import 'package:lust/models/library.dart';
 import 'package:lust/models/occupancyPerHour.dart';
 import 'package:lust/widgets/utils/timeHandler.dart';
 
-
 class CapacityGraph extends StatefulWidget {
   CapacityGraph();
 
   _CapacityGraphState createState() => _CapacityGraphState();
 }
 
-
 class _CapacityGraphState extends State<CapacityGraph> {
-
   List<charts.Series<OccupancyPerHour, String>> chartSeries;
   Library lib;
   StreamSubscription<DocumentSnapshot> streamSub;
@@ -29,24 +26,21 @@ class _CapacityGraphState extends State<CapacityGraph> {
   _CapacityGraphState() {
     lib = Library();
 
-    var eventSnapshots = eventList.orderBy("time", descending: false).where(
-        "time",
-        isGreaterThan: DateTime.utc(
-            DateTime
-                .now()
-                .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)).snapshots();
+    var eventSnapshots = eventList
+        .orderBy("time", descending: false)
+        .where("time",
+            isGreaterThan: DateTime.utc(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day))
+        .snapshots();
 
     streamSub?.cancel();
-    streamSub =
-        dbLibraryCollectionReference.document('centralHM').snapshots().listen((
-            DocumentSnapshot ds) => fillLib(ds));
+    streamSub = dbLibraryCollectionReference
+        .document('centralHM')
+        .snapshots()
+        .listen((DocumentSnapshot ds) => fillLib(ds));
     eventSub?.cancel();
-    eventSub = eventSnapshots.listen((QuerySnapshot snapshot) =>
-        calculateOccupancy(snapshot, lib));
+    eventSub = eventSnapshots
+        .listen((QuerySnapshot snapshot) => calculateOccupancy(snapshot, lib));
   }
 
   @override
@@ -72,11 +66,10 @@ class _CapacityGraphState extends State<CapacityGraph> {
         // any series that does not define a rendererIdKey.
         customSeriesRenderers: [
           new charts.LineRendererConfig(
-            // ID used to link series to this renderer.
+              // ID used to link series to this renderer.
               customRendererId: 'customLine')
         ]);
   }
-
 
   void fillLib(DocumentSnapshot ds) {
     Map<String, dynamic> libraryData = ds.data;
@@ -88,8 +81,9 @@ class _CapacityGraphState extends State<CapacityGraph> {
 
   void calculateOccupancy(QuerySnapshot qs, Library lib) {
     if (qs.documents.isNotEmpty) {
-      List<Event> events = qs.documents.map((DocumentSnapshot ds) =>
-          Event.fromMap(ds.data)).toList();
+      List<Event> events = qs.documents
+          .map((DocumentSnapshot ds) => Event.fromMap(ds.data))
+          .toList();
 
       int usersIn = 0;
 
@@ -98,8 +92,7 @@ class _CapacityGraphState extends State<CapacityGraph> {
       int currentKey = 0; // TODO opening time
 
       for (var event in events) {
-        if (currentKey != event.getEvenHour())
-          currentKey = event.getEvenHour();
+        if (currentKey != event.getEvenHour()) currentKey = event.getEvenHour();
 
         if (event.type == "login") {
           usersIn += 1;
@@ -116,9 +109,8 @@ class _CapacityGraphState extends State<CapacityGraph> {
   }
 
   /// Helper method to create the list of chart.Series out of an array of percentPerHour
-  static List<
-      charts.Series<OccupancyPerHour, String>> occupancyMapToChartValues(
-      Map<String, int> map) {
+  static List<charts.Series<OccupancyPerHour, String>>
+      occupancyMapToChartValues(Map<String, int> map) {
     int lastOccupancy = 0;
 
     List<OccupancyPerHour> occupancyPerHourList = [];
@@ -135,15 +127,9 @@ class _CapacityGraphState extends State<CapacityGraph> {
     ];
 
     occupancyPerHourList.forEach((occupancyPerHour) {
-      int currentEvenHour = DateTime
-          .now()
-          .hour
-          .isEven ? DateTime
-          .now()
-          .hour : DateTime
-          .now()
-          .hour - 1;
-
+      int currentEvenHour = DateTime.now().hour.isEven
+          ? DateTime.now().hour
+          : DateTime.now().hour - 1;
 
       if (int.parse(occupancyPerHour.hour) <= currentEvenHour) {
         if (map.containsKey(occupancyPerHour.hour))
@@ -152,20 +138,17 @@ class _CapacityGraphState extends State<CapacityGraph> {
       }
     });
 
-
     final data = occupancyPerHourList;
 
-    var hour = TimeHandler.makeHourEven(DateTime
-        .now()
-        .hour);
+    var hour = TimeHandler.makeHourEven(DateTime.now().hour);
 
     return [
       new charts.Series<OccupancyPerHour, String>(
         id: 'Other',
         colorFn: (OccupancyPerHour percent, __) =>
-        percent.hour == hour.toString()
-            ? charts.MaterialPalette.red.shadeDefault
-            : charts.MaterialPalette.blue.shadeDefault,
+            percent.hour == hour.toString()
+                ? charts.MaterialPalette.red.shadeDefault
+                : charts.MaterialPalette.blue.shadeDefault,
         domainFn: (OccupancyPerHour percent, _) => percent.hour,
         measureFn: (OccupancyPerHour percent, _) => percent.percent,
         data: data,
@@ -174,24 +157,21 @@ class _CapacityGraphState extends State<CapacityGraph> {
   }
 }
 
-
 class Event {
   DateTime time;
   String type;
 
   Event();
 
-  Event.fromMap(Map<String, dynamic> map){
+  Event.fromMap(Map<String, dynamic> map) {
     time = DateTime.fromMillisecondsSinceEpoch(map["time"].seconds * 1000);
     type = map["eventType"];
   }
 
   int getEvenHour() {
     num hour = time.hour;
-    if (hour % 2 != 0)
-      hour -= 1;
+    if (hour % 2 != 0) hour -= 1;
 
     return hour;
   }
-
 }

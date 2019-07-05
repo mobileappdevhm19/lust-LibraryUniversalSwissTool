@@ -22,17 +22,13 @@ class _TutorEntryPageState extends State<TutorEntryPage> {
   TutorEntry tutorEntry;
   String _userID;
 
-
-
   _TutorEntryPageState(this.title, this.tutorEntry);
 
   Future<void> setUserID() async {
-
     var auth = AuthProvider.of(context)?.auth;
 
     FirebaseUser _firebaseUser = await auth?.getCurrentUser();
     _userID = _firebaseUser?.uid;
-
   }
 
   @override
@@ -73,8 +69,8 @@ class _TutorEntryPageState extends State<TutorEntryPage> {
           ),
           RaisedButton(
             child: Text("Chat"),
-            onPressed: () => _switchPage(
-                context, ChatPage(_userID, tutorEntry.offeringId)),
+            onPressed: () =>
+                _switchPage(context, ChatPage(_userID, tutorEntry.offeringId)),
           )
         ],
       ), //ListView

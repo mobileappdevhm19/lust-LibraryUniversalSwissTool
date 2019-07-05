@@ -1,14 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lust/models/lockerNumber.dart';
 import 'package:lust/pages/capacityPage/capacityPage.dart';
 import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 import 'package:lust/pages/checkinPage/checkinPage.dart';
 import 'package:lust/pages/pomodoroPage/pomodoroPage.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/pages/utils/pageContainer.dart';
 
 class MenuDrawer extends Drawer {
   String userID;
   String userEmail;
+  LockerNumber lockNumber;
 
   List<PageContainer> pages;
 
@@ -17,7 +20,7 @@ class MenuDrawer extends Drawer {
     userID = "...";
     userEmail = "...";
 
-    FirebaseAuth.instance.currentUser().then((user){
+    FirebaseAuth.instance.currentUser().then((user) {
       userID = user == null ? "..." : user.uid;
       userEmail = user == null ? "..." : user.email;
     });
@@ -37,7 +40,10 @@ class MenuDrawer extends Drawer {
 
   @override
   Widget build(BuildContext context) {
+    lockNumber = AuthProvider.of(context).lockerNumber;
+
     super.build(context);
+
     return Drawer(
       child: ListView(
         children: _buildListItems(context, pages),
@@ -49,7 +55,7 @@ class MenuDrawer extends Drawer {
   static switchPage(BuildContext context, Widget widget) {
     //Navigator.pop(context); //remove a page from the widget stack (close navigation)
     Navigator.pushReplacement(
-      //replace the top view(widget) from the stack with the new one
+        //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
   }
@@ -64,15 +70,15 @@ class MenuDrawer extends Drawer {
         child: Image(image: AssetImage('assets/popper.png')),
         radius: 10,
       ),
-      //accountName: Text(userID),
-      accountName: Text("Locker number: whatever"),
+      accountName: Text("Locker number: ${lockNumber.lockerNumber}"),
+      //accountName: Text("Locker number: eoe"),
       accountEmail: Text(userEmail),
     ));
     pages.forEach((page) => children.add(ListTile(
-      onTap: () => switchPage(context, page.pageObject),
-      leading: Icon(page.icon),
-      title: Text(page.title),
-    )));
+          onTap: () => switchPage(context, page.pageObject),
+          leading: Icon(page.icon),
+          title: Text(page.title),
+        )));
     return children;
   }
 }

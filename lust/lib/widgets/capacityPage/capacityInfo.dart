@@ -9,12 +9,9 @@ class CapacityInfo extends StatefulWidget {
   CapacityInfo();
 
   _CapacityInfoState createState() => _CapacityInfoState();
-
 }
 
-
 class _CapacityInfoState extends State<CapacityInfo> {
-
   String occupancyLib;
   String totalSeatsLib;
   Library lib;
@@ -30,28 +27,29 @@ class _CapacityInfoState extends State<CapacityInfo> {
     occupancyLib = "...";
     totalSeatsLib = "...";
 
-    var eventSnapshots = eventList.orderBy("time", descending: false).where(
-        "time",
-        isGreaterThan: DateTime.utc(
-            DateTime
-                .now()
-                .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)).snapshots();
+    var eventSnapshots = eventList
+        .orderBy("time", descending: false)
+        .where("time",
+            isGreaterThan: DateTime.utc(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day))
+        .snapshots();
 
     streamSub?.cancel();
-    streamSub =
-        dbLibraryCollectionReference.document('centralHM').snapshots().listen((
-            DocumentSnapshot ds) => fillLib(ds));
+    streamSub = dbLibraryCollectionReference
+        .document('centralHM')
+        .snapshots()
+        .listen((DocumentSnapshot ds) => fillLib(ds));
 
     eventSub?.cancel();
-    eventSub = eventSnapshots.listen((QuerySnapshot snapshot) =>
-        calculateOccupancy(snapshot, lib));
+    eventSub = eventSnapshots
+        .listen((QuerySnapshot snapshot) => calculateOccupancy(snapshot, lib));
   }
 
-  var _icons = const [Icons.arrow_upward, Icons.arrow_forward, Icons.arrow_downward];
+  var _icons = const [
+    Icons.arrow_upward,
+    Icons.arrow_forward,
+    Icons.arrow_downward
+  ];
   var _colors = const [Colors.red, Colors.orange, Colors.green];
 
   String _buildOpeningClosingHour(Library lib) {
@@ -67,7 +65,6 @@ class _CapacityInfoState extends State<CapacityInfo> {
     openingMin < 10
         ? openingTime = openingTime + "0" + openingMin.toString()
         : openingTime = openingTime + openingMin.toString();
-
 
     // closing time
     String closingTime = "";
@@ -85,7 +82,6 @@ class _CapacityInfoState extends State<CapacityInfo> {
     return openingTime + " - " + closingTime;
   }
 
-
   @override
   void dispose() {
     streamSub?.cancel();
@@ -99,13 +95,11 @@ class _CapacityInfoState extends State<CapacityInfo> {
     double dividerIndent = 0.0;
     Color dividerColor = Colors.black;
 
-
     // getting the current even hour
 
     occupancyLib = lib.currentFilling.toString();
 
     totalSeatsLib = lib.totalSeats.toString();
-
 
     return new Container(
       child: Column(
@@ -128,12 +122,8 @@ class _CapacityInfoState extends State<CapacityInfo> {
             children: <Widget>[
               OneLineText(text: "Estimated trend:"),
               new Icon(
-                _icons[lib
-                    .calculateTrend()
-                    .index],
-                color: _colors[lib
-                    .calculateTrend()
-                    .index],
+                _icons[lib.calculateTrend().index],
+                color: _colors[lib.calculateTrend().index],
               ),
             ],
           ),
@@ -156,21 +146,20 @@ class _CapacityInfoState extends State<CapacityInfo> {
     );
   }
 
-
   void fillLib(DocumentSnapshot ds) {
     Map<String, dynamic> libraryData = ds.data;
 
     if (libraryData.isNotEmpty) {
       lib.setDataFromMap(libraryData);
     }
-    if (mounted) return
-      setState(() {});
+    if (mounted) return setState(() {});
   }
 
   void calculateOccupancy(QuerySnapshot qs, Library lib) {
     if (qs.documents.isNotEmpty) {
-      List<Event> events = qs.documents.map((DocumentSnapshot ds) =>
-          Event.fromMap(ds.data)).toList();
+      List<Event> events = qs.documents
+          .map((DocumentSnapshot ds) => Event.fromMap(ds.data))
+          .toList();
 
       int usersIn = 0;
       Map<String, int> occupancyMap = Map();
@@ -178,8 +167,7 @@ class _CapacityInfoState extends State<CapacityInfo> {
       int currentKey = 0;
 
       for (var event in events) {
-        if (currentKey != event.getEvenHour())
-          currentKey = event.getEvenHour();
+        if (currentKey != event.getEvenHour()) currentKey = event.getEvenHour();
 
         if (event.type == "login") {
           usersIn += 1;
@@ -189,14 +177,13 @@ class _CapacityInfoState extends State<CapacityInfo> {
         occupancyMap[currentKey.toString()] = usersIn;
       }
 
-      if (mounted) return
-        setState(() {
+      if (mounted)
+        return setState(() {
           lib.occupancyMap = occupancyMap;
         });
     }
   }
 }
-
 
 class Event {
   DateTime time;
@@ -204,17 +191,15 @@ class Event {
 
   Event();
 
-  Event.fromMap(Map<String, dynamic> map){
+  Event.fromMap(Map<String, dynamic> map) {
     time = DateTime.fromMillisecondsSinceEpoch(map["time"].seconds * 1000);
     type = map["eventType"];
   }
 
   int getEvenHour() {
     num hour = time.hour;
-    if (hour % 2 != 0)
-      hour -= 1;
+    if (hour % 2 != 0) hour -= 1;
 
     return hour;
   }
-
 }

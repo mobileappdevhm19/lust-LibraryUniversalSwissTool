@@ -13,6 +13,7 @@ import '../rootPage.dart';
 
 class CapacityPage extends StatefulWidget {
   CapacityPage({this.onSignedOut});
+
   VoidCallback onSignedOut;
 
   static String title = "Capacity";
@@ -38,26 +39,26 @@ class _CapacityPageState extends State<CapacityPage> {
         /*appBar: AppBar(
           title: Text(title),
         ),*/
-        appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
+        appBar: PreferredSize(
+            child: GetAppBar(title, _signOut),
+            preferredSize: Size.fromHeight(_appBarHeight)),
         drawer: MenuDrawer(context),
-        body: ListView(
-            reverse: false,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 10),
-                height: _height * 0.60,
-                child: CapacityGraph(),
-              ),
-              Container(
-                alignment: Alignment.center,
-                height: _height * 0.4,
-                margin: const EdgeInsets.only(left: 10, right: 10),
-                child: CapacityInfo(),
-              ),
-            ]));
+        body: ListView(reverse: false, children: [
+          Container(
+            margin: const EdgeInsets.only(left: 10),
+            height: _height * 0.60,
+            child: CapacityGraph(),
+          ),
+          Container(
+            alignment: Alignment.center,
+            height: _height * 0.4,
+            margin: const EdgeInsets.only(left: 10, right: 10),
+            child: CapacityInfo(),
+          ),
+        ]));
   } // build
 
-  void _signOut() async{
+  void _signOut() async {
     try {
       var auth = AuthProvider.of(context).auth;
       FirebaseUser _userID = await auth.getCurrentUser();

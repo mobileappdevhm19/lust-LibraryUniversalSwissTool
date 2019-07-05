@@ -15,6 +15,7 @@ class ChatPage extends StatefulWidget {
   final String _topicID;
 
   ChatPage(this._userID, this._topicID);
+
 /*
   ChatPage(this.auth, this._topicID) {
     _userID = auth.getUserID();
@@ -22,7 +23,8 @@ class ChatPage extends StatefulWidget {
 */
 
   @override
-  _ChatPageState createState() => new _ChatPageState(title, icon, _userID, _topicID);
+  _ChatPageState createState() =>
+      new _ChatPageState(title, icon, _userID, _topicID);
 }
 
 class _ChatPageState extends State<ChatPage> {
@@ -32,16 +34,14 @@ class _ChatPageState extends State<ChatPage> {
   final String _userID;
   final String _topicID;
 
-  final TextEditingController _textEditingController = new TextEditingController();
+  final TextEditingController _textEditingController =
+      new TextEditingController();
 
   bool _isComposingMessage = false;
 
   final messageReference = Firestore.instance.collection('messages');
 
   _ChatPageState(this.title, this.icon, this._userID, this._topicID);
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,8 @@ class _ChatPageState extends State<ChatPage> {
               ),
               new Divider(height: 1.0),
               new Container(
-                decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+                decoration:
+                    new BoxDecoration(color: Theme.of(context).cardColor),
                 child: _buildTextComposer(),
               ),
             ],
@@ -101,7 +102,8 @@ class _ChatPageState extends State<ChatPage> {
                     });
                   },
                   onSubmitted: null,
-                  decoration: new InputDecoration.collapsed(hintText: "Send a message"),
+                  decoration:
+                      new InputDecoration.collapsed(hintText: "Send a message"),
                 ),
               ),
               new Container(

@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String _textSnackBar = "Error";
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
-  final GlobalKey<FormState>_formKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   _LoginPageState();
 
@@ -143,8 +143,7 @@ class _LoginPageState extends State<LoginPage> {
 
         } else {
           //FormType.REGISTER
-          _userID =
-              await auth.signUp(_email.toString().trim(), _password);
+          _userID = await auth.signUp(_email.toString().trim(), _password);
           //await widget.auth.sendEmailVerification();
 
           print('Registered in: $_userID');
