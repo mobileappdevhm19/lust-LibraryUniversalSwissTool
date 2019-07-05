@@ -24,7 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   FormType _formRegister = FormType.LOGIN;
   bool _emailChecked;
 
-  String _textSnackBar = "Error";
+  String _errorTextSnackBar="Error: ";
+  String _textSnackBar;
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -106,7 +107,9 @@ class _LoginPageState extends State<LoginPage> {
       print("FORM OK: $_email & $_password");
       return true;
     } else {
-      print("FORM WRONG: the fields cannot be empty");
+      String emptyFields="FORM WRONG: the fields cannot be empty";
+      print(emptyFields);
+      _textSnackBar=_errorTextSnackBar+emptyFields;
       return false;
     }
   }
@@ -147,8 +150,15 @@ class _LoginPageState extends State<LoginPage> {
         }
         //widget.onSignIn();
       } catch (e) {
-        print(e);
-        _textSnackBar = e.toString();
+        print("Exception $e");
+        _textSnackBar=_errorTextSnackBar;
+
+        String exString="";
+        int startComma=e.toString().indexOf(",", 0)+1;
+        int endComma=e.toString().indexOf(",", startComma);
+        exString=e.toString().substring(startComma, endComma);
+
+        _textSnackBar +=exString;
       }
     }
     _showSnackBar();
