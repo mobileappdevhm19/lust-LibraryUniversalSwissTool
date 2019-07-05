@@ -21,7 +21,7 @@ class Lust extends StatelessWidget {
         auth: new Auth(),
         lockerNumber: new LockerNumber(lockerNumber: "not specified"),
         child: MaterialApp(
-            title: 'Flutter Code Sample for material.AppBar.actions',
+            title: 'LUST',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
