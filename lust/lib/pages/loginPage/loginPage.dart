@@ -24,7 +24,8 @@ class _LoginPageState extends State<LoginPage> {
   FormType _formRegister = FormType.LOGIN;
   bool _emailChecked;
 
-  String _textSnackBar = "Error";
+  String _errorTextSnackBar="Error: ";
+  String _textSnackBar;
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -43,58 +44,55 @@ class _LoginPageState extends State<LoginPage> {
         key: _scaffState,
         appBar: AppBar(title: Text(_title)),
         //appBar: getAppBar(_title, signOut: false),
-        body: Center(
-            child: Form(
-                key: _formKey,
+        body: Form(
+            key: _formKey,
+            child: Center(
                 child: ListView(
-                  children: <Widget>[
-                    appLogo(),
-                    ListTile(
-                        leading: Icon(Icons.email, size: 35),
-                        title: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: "Email",
-                            //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                            hintText: "Do you already have an account?",
-                            //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                          ),
-                          validator: (input) =>
+              children: <Widget>[
+                appLogo(),
+                ListTile(
+                    leading: Icon(Icons.email, size: 35),
+                    title: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                        hintText: "lust@example.com",
+                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                      ),
+                      validator: (input) =>
                           input.isEmpty ? "Please write your email" : null,
-                          keyboardType: TextInputType.emailAddress,
-                          onSaved: (input) => _email = input,
-                        )),
-                    ListTile(
-                        leading: Icon(Icons.security, size: 35),
-                        title: TextFormField(
-                          decoration: InputDecoration(
-                            labelText: _title,
-                            //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                            hintText: "123456",
-                            //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                          ),
-                          validator: (input) => input.isEmpty
-                              ? "You have to write something!"
-                              : null,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          onSaved: (input) => _password = input,
-                        )),
-                    /*SizedBox(
-                  height: 40
-                ),*/
-                    ButtonLogin(
-                      buttonText: "Log in",
-                      whichButton: true,
-                      buttonColor: Colors.blue,
-                      function: _login,
-                    ),
-                    ButtonLogin(
-                        buttonText: "Register",
-                        whichButton: false,
-                        buttonColor: Colors.red,
-                        function: _register)
-                  ],
-                ))));
+                      keyboardType: TextInputType.emailAddress,
+                      onSaved: (input) => _email = input,
+                    )),
+                ListTile(
+                    leading: Icon(Icons.security, size: 35),
+                    title: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: _title,
+                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                        hintText: "at least 6 characters",
+                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                      ),
+                      validator: (input) =>
+                          input.isEmpty ? "You have to write something!" : null,
+                      keyboardType: TextInputType.text,
+                      obscureText: true,
+                      onSaved: (input) => _password = input,
+                    )),
+                SizedBox(height: 30),
+                ButtonLogin(
+                  buttonText: "Log in",
+                  whichButton: true,
+                  buttonColor: Colors.blue,
+                  function: _login,
+                ),
+                ButtonLogin(
+                    buttonText: "Register",
+                    whichButton: false,
+                    buttonColor: Colors.red,
+                    function: _register)
+              ],
+            ))));
   }
 
   _showSnackBar() {
@@ -109,7 +107,9 @@ class _LoginPageState extends State<LoginPage> {
       print("FORM OK: $_email & $_password");
       return true;
     } else {
-      print("FORM WRONG: the fields cannot be empty");
+      String emptyFields="FORM WRONG: the fields cannot be empty";
+      print(emptyFields);
+      _textSnackBar=_errorTextSnackBar+emptyFields;
       return false;
     }
   }
@@ -142,8 +142,7 @@ class _LoginPageState extends State<LoginPage> {
 
         } else {
           //FormType.REGISTER
-          _userID =
-          await auth.signUp(_email.toString().trim(), _password);
+          _userID = await auth.signUp(_email.toString().trim(), _password);
           //await widget.auth.sendEmailVerification();
 
           print('Registered in: $_userID');
@@ -151,8 +150,15 @@ class _LoginPageState extends State<LoginPage> {
         }
         //widget.onSignIn();
       } catch (e) {
-        print(e);
-        _textSnackBar = e.toString();
+        print("Exception $e");
+        _textSnackBar=_errorTextSnackBar;
+
+        String exString="";
+        int startComma=e.toString().indexOf(",", 0)+1;
+        int endComma=e.toString().indexOf(",", startComma);
+        exString=e.toString().substring(startComma, endComma);
+
+        _textSnackBar +=exString;
       }
     }
     _showSnackBar();

@@ -130,7 +130,6 @@ class PomodoroState extends State<PomodoroPage> {
 
    void _signOut() {
      var auth = AuthProvider.of(context).auth;
-     print("CURRENT USER: mateo mateo");
      try {
        auth.signOut();
        MenuDrawer.switchPage(context, RootPage());

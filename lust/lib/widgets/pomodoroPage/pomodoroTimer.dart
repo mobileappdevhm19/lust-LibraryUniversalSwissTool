@@ -47,9 +47,9 @@ class PomodoroTimer extends StatefulWidget {
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     statuslist.clear();
     statuslist.add(statusClass(-1, ""));
-    statuslist.add(statusClass(periodTime * 60, "actual you have to learn!"));
-    statuslist.add(statusClass(shortBreakTime * 60, "make a short break"));
-    statuslist.add(statusClass(longBreakTime * 60, "make a long break"));
+    statuslist.add(statusClass(periodTime * 60, "Time to study!"));
+    statuslist.add(statusClass(shortBreakTime * 60, "Make a short break"));
+    statuslist.add(statusClass(longBreakTime * 60, "Make a long break"));
 
     this.countPeriods = countPeriods;
   }
@@ -80,7 +80,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   int actTimerSeconds;
   String actTimeMinutesSeconds = "";
   Status actStatus; //=Status.nothing; //initial
-  String initialStatusText = "Click on 'Start' to start the pomodoro timer";
+  String initialStatusText = "Click on 'Start' to initiate the Pomodoro Timer";
   String actStatusText;
   int startTime;
   bool isRunning = false;
@@ -245,9 +245,9 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       actStatusText=descriptionText();//update desc text
     }else{ //only for testing
       statuslist.add(statusClass(-1, ""));
-      statuslist.add(statusClass(25, "actual you have to learn!"));
-      statuslist.add(statusClass(9, "make a short break"));
-      statuslist.add(statusClass(15, "make a long break"));
+      statuslist.add(statusClass(25, "Time to study!"));
+      statuslist.add(statusClass(9, "Make a short break"));
+      statuslist.add(statusClass(15, "Make a long break"));
 
       this.countPeriods = 3;
       this.statuslist = statuslist;
@@ -431,7 +431,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
         ),
         // usually buttons at the bottom of the dialog
         new FlatButton(
-          child: new Text("reset"),
+          child: new Text("Reset"),
           onPressed: () {
             resetValues();
           },
@@ -573,7 +573,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       p+="s";
     }
     ret +="\n";
-    ret +=(countPeriods-actPeriod).toString() +p+" till next long break";
+    ret +=(countPeriods-actPeriod).toString() +p+" until next long break";
     return ret;
   }
 
