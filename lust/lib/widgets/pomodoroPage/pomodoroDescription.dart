@@ -24,11 +24,11 @@ class pomodoroDescription extends StatelessWidget {
   Color errorCol=Colors.red;
   Color infoCol=Colors.black;
 
-  static String haveToClickOK="\n \n You have to click e.g. 'OK' on your keyboard to use your inputs.";
+  static String haveToClickOK="\n \nYou must click OK/DONE in your keyboard to validate the inputs.";
   String breakSnackText="Here you can change the duration of short and long breaks."+haveToClickOK;
 
-  String periodSnackText="Here you can choose the duration of a learning period. \n\n"
-                          "You can also choose how many periods till a long break you want to learn"+haveToClickOK;
+  String periodSnackText="time: duration of a learning period. \n\n"
+                          "count: number of learning periods before a long break."+haveToClickOK;
   
 
   TextEditingController  periodTimeController;
@@ -273,21 +273,21 @@ class pomodoroDescription extends StatelessWidget {
 
       if(varName !=""){
         snackText="Your Input for '"+varName+"' is <=0. \n"
-            "Pomodoro Timer will still use the old value: "+oldVal;
+            "Pomodoro Timer will use the previous value: "+oldVal;
         printSnackBoc(snackText, errorCol);
         return false;
       }
 
       //info messages (multiple messages after another possible)
     if(shortBreakTime>=periodTime || longBreakTime>=periodTime){
-      snackText="Breaktime is longer than your learning time! \n"
-          "You are so lazy";
+      snackText="Breaktime is longer than learning time! \n"
+          "You are too lazy!";
       printSnackBoc(snackText, infoCol);
     }
 
     if(shortBreakTime> longBreakTime){
-      snackText="short break time longer than long break Time \n"
-          "That is useless";
+      snackText="Short break > Long break \n"
+          "That makes no sense";
       printSnackBoc(snackText, infoCol);
     }
 
