@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lust/pages/tutorFindingPage.dart';
+import 'package:lust/pages/chatPage/tutorFindingPage.dart';
 import '../../testHelper.dart';
 
 void main() {
@@ -16,5 +16,7 @@ void main() {
 //    await tester.tap(buttonFinder);
 //    await tester.tap(buttonFinder2);
 //    //await tester.tap(find.byKey(Key("Checkin")));
+
+    expect(true, true); // TODO write test
   });
 }

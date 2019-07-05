@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lust/models/tutorEntry.dart';
-import 'package:lust/pages/addTutorEntryPage.dart';
+import 'package:lust/pages/chatPage/addTutorEntryPage.dart';
 import '../../testHelper.dart';
 
 void main() {
   testWidgets('Login and register buttons', (WidgetTester tester) async {
-    await tester.pumpWidget(TestHelper.buildWidget(AddTutorEntryPage()));
+    await tester.pumpWidget(TestHelper.buildWidget(AddTutorEntryPage(tab: "Offer",)));
 
 //    final buttonFinder = await find.widgetWithText(RawMaterialButton, "Log in");
 //    final buttonFinder2 = await find.widgetWithText(RawMaterialButton, "Register");
@@ -17,5 +17,7 @@ void main() {
 //    await tester.tap(buttonFinder);
 //    await tester.tap(buttonFinder2);
 //    //await tester.tap(find.byKey(Key("Checkin")));
+
+    expect(true, true); // TODO write test
   });
 }

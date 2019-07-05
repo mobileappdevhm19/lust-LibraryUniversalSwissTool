@@ -8,12 +8,17 @@ class ButtonLogin extends StatefulWidget {
   final Function function;
 
   const ButtonLogin(
-      {Key key, this.buttonText, this.whichButton, this.buttonColor, this.function})
+      {Key key,
+      this.buttonText,
+      this.whichButton,
+      this.buttonColor,
+      this.function})
       : super(key: key);
 
   @override
   _ButtonLoginState createState() {
-    return new _ButtonLoginState(buttonText, whichButton, buttonColor, function);
+    return new _ButtonLoginState(
+        buttonText, whichButton, buttonColor, function);
   }
 }
 
@@ -23,8 +28,8 @@ class _ButtonLoginState extends State<ButtonLogin> {
   final Color buttonColor;
   final Function function;
 
-  _ButtonLoginState(this.buttonText, this.whichButton, this.buttonColor,
-      this.function);
+  _ButtonLoginState(
+      this.buttonText, this.whichButton, this.buttonColor, this.function);
 
   @override
   Widget build(BuildContext context) {

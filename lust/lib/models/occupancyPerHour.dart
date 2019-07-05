@@ -1,8 +1,8 @@
 /// A class to describe the values in the capacity diagram.
 
-class PercentPerHour {
+class OccupancyPerHour {
   String hour;
   int percent;
 
-  PercentPerHour(this.percent, this.hour);
+  OccupancyPerHour(this.percent, this.hour);
 }

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 
 import 'package:lust/widgets/chatPage/messageTile.dart';
 
@@ -13,6 +15,7 @@ class ChatPage extends StatefulWidget {
   final String _topicID;
 
   ChatPage(this._userID, this._topicID);
+
 /*
   ChatPage(this.auth, this._topicID) {
     _userID = auth.getUserID();
@@ -20,7 +23,8 @@ class ChatPage extends StatefulWidget {
 */
 
   @override
-  _ChatPageState createState() => new _ChatPageState(title, icon, _userID, _topicID);
+  _ChatPageState createState() =>
+      new _ChatPageState(title, icon, _userID, _topicID);
 }
 
 class _ChatPageState extends State<ChatPage> {
@@ -30,7 +34,8 @@ class _ChatPageState extends State<ChatPage> {
   final String _userID;
   final String _topicID;
 
-  final TextEditingController _textEditingController = new TextEditingController();
+  final TextEditingController _textEditingController =
+      new TextEditingController();
 
   bool _isComposingMessage = false;
 
@@ -53,7 +58,8 @@ class _ChatPageState extends State<ChatPage> {
               ),
               new Divider(height: 1.0),
               new Container(
-                decoration: new BoxDecoration(color: Theme.of(context).cardColor),
+                decoration:
+                    new BoxDecoration(color: Theme.of(context).cardColor),
                 child: _buildTextComposer(),
               ),
             ],
@@ -73,7 +79,7 @@ class _ChatPageState extends State<ChatPage> {
         return new ListView(
           reverse: true,
           children: snapshot.data.documents.map((DocumentSnapshot document) {
-            return new MessageTile(document, _userID);
+            return new MessageTile(document['idFrom'], document['content'], _userID);
           }).toList(),
         );
       },
@@ -96,7 +102,8 @@ class _ChatPageState extends State<ChatPage> {
                     });
                   },
                   onSubmitted: null,
-                  decoration: new InputDecoration.collapsed(hintText: "Send a message"),
+                  decoration:
+                      new InputDecoration.collapsed(hintText: "Send a message"),
                 ),
               ),
               new Container(

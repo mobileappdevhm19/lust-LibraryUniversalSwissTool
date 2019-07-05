@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lust/models/tutorEntry.dart';
-import 'package:lust/pages/tutorEntryPage.dart';
-
+import 'package:lust/pages/chatPage/tutorEntryPage.dart';
 
 class TutorOfferings extends StatefulWidget {
   // a constructor for this class
@@ -12,11 +11,9 @@ class TutorOfferings extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => TutorOfferingsState();
-
 }
 
 class TutorOfferingsState extends State<TutorOfferings> {
-
   TutorOfferingsState();
 
   List<TutorEntry> offerings = [];
@@ -33,23 +30,19 @@ class TutorOfferingsState extends State<TutorOfferings> {
   @override
   Widget build(context) {
     CollectionReference collection = db.collection("tutors");
-    Stream<QuerySnapshot> snapshots =
-    collection.orderBy("timeStamp", descending: true).where("timeStamp",
-        isGreaterThan: DateTime.utc(
-            DateTime
-                .now()
-                .year, DateTime
-            .now()
-            .month, DateTime
-            .now()
-            .day)).snapshots();
+    Stream<QuerySnapshot> snapshots = collection
+        .orderBy("timeStamp", descending: true)
+        .where("timeStamp",
+            isGreaterThan: DateTime.utc(
+                DateTime.now().year, DateTime.now().month, DateTime.now().day))
+        .snapshots();
 
     sub?.cancel();
     sub = snapshots.listen((QuerySnapshot snapshot) {
-      final List<TutorEntry> offerings = snapshot.documents.map(
-              (documentSnapshot) =>
-              TutorEntry.fromMap(
-                  documentSnapshot.data, documentSnapshot.documentID)).toList();
+      final List<TutorEntry> offerings = snapshot.documents
+          .map((documentSnapshot) => TutorEntry.fromMap(
+              documentSnapshot.data, documentSnapshot.documentID))
+          .toList();
       setState(() {
         this.offerings = offerings;
       });
@@ -91,9 +84,8 @@ class TutorOfferingsState extends State<TutorOfferings> {
   // method to switch between the pages
   static void _switchPage(BuildContext context, Widget widget) {
     Navigator.push(
-      //replace the top view(widget) from the stack with the new one
+        //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
   }
-
 }

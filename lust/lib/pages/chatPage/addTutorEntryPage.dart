@@ -5,17 +5,17 @@ class AddTutorEntryPage extends StatefulWidget {
   static String title = "AddTutor...";
   static IconData icon = Icons.add_comment;
 
-  static String tab;
+  String tab;
 
-  AddTutorEntryPage({tab = "Request"});
+  AddTutorEntryPage({this.tab});
 
   @override
   _AddTutorEntryPageState createState() =>
-      new _AddTutorEntryPageState(title, icon);
+      new _AddTutorEntryPageState(title, icon, tab);
 }
 
 class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
-  String dropdownValue = "Request";
+  String dropdownValue;
 
   String title;
   IconData icon;
@@ -29,7 +29,7 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
 
   Firestore db = Firestore.instance;
 
-  _AddTutorEntryPageState(this.title, this.icon);
+  _AddTutorEntryPageState(this.title, this.icon, this.dropdownValue);
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -44,12 +44,11 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
         ),
 //        drawer: MenuDrawer.getDrawer(context),
         body: ListView(
-
           padding: EdgeInsets.all(10.0),
-
           children: <Widget>[
             DropdownButton(
               isExpanded: true,
+              //value: dropdownValue,
               value: dropdownValue,
               items: <String>['Request', 'Offer']
                   .map<DropdownMenuItem<String>>((String value) {
@@ -58,7 +57,6 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                   child: Text(value),
                 );
               }).toList(),
-
               onChanged: (String newValue) {
                 setState(() {
                   dropdownValue = newValue;
@@ -126,8 +124,7 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                 )),
             ConstrainedBox(
               constraints: BoxConstraints(maxHeight: 50, minHeight: 40),
-              child:
-              RaisedButton(
+              child: RaisedButton(
                   padding: EdgeInsets.all(5),
                   child: Text("Submit"),
                   onPressed: () {
@@ -150,7 +147,6 @@ class _AddTutorEntryPageState extends State<AddTutorEntryPage> {
                       dataMap['timeStamp'] = DateTime.now();
 
                       collection.add(dataMap);
-
 
                       Navigator.pop(context);
                     }

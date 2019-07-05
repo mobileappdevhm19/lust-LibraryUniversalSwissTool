@@ -2,5 +2,7 @@
 
 enum Trend {
   /// !!! Order determines the display of the trend in capacity
-  rising, leveling, falling
+  rising,
+  leveling,
+  falling
 }

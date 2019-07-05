@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lust/pages/utils/authProvider.dart';
 import 'package:lust/utils/autenthicationAPI.dart';
 import 'package:lust/widgets/utils/appLogo.dart';
 import 'package:lust/widgets/loginPage/buttonLogIn.dart';
-import 'capacityPage.dart';
+import 'package:lust/pages/capacityPage/capacityPage.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({this.auth, this.onSignIn});
+  LoginPage({this.onSignIn});
 
-  final BaseAuth auth;
   final VoidCallback onSignIn;
 
   @override
@@ -19,44 +19,48 @@ enum FormType { LOGIN, REGISTER }
 
 class _LoginPageState extends State<LoginPage> {
   String _title = "LUST - LibUniversalSwissTool";
+
   String _email, _password;
-  final _formKey = new GlobalKey<FormState>();
   FormType _formRegister = FormType.LOGIN;
-  SnackBar _snackBar;
+  bool _emailChecked;
+
+  String _errorTextSnackBar="Error: ";
+  String _textSnackBar;
+  GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   _LoginPageState();
 
-  /*final BaseAuth auth;
-  _LoginPageState({this.auth});*/
+  @override
+  /* void initState() {
+    super.initState();
+    _isEmailVerified();
+    print("INIT email VERIFIED: $_emailChecked");
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffState,
         appBar: AppBar(title: Text(_title)),
         //appBar: getAppBar(_title, signOut: false),
         body: Form(
             key: _formKey,
-            child: ListView(
+            child: Center(
+                child: ListView(
               children: <Widget>[
-                //PENDING: add a circular progress/similar indicator
-                //LOGIN? not register - dialog: do you want to register?
                 appLogo(),
-
-                /*TextBox.getTextBox(context, "E-mail",
-                "Do you already have an account?", Icons.email),
-            TextBox.getTextBox(context, "Password", "123456", Icons.security),*/
-
                 ListTile(
                     leading: Icon(Icons.email, size: 35),
                     title: TextFormField(
                       decoration: InputDecoration(
                         labelText: "Email",
                         //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "Do you already have an account?",
+                        hintText: "lust@example.com",
                         //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
                       ),
                       validator: (input) =>
-                      input.isEmpty ? "Please write your email" : null,
+                          input.isEmpty ? "Please write your email" : null,
                       keyboardType: TextInputType.emailAddress,
                       onSaved: (input) => _email = input,
                     )),
@@ -66,16 +70,16 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                         labelText: _title,
                         //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "123456",
+                        hintText: "at least 6 characters",
                         //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
                       ),
                       validator: (input) =>
-                      input.isEmpty ? "You have to write something!" : null,
+                          input.isEmpty ? "You have to write something!" : null,
                       keyboardType: TextInputType.text,
                       obscureText: true,
                       onSaved: (input) => _password = input,
                     )),
-
+                SizedBox(height: 30),
                 ButtonLogin(
                   buttonText: "Log in",
                   whichButton: true,
@@ -88,7 +92,13 @@ class _LoginPageState extends State<LoginPage> {
                     buttonColor: Colors.red,
                     function: _register)
               ],
-            )));
+            ))));
+  }
+
+  _showSnackBar() {
+    _scaffState.currentState.showSnackBar(SnackBar(
+      content: Text(_textSnackBar),
+    ));
   }
 
   bool checkTextFields() {
@@ -97,32 +107,68 @@ class _LoginPageState extends State<LoginPage> {
       print("FORM OK: $_email & $_password");
       return true;
     } else {
-      print("FORM WRONG: the fields cannot be empty");
+      String emptyFields="FORM WRONG: the fields cannot be empty";
+      print(emptyFields);
+      _textSnackBar=_errorTextSnackBar+emptyFields;
       return false;
     }
   }
 
   Future accountValidation() async {
     String _userID;
+
     if (checkTextFields()) {
       try {
+        var auth = AuthProvider.of(context).auth;
         if (_formRegister == FormType.LOGIN) {
-          _userID = await widget.auth.signIn(_email.toString().trim(), _password);  //trim(): avoid problems of format w/email
-          //String _userID = await auth.signIn(_email, _password);
-          print('Signed in Tameos: $_userID');
-          _snackBar = new SnackBar(content: Text("Sig "));
+          _userID = await auth.signIn(_email.toString().trim(),
+              _password); //trim(): avoid problems of format w/email
+          print('Email verified: $_userID');
+          _textSnackBar = "Signed in: $_email";
+          widget.onSignIn();
+
+          /*if (await _isEmailVerified()) {
+            _userID = await widget.auth.signIn(_email.toString().trim(),
+                _password); //trim(): avoid problems of format w/email
+            print('Email verified: $_userID');
+            _textSnackBar = "Signed in: $_email";
+            widget.onSignIn();
+          }
+          else{
+            await widget.auth.sendEmailVerification();
+            print('Email not verified!!');
+            _textSnackBar = "Email not verified! Please check your mailbox: $_email";
+          }*/
+
         } else {
           //FormType.REGISTER
-          _userID = await widget.auth.signUp(_email.toString().trim(), _password);
+          _userID = await auth.signUp(_email.toString().trim(), _password);
+          //await widget.auth.sendEmailVerification();
+
           print('Registered in: $_userID');
-          _snackBar = new SnackBar(content: Text("Registered succesfully in $_email"));
+          _textSnackBar = "Succesfully registered in: $_email";
         }
-        widget.onSignIn();
+        //widget.onSignIn();
       } catch (e) {
-        print(e);
-        _snackBar=new SnackBar(content: Text(e));
+        print("Exception $e");
+        _textSnackBar=_errorTextSnackBar;
+
+        String exString="";
+        int startComma=e.toString().indexOf(",", 0)+1;
+        int endComma=e.toString().indexOf(",", startComma);
+        exString=e.toString().substring(startComma, endComma);
+
+        _textSnackBar +=exString;
       }
     }
+    _showSnackBar();
+  }
+
+  Future<bool> _isEmailVerified() async {
+    var auth = AuthProvider.of(context).auth;
+    _emailChecked = await auth.isEmailVerified();
+    print("EMAIL VERIFIED: $_emailChecked");
+    return _emailChecked;
   }
 
   void _register() {
@@ -132,8 +178,8 @@ class _LoginPageState extends State<LoginPage> {
 
     print("registered");
     accountValidation();
-//    Scaffold.of(context).showSnackBar(_snackBar);
   }
+
   void _login() {
     setState(() {
       _formRegister = FormType.LOGIN;
@@ -141,6 +187,5 @@ class _LoginPageState extends State<LoginPage> {
 
     print("login");
     accountValidation();
-//    Scaffold.of(context).showSnackBar(_snackBar);
   }
 }
