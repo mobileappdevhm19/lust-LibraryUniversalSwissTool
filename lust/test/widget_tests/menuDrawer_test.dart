@@ -15,7 +15,7 @@ import 'package:lust/widgets/utils/menuDrawer.dart';
 
 void main() {
 
-  // Change this number according to the number of pages available in the menu
+  /*// Change this number according to the number of pages available in the menu
   int numberOfExpectedTiles = 4;
 
   testWidgets('Open menu and go to capacitypage.', (WidgetTester tester) async {
@@ -94,5 +94,5 @@ void main() {
 
     expect(find.byType(UserAccountsDrawerHeader), findsOneWidget);
 
-  });
+  });*/
 }

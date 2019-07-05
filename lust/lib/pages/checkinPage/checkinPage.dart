@@ -46,80 +46,76 @@ class _CheckinPageState extends State<CheckinPage> {
             child: GetAppBar(title, _signOut),
             preferredSize: Size.fromHeight(_appBarHeight)),
         drawer: MenuDrawer(context),
-        body: Form(
-            key: _formKey,
-            child: ListView(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(Icons.local_library, size: 35),
-                    title: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Subject",
-                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "Good luck with that!",
-                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                      ),
-                      /*validator: (input) =>
+        body: ListView(
+          children: <Widget>[
+            ListTile(
+                leading: Icon(Icons.local_library, size: 35),
+                title: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Subject",
+                    //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                    hintText: "Good luck with that!",
+                    //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                  ),
+                  /*validator: (input) =>
                       input.isEmpty ? "Please write your email" : null,*/
-                      keyboardType: TextInputType.text,
-                      onSaved: (input) => _subjectInput = input,
-                    )),
-                ListTile(
-                    leading: Icon(Icons.timer, size: 35),
-                    title: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Time goal",
-                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "Be realistic!",
-                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                      ),
-                      /*validator: (input) =>
+                  keyboardType: TextInputType.text,
+                  onChanged: (input) => _subjectInput = input,
+                )),
+            ListTile(
+                leading: Icon(Icons.timer, size: 35),
+                title: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Time goal",
+                    //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                    hintText: "Be realistic!",
+                    //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                  ),
+                  /*validator: (input) =>
                       input.isEmpty ? "Please write your email" : null,*/
-                      keyboardType: TextInputType.number,
-                      onSaved: (input) => _timeGoal = input,
-                    )),
-                ListTile(
-                    leading: Icon(Icons.lock, size: 35),
-                    title: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Locker number",
-                        //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
-                        hintText: "I know it's difficult to remember",
-                        //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
-                      ),
-                      validator: (input) => null,
-                      keyboardType: TextInputType.number,
-                      onSaved: (input) => _lockerNumber = input,
-                    )),
-                Container(
-                  alignment: Alignment.center,
-                  height: _height * 0.6,
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  child: ButtonCheck(
-                      scaffState: _scaffState,
-                      function: _checkTextFields),
-                ),
-              ],
-            )));
+                  keyboardType: TextInputType.number,
+                  onChanged: (input) => _timeGoal = input,
+                )),
+            ListTile(
+                leading: Icon(Icons.lock, size: 35),
+                title: TextField(
+                  decoration: InputDecoration(
+                    labelText: "Locker number",
+                    //labelStyle: TextStyle(fontSize: 16, color: Colors.black45),
+                    hintText: "I know it's difficult to remember",
+                    //hintStyle: TextStyle(fontSize: 13, color: Colors.black12),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (input) => _lockerNumber = input,
+                )),
+            Container(
+              alignment: Alignment.center,
+              height: _height * 0.6,
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              child: ButtonCheck(
+                  scaffState: _scaffState, function: _saveLockerNumber),
+            ),
+          ],
+        ));
   }
 
-  bool _checkTextFields() {
+  bool _saveLockerNumber() {
     var _storeNumber = AuthProvider.of(context).lockerNumber;
-    _storeNumber.changeNumber(_lockerNumber);
 
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      print("FORM OK: ${_storeNumber.lockerNumber}");
-      return true;
+    print("LOCAL LOCKER: $_lockerNumber");
+    if (_lockerNumber == "" || _lockerNumber == null) {
+      print("LOCKER NULL");
+      _storeNumber.changeNumber("not specified");
     } else {
-      print("FORM WRONG: the fields cannot be empty");
-      return false;
+      print ("LOCKER FINE");
+      _storeNumber.changeNumber(_lockerNumber);
     }
+
+    print("INHERITED LOCKER: ${_storeNumber.lockerNumber}");
   }
 
   void _signOut() {
     var auth = AuthProvider.of(context).auth;
-    print("CURRENT USER: mateo mateo");
     try {
       auth.signOut();
       MenuDrawer.switchPage(context, RootPage());

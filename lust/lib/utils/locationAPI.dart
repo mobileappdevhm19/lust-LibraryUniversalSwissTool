@@ -4,9 +4,7 @@ import 'package:lust/models/library.dart';
 import 'package:lust/models/location.dart';
 
 class LocationAPI {
-
   static Future<Location> getLocation(GeoPoint _point) async {
-
     final double _maxRadius = 300;
     double _distance;
     bool _onRange;
@@ -18,8 +16,11 @@ class LocationAPI {
     print(
         'USER coordinates: (${currentLocation.latitude}, ${currentLocation.longitude})');
 
-    _distance = await Geolocator().distanceBetween(currentLocation.latitude,
-        currentLocation.longitude, libHM.location.latitude, libHM.location.longitude);
+    _distance = await Geolocator().distanceBetween(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        libHM.location.latitude,
+        libHM.location.longitude);
 
     if (_distance < _maxRadius) {
       _onRange = true;

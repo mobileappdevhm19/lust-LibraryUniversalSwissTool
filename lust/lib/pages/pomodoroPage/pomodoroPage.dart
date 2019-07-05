@@ -15,7 +15,6 @@ const ShortBreakTime_KEY = "shortBreakTime";
 const LongBreakTime_KEY = "longBreakTime";
 const CountPeriods_KEY = "countPeriods";
 
-
 class PomodoroPage extends StatefulWidget {
   static String title = "Pomodoro";
   static IconData icon = Icons.watch;
@@ -94,6 +93,8 @@ class PomodoroState extends State<PomodoroPage> {
   @override
   Widget build(BuildContext context) {
 
+    var _height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         appBar: PreferredSize(child: GetAppBar(title, _signOut), preferredSize: Size.fromHeight(_appBarHeight)),
         resizeToAvoidBottomPadding:false, //important, otherwise overlay, when keyboard
@@ -108,7 +109,7 @@ class PomodoroState extends State<PomodoroPage> {
                 Expanded(
                   child:pomTimer,
                 )
-           ]),
+              ]),
         ));
   } // build
 
@@ -138,4 +139,3 @@ class PomodoroState extends State<PomodoroPage> {
      }
    }
 }
-

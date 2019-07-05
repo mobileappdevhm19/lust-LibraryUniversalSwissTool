@@ -5,8 +5,7 @@ class GetAppBar extends StatefulWidget {
   final String title;
   final Function function;
 
-  const GetAppBar(this.title, this.function, {Key key})
-      : super(key: key);
+  const GetAppBar(this.title, this.function, {Key key}) : super(key: key);
 
   @override
   _GetAppBarState createState() {

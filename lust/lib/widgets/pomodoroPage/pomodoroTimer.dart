@@ -15,9 +15,9 @@ enum Status{
 const StartTime_KEY = "startTime";
 const IsRunning_KEY = "isRunning";
 const StopTime_KEY = "stopTime";
-const ActStatus_KEY="actStatus";
-const ActPeriod_KEY="actPeriod";
-const OldTimerSeconds_KEY="oldTimerSeconds";
+const ActStatus_KEY = "actStatus";
+const ActPeriod_KEY = "actPeriod";
+const OldTimerSeconds_KEY = "oldTimerSeconds";
 
 
 
@@ -25,6 +25,7 @@ const OldTimerSeconds_KEY="oldTimerSeconds";
 class statusClass {
   final int time;
   final String text;
+
   const statusClass(this.time, this.text);
 }
 
@@ -32,7 +33,7 @@ class PomodoroTimer extends StatefulWidget {
   PomodoroTimerState ptS;
 
   int countPeriods;
-  List<statusClass> statuslist=new List();
+  List<statusClass> statuslist = new List();
 
   PomodoroState pomPage;
 
@@ -46,9 +47,9 @@ class PomodoroTimer extends StatefulWidget {
   void updateValues(int periodTime, int shortBreakTime, int longBreakTime, int countPeriods){
     statuslist.clear();
     statuslist.add(statusClass(-1, ""));
-    statuslist.add(statusClass(periodTime*60, "actual you have to learn!"));
-    statuslist.add(statusClass(shortBreakTime*60, "make a short break"));
-    statuslist.add(statusClass(longBreakTime*60, "make a long break"));
+    statuslist.add(statusClass(periodTime * 60, "actual you have to learn!"));
+    statuslist.add(statusClass(shortBreakTime * 60, "make a short break"));
+    statuslist.add(statusClass(longBreakTime * 60, "make a long break"));
 
     this.countPeriods = countPeriods;
   }
@@ -72,17 +73,17 @@ class PomodoroTimer extends StatefulWidget {
 }
 
 class PomodoroTimerState extends State<PomodoroTimer> {
-  List<statusClass> statuslist=new List();
+  List<statusClass> statuslist = new List();
   int countPeriods;
 
   int actPeriod;
   int actTimerSeconds;
-  String actTimeMinutesSeconds="";
-  Status actStatus;//=Status.nothing; //initial
-  String initialStatusText="Click on 'Start' to start the pomodoro timer";
+  String actTimeMinutesSeconds = "";
+  Status actStatus; //=Status.nothing; //initial
+  String initialStatusText = "Click on 'Start' to start the pomodoro timer";
   String actStatusText;
   int startTime;
-  bool isRunning=false;
+  bool isRunning = false;
   int stopTime; //sec, since 1970, set, when stopButton clicked
 
   Timer _timer;
@@ -92,7 +93,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   ColorSwatch startStopBtnColor=Colors.green;
 
   //String actErrors="";
-
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
 
     startTime = prefs.getInt(StartTime_KEY);
-    int oldTimerSeconds=prefs.getInt(OldTimerSeconds_KEY);
+    int oldTimerSeconds = prefs.getInt(OldTimerSeconds_KEY);
 
     int stopT = prefs.getInt(StopTime_KEY);
     if (stopT != null) {
@@ -188,7 +188,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
               }
             }
 
-            hereTimerSeconds=hereTimerSeconds-statuslist[hereStatus.index].time;
+            hereTimerSeconds =
+                hereTimerSeconds - statuslist[hereStatus.index].time;
 
             if(hereTimerSeconds<0){
               hereTimerSeconds=oldTimerSec;
@@ -196,7 +197,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
               break;
             }
           }
-          actTimerSeconds=hereTimerSeconds;
+          actTimerSeconds = hereTimerSeconds;
         }
 
 
@@ -328,8 +329,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       if(startStopBtnText=="Start"){
         start();
         return; //jut to leave this function
-      }
-      else{
+      } else {
         stop();
       }
     });
@@ -350,9 +350,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
       _timer.cancel(); //stop timer if exist
     }
     // }
-    isRunning=false;
-
-
+    isRunning = false;
 
     //for background
     int actTime = new DateTime.now().millisecondsSinceEpoch;
@@ -366,8 +364,6 @@ class PomodoroTimerState extends State<PomodoroTimer> {
     prefs.setInt(StopTime_KEY, stopTime);
     prefs.setInt(OldTimerSeconds_KEY, actTimerSeconds);
   }
-
-
 
   void start() async {
     SharedPreferences prefs;
@@ -408,8 +404,7 @@ class PomodoroTimerState extends State<PomodoroTimer> {
 
   }
 
-
-  void resetButtonClicked(){
+  void resetButtonClicked() {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) {
@@ -590,9 +585,8 @@ class PomodoroTimerState extends State<PomodoroTimer> {
   }
   void dispose() {
     super.dispose();
-    if(_timer !=null){
+    if (_timer != null) {
       _timer.cancel();
     }
   }
-
 }

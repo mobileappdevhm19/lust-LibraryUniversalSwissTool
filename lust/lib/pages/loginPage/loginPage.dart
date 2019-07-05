@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String _textSnackBar = "Error";
   GlobalKey<ScaffoldState> _scaffState = new GlobalKey<ScaffoldState>();
-  final GlobalKey<FormState>_formKey = new GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   _LoginPageState();
 

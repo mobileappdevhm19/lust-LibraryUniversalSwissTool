@@ -57,13 +57,13 @@ class TutorRequestsState extends State<TutorRequests> {
               children: <Widget>[
                 Divider(height: 5.0),
                 ListTile(
-                  title: Text(
-                    '${offerings[position].topic}',
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      color: Colors.black54,
+                    title: Text(
+                      '${offerings[position].topic}',
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        color: Colors.black54,
+                      ),
                     ),
-                  ),
 //                  subtitle: Text(
 //                    '${offerings[position].description}',
 //                    style: new TextStyle(
@@ -71,10 +71,8 @@ class TutorRequestsState extends State<TutorRequests> {
 //                      fontStyle: FontStyle.italic,
 //                    ),
 //                  ),
-                    onTap: () =>
-                        _switchPage(
-                            context, TutorEntryPage(offerings[position]))
-                ),
+                    onTap: () => _switchPage(
+                        context, TutorEntryPage(offerings[position]))),
               ],
             );
           }),
@@ -84,7 +82,7 @@ class TutorRequestsState extends State<TutorRequests> {
   // method to switch between the pages
   static void _switchPage(BuildContext context, Widget widget) {
     Navigator.push(
-      //replace the top view(widget) from the stack with the new one
+        //replace the top view(widget) from the stack with the new one
         context,
         MaterialPageRoute(builder: (BuildContext context) => widget));
   }
